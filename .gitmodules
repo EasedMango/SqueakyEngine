@@ -4,3 +4,9 @@
 [submodule "libs/GLM"]
 	path = libs/GLM
 	url = https://github.com/g-truc/glm.git
+[submodule "libs/assimp"]
+	path = libs/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "libs/tinyobjloader"]
+	path = libs/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader.git

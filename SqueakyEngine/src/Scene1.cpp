@@ -39,11 +39,14 @@ void Scene1::Update(const float deltaTime)
 
 void Scene1::Render() const
 {
-
+	//glEnable(GL_DEPTH_TEST);
+	/// Clear the screen
+	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	Shader* shader = triangle->GetComponent<Shader>();
 	Mesh* mesh = triangle->GetComponent<Mesh>();
-	shader->Render();
+	glUseProgram(shader->GetProgram());
 	mesh->Render();
 
 	glUseProgram(0);

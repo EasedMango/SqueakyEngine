@@ -1,13 +1,22 @@
 #include "Mesh.h"
 #include <glm/ext.hpp>
 #include <iostream>
-Mesh::Mesh(Component* parent_, std::vector<glm::vec3>& verts) : vertices(verts),
-Component(parent_)
+#define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
+// Optional. define TINYOBJLOADER_USE_MAPBOX_EARCUT gives robust trinagulation. Requires C++11
+//#define TINYOBJLOADER_USE_MAPBOX_EARCUT
+#include "tiny_obj_loader.h"
+Mesh::Mesh(Component* parent_, const char* filename_) :
+Component(parent_), filename(filename_)
 {
 	//upload the vertex data to the gpu
-	glGenBuffers(1, &vbo);// gens 1 buffer
-	glBindBuffer(GL_ARRAY_BUFFER, vbo); // make active object 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices.data()[0], GL_STATIC_DRAW);//copy vertex data to that object
+
+
+}
+
+Mesh::Mesh(Component* parent_, std::vector<glm::vec3> verts) :
+	Component(parent_),vertices(verts)
+{
+
 }
 
 Mesh::~Mesh()
@@ -29,7 +38,7 @@ void Mesh::StoreMeshData(GLenum drawmode_)
 	/// Create and initialize vertex buffer object VBO
 	glGenBuffers(1, &vbo);// gens 1 buffer
 	glBindBuffer(GL_ARRAY_BUFFER, vbo); // make active object 
-	glBufferData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH, nullptr, GL_STATIC_DRAW); //give data
+	glBufferData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH,	&vertices[0], GL_STATIC_DRAW); //give data
 	/// assigns the addr of "points" to be the beginning of the array buffer "sizeof(points)" in length
 	glBufferSubData(GL_ARRAY_BUFFER, 0, VERTEX_LENGTH, &vertices[0]);
 	glEnableVertexAttribArray(verticiesLayoutLocation);
@@ -62,8 +71,55 @@ void Mesh::StoreMeshData(GLenum drawmode_)
 #undef TEXCOORD_LENGTH
 }
 
+void Mesh::LoadModel(const char* filename)
+{
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string warn, err;
+
+	vertices.clear();
+	normals.clear();
+	uvCoords.clear();
+
+	if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filename)) {
+		throw std::runtime_error(warn + err);
+	}
+	for (const auto& shape : shapes) {
+		for (const auto& index : shape.mesh.indices) {
+			glm::vec3 vertex{};
+			vertex.x = attrib.vertices[3 * index.vertex_index + 0];
+			vertex.y = attrib.vertices[3 * index.vertex_index + 1];
+			vertex.z = attrib.vertices[3 * index.vertex_index + 2];
+
+			glm::vec3 normal{};
+			normal.x = attrib.normals[3 * index.normal_index + 0];
+			normal.y = attrib.normals[3 * index.normal_index + 1];
+			normal.z = attrib.normals[3 * index.normal_index + 2];
+
+			glm::vec2 uvCoord{};
+			uvCoord.x = attrib.texcoords[2 * index.texcoord_index + 0];
+			uvCoord.y = attrib.texcoords[2 * index.texcoord_index + 1];
+
+			vertices.push_back(vertex);
+			normals.push_back(normal);
+			uvCoords.push_back(uvCoord);
+		}
+	}
+}
+
 bool Mesh::OnCreate() {
 	if (isCreated) return true;
+	StoreMeshData(GL_TRIANGLES);
+	isCreated = true;
+	return true;
+
+}
+
+bool Mesh::OnCreateVert()
+{
+	if (isCreated) return true;
+	LoadModel(filename);
 	StoreMeshData(GL_TRIANGLES);
 	isCreated = true;
 	return true;

@@ -6,6 +6,7 @@
 #include "Component.h"
 class Mesh : public Component {
 private:
+	const char* filename;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec2> uvCoords;
@@ -15,11 +16,13 @@ private:
 	GLuint vao, vbo;
 public:
 	Mesh(Component* parent_,  const char* filename_);
-
+	Mesh(Component* parent_, std::vector<glm::vec3> verts);
 	~Mesh();
 	void StoreMeshData(GLenum drawmode_);
+	void LoadModel(const char* filename);
 
 	bool OnCreate();
+	bool OnCreateVert();
 	void OnDestroy();
 	void Update(const float deltaTime);
 	void Render() const;

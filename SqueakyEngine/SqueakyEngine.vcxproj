@@ -172,6 +172,7 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\libs\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="src\Actor.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Component.h" />

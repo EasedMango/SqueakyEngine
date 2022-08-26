@@ -25,7 +25,7 @@ bool Shader::CompileShader(GLuint& id, const char* fileName, GLint status =0)
 
 bool Shader::CompileAttach()
 {
-    
+    GLint status;
     try {
         const char* vsText = ReadTextFile(vsFilename);
         const char* fsText = ReadTextFile(fsFilename);
@@ -34,9 +34,52 @@ bool Shader::CompileAttach()
         glShaderSource(vertShaderID, 1, &vsText, NULL);
         glShaderSource(fragShaderID, 1, &fsText, NULL);
 
-        CompileShader(vertShaderID, vsFilename);
-        CompileShader(fragShaderID, fsFilename);
+        glCompileShader(vertShaderID);
+        /// Check for errors
+        glGetShaderiv(vertShaderID, GL_COMPILE_STATUS, &status);
+        if (status == 0) {
+            GLsizei errorLogSize = 0;
+            GLsizei titleLength;
+            std::string errorLog = vsFilename;
+            errorLog += "\nVERT:\n";
+            titleLength = errorLog.length();
+            glGetShaderiv(vertShaderID, GL_INFO_LOG_LENGTH, &errorLogSize);
+            errorLog.resize(titleLength + errorLogSize);
+            glGetShaderInfoLog(vertShaderID, errorLogSize, &errorLogSize, &errorLog[titleLength]);
+            throw errorLog;
+        }
 
+        GLint Result = GL_FALSE;
+        int InfoLogLength;
+        glGetShaderiv(vertShaderID, GL_COMPILE_STATUS, &Result);
+        glGetShaderiv(vertShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+        if (InfoLogLength > 0) {
+            std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
+            glGetShaderInfoLog(vertShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
+            printf("%s\n", &VertexShaderErrorMessage[0]);
+        }
+
+        glCompileShader(fragShaderID);
+        /// Check for errors
+        glGetShaderiv(fragShaderID, GL_COMPILE_STATUS, &status);
+        if (status == 0) {
+            GLsizei errorLogSize = 0;
+            GLsizei titleLength;
+            std::string errorLog = fsFilename;
+            errorLog += "\nFrag:\n";
+            titleLength = errorLog.length();
+            glGetShaderiv(fragShaderID, GL_INFO_LOG_LENGTH, &errorLogSize);
+            errorLog.resize(titleLength + errorLogSize);
+            glGetShaderInfoLog(fragShaderID, errorLogSize, &errorLogSize, &errorLog[titleLength]);
+            throw errorLog;
+        }
+        glGetShaderiv(fragShaderID, GL_COMPILE_STATUS, &Result);
+        glGetShaderiv(fragShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+        if (InfoLogLength > 0) {
+            std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
+            glGetShaderInfoLog(fragShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
+            printf("%s\n", &FragmentShaderErrorMessage[0]);
+        }
         shaderID = glCreateProgram();
         glAttachShader(shaderID, vertShaderID);
         glAttachShader(shaderID, fragShaderID);
@@ -48,22 +91,33 @@ bool Shader::CompileAttach()
         Logger::Error(error);
         return false;
     }
-    return false;
+    return true;
 }
 
 bool Shader::Link()
 {
+    GLint Result = GL_FALSE;
+    int InfoLogLength;
     GLint status;
     try {
         glLinkProgram(shaderID);
         /// Check for errors
         glGetProgramiv(shaderID, GL_LINK_STATUS, &status);
+        GLsizei errorLogSize = 0;
+        std::string errorLog;
+        glGetProgramiv(shaderID, GL_INFO_LOG_LENGTH, &errorLogSize);
+        errorLog.resize(errorLogSize);
+        glGetProgramInfoLog(shaderID, errorLogSize, &errorLogSize, &errorLog[0]);
+        Logger::Info(errorLog);
+        glGetProgramiv(shaderID, GL_LINK_STATUS, &Result);
+        glGetProgramiv(shaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+        if (InfoLogLength > 0) {
+            std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
+            glGetProgramInfoLog(shaderID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+            printf("%s\n", &ProgramErrorMessage[0]);
+        }
         if (status == 0) {
-            GLsizei errorLogSize = 0;
-            std::string errorLog;
-            glGetProgramiv(shaderID, GL_INFO_LOG_LENGTH, &errorLogSize);
-            errorLog.resize(errorLogSize);
-            glGetProgramInfoLog(shaderID, errorLogSize, &errorLogSize, &errorLog[0]);
+
             throw errorLog;
         }
 
@@ -87,7 +141,6 @@ void Shader::SetUniformLocations()
     unsigned int loc;
     char buffer[512];
 
-    // get number of uniforms
     std::string activeUniformList = "Uniforms:\n";
     glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &count);
     sprintf_s(buffer, 512, "There are %d active Uniforms\n", count);
@@ -97,6 +150,8 @@ void Shader::SetUniformLocations()
 
     /// Create a little buffer to hold the uniform's name - old C memory call just for fun 
     name = (char*)malloc(sizeof(char) * maxUniformListLength);
+
+
     for (int i = 0; i < count; ++i) {
 
         /// Get the name of the ith uniform
