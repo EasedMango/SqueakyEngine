@@ -9,7 +9,7 @@ Mesh::Mesh(Component* parent_, const char* filename_) :
 Component(parent_), filename(filename_)
 {
 	//upload the vertex data to the gpu
-
+	LoadModel(filename);
 
 }
 
@@ -36,9 +36,10 @@ void Mesh::StoreMeshData(GLenum drawmode_)
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	/// Create and initialize vertex buffer object VBO
-	glGenBuffers(1, &vbo);// gens 1 buffer
+	glGenBuffers(1, &vbo);// gens 1 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo); // make active object 
-	glBufferData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH,	&vertices[0], GL_STATIC_DRAW); //give data
+	std::cout << VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH << " ~~~~~~~~~~~~~\n";
+	glBufferData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH,	0, GL_STATIC_DRAW); //give data
 	/// assigns the addr of "points" to be the beginning of the array buffer "sizeof(points)" in length
 	glBufferSubData(GL_ARRAY_BUFFER, 0, VERTEX_LENGTH, &vertices[0]);
 	glEnableVertexAttribArray(verticiesLayoutLocation);
@@ -91,15 +92,19 @@ void Mesh::LoadModel(const char* filename)
 			vertex.x = attrib.vertices[3 * index.vertex_index + 0];
 			vertex.y = attrib.vertices[3 * index.vertex_index + 1];
 			vertex.z = attrib.vertices[3 * index.vertex_index + 2];
-
 			glm::vec3 normal{};
-			normal.x = attrib.normals[3 * index.normal_index + 0];
-			normal.y = attrib.normals[3 * index.normal_index + 1];
-			normal.z = attrib.normals[3 * index.normal_index + 2];
+			if (attrib.normals.size() != 0) {
 
+				normal.x = attrib.normals[3 * index.normal_index + 0];
+				normal.y = attrib.normals[3 * index.normal_index + 1];
+				normal.z = attrib.normals[3 * index.normal_index + 2];
+			}
 			glm::vec2 uvCoord{};
-			uvCoord.x = attrib.texcoords[2 * index.texcoord_index + 0];
-			uvCoord.y = attrib.texcoords[2 * index.texcoord_index + 1];
+			if (attrib.texcoords.size() != 0) {
+
+				uvCoord.x = attrib.texcoords[2 * index.texcoord_index + 0];
+				uvCoord.y = attrib.texcoords[2 * index.texcoord_index + 1];
+			}
 
 			vertices.push_back(vertex);
 			normals.push_back(normal);
@@ -108,7 +113,7 @@ void Mesh::LoadModel(const char* filename)
 	}
 }
 
-bool Mesh::OnCreate() {
+bool Mesh::OnCreateVert() {
 	if (isCreated) return true;
 	StoreMeshData(GL_TRIANGLES);
 	isCreated = true;
@@ -116,7 +121,7 @@ bool Mesh::OnCreate() {
 
 }
 
-bool Mesh::OnCreateVert()
+bool Mesh::OnCreate()
 {
 	if (isCreated) return true;
 	LoadModel(filename);

@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\GLAD\include;$(SolutionDir)libs\GLFW\include;$(SolutionDir)libs\GLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\GLAD\include;$(SolutionDir)libs\GLFW\include;$(SolutionDir)libs\GLM;$(SolutionDir)libs\imgui;$(SolutionDir)libs\imgui\backends;$(SolutionDir)libs\std_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\GLAD\include;$(SolutionDir)libs\GLFW\include;$(SolutionDir)libs\GLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\GLAD\include;$(SolutionDir)libs\GLFW\include;$(SolutionDir)libs\GLM;$(SolutionDir)libs\imgui;$(SolutionDir)libs\imgui\backends;$(SolutionDir)libs\std_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -158,7 +158,38 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\libs\GLAD\src\glad.c" />
+    <ClCompile Include="..\libs\imgui\backends\imgui_impl_glfw.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\backends\imgui_impl_opengl2.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\backends\imgui_impl_opengl3.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_demo.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_draw.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_tables.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_widgets.cpp">
+      <DeploymentContent>false</DeploymentContent>
+    </ClCompile>
+    <ClCompile Include="Example.cpp" />
+    <ClCompile Include="src\ActorManager.cpp" />
+    <ClCompile Include="src\Controller.cpp" />
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\Geometry\BasicShapes.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Actor.cpp" />
+    <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -169,10 +200,40 @@
     <ClCompile Include="src\Scene1.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\libs\imgui\backends\imgui_impl_glfw.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl2.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl3.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl3_loader.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imconfig.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui_internal.h">
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
     <ClInclude Include="..\libs\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="src\Controller.h" />
+    <ClInclude Include="src\ActorManager.h" />
+    <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\Example.h" />
+    <ClInclude Include="src\Geometry\BasicShapes.h" />
+    <ClInclude Include="src\Gui.h" />
+    <ClInclude Include="src\linmath.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Actor.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Component.h" />
@@ -185,11 +246,19 @@
     <ClInclude Include="src\Scene1.h" />
     <ClInclude Include="src\Events.h" />
     <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\tiny_obj_loader.h" />
     <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\defaultFrag.glsl" />
+    <None Include="src\Shaders\defaultTriangleFrag.glsl" />
+    <None Include="src\Shaders\defaultTriangleVert.glsl" />
     <None Include="src\Shaders\defaultVert.glsl" />
+    <None Include="src\Shaders\texture2Frag.glsl" />
+    <None Include="src\Shaders\texture2Vert.glsl" />
+    <None Include="src\Shaders\textureFrag.glsl" />
+    <None Include="src\Shaders\textureVert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

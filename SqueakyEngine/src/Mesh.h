@@ -15,7 +15,7 @@ private:
 
 	GLuint vao, vbo;
 public:
-	Mesh(Component* parent_,  const char* filename_);
+	Mesh(Component* parent_=nullptr,  const char* filename_="src/Meshes/cube.obj");
 	Mesh(Component* parent_, std::vector<glm::vec3> verts);
 	~Mesh();
 	void StoreMeshData(GLenum drawmode_);

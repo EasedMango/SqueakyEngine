@@ -11,19 +11,19 @@ class Shader : public Component
 private:
 	const char* vsFilename;
 	const char* fsFilename;
-	unsigned int shaderID;
+	GLuint shaderID;
 	GLuint vertShaderID;
 	GLuint fragShaderID;
 	std::unordered_map<std::string, GLuint> uniformMap;
 
-	char* ReadTextFile(const char* fileName);
-	bool CompileShader(GLuint& id, const char* fileName, GLint status);
+	std::string ReadTextFile(const char* file_path);
+	bool CompileShader(GLuint& id, const char* fileName, GLint &status);
 	bool CompileAttach();
 	bool Link();
 	void SetUniformLocations();
-
+	std::string ReadFile(const char* filename);
 public:
-	Shader(Component* parent_, const char* vsFilename_, const char* fsFilename_);
+	Shader(Component* parent_=nullptr, const char* vsFilename_= "src/Shaders/defaultVert.glsl", const char* fsFilename_= "src/Shaders/defaultFrag.glsl");
 	~Shader();
 
 
@@ -31,8 +31,8 @@ public:
 	GLuint GetUniformID(std::string name);
 
 
-	bool OnCreate() ;
-	void OnDestroy() ;
+	bool OnCreate() override;
+	void OnDestroy() override;
 	void Update(const float deltaTime) ;
 	void Render() const ;
 

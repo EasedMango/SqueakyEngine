@@ -13,7 +13,7 @@ using namespace std::chrono;
 
 template<typename ... T>
 void Logger::Log(const std::string& ms, T ...m) {
-	
+
 	std::cout << ms;
 	((std::cout << std::forward<T>(m) << " "), ...);
 	//std::cout << m << std::endl;
@@ -58,14 +58,14 @@ std::string split_c(std::string str)
 void Logger::Info(std::string info, const std::source_location location) {
 	std::string loc = location.file_name();
 	loc = split_c(loc);
-	Log(GetTime(), " ", loc, ":", location.function_name(), ":", location.line(), ":", "\nINFO: ", info);
+	Log(loc, ":", location.function_name(), ":", location.line(), ":", "\nINFO: ", info);
 }
 void Logger::Error(std::string info, const std::source_location location) {
 
 	std::string loc = location.file_name();
 	loc =split_c(loc);
 	
-	Log(GetTime()," ", loc, ":", location.function_name(), ":", location.line(), ":", "\nWARNING: ", info);
+	Log(loc, ":", location.function_name(), ":", location.line(), ":", "\nWARNING: ", info);
 }
 
 void Logger::FileWriter(const char* arr, std::string logFileName)

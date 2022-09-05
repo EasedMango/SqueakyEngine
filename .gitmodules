@@ -10,3 +10,9 @@
 [submodule "libs/tinyobjloader"]
 	path = libs/tinyobjloader
 	url = https://github.com/tinyobjloader/tinyobjloader.git
+[submodule "libs/imgui"]
+	path = libs/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "libs/std_image"]
+	path = libs/std_image
+	url = https://github.com/flickhail/stb_image.h.git

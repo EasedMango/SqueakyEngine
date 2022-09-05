@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include "Component.h"
+#include <string>
+class Camera;
 class Actor : public Component
 {
 	Actor(const Actor&) = delete;
@@ -10,21 +12,29 @@ class Actor : public Component
 	Actor& operator=(Actor&&) = delete;
 
 private:
+	
 	std::vector<Component*> components;
+	const char* name;
 
 public:
-	Actor(Component* parent_);
+	Actor(Component* parent_,const char* name_="Actor");
 	~Actor();
 	virtual bool OnCreate() override;
 	virtual void OnDestroy() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void Render() const override;
+	void MyRender( Camera* cam);
+
 
 	template<typename ComponentTemplate, typename ... Args>
 	void AddComponent(Args&& ... args_) {
 		ComponentTemplate* componentObject = new ComponentTemplate(std::forward<Args>(args_)...);
 		components.push_back(componentObject);
 
+	}
+
+	void AddComponent(Component* comp) {
+		components.push_back(comp);
 	}
 
 	template<typename ComponentTemplate>
@@ -52,5 +62,9 @@ public:
 
 	void ListComponents() const;
 	void RemoveAllComponents();
+
+
+	const char* GetName() const { return name; }
+	void SetName(const char* &name_) { name = name_; }
 };
 

@@ -4,7 +4,14 @@
 class Scene1 : Scene
 {
 private:
-	Actor* triangle;
+	class ActorManager* am;
+	class Actor* camera;
+	class Actor* mario1;
+	class Actor* mario2;
+	class Triangle* triangle;
+	class Camera* cam;
+	class Shader* shader;
+	
 
 public:
 	explicit Scene1();
@@ -15,5 +22,6 @@ public:
 	virtual void Update(const float deltaTime) ;
 	virtual void Render() const ;
 	virtual void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) ;
+	void RenderGui();
 };
 
