@@ -11,7 +11,7 @@
 #include "Shader.h"
 #include "Geometry/BasicShapes.h"
 #include "Gui.h"
-
+#include "Input.h"
 
 #include <backends/imgui_impl_opengl3_loader.h>
 static void errorGLFW(int error, const char* description) {
@@ -53,6 +53,8 @@ void SceneManager::Run()
 	bool show_demo_window = true;
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	glfwSetInputMode(window->GetWindow(), GLFW_STICKY_KEYS, GLFW_TRUE);
+	input = new Input();
 	Logger::Info( "Starting main loop" );
 	while (!glfwWindowShouldClose(window->GetWindow()))
 	{
@@ -153,6 +155,7 @@ void SceneManager::RenderGui()
 
 void SceneManager::HandleEvents(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	input->handle_key(window, key, scancode, action, mods);
 	currentScene->key_callback(window, key, scancode, action, mods);
 }
 
@@ -165,7 +168,7 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 		glfwSetErrorCallback(errorGLFW);
 		// Initialization failed
 	}
-	
+
 
 
 	window = new Window(width_, height_, "Main");
@@ -182,7 +185,7 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 
 	//
 	//std::cout << glGetString(GL_VERSION) << std::endl;
-	
+
 
 	return false;
 }

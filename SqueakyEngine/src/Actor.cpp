@@ -42,6 +42,8 @@ void Actor::Render() const {
 	
 }
 
+
+
 void Actor::MyRender( Camera* cam) {
 	if (GetComponent<Mesh>() == nullptr)
 		return;

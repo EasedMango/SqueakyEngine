@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include <imgui.h>
 #include "Gui.h"
+#include "Controller.h"
 
 ActorManager::ActorManager() {
 
@@ -62,7 +63,7 @@ void ActorManager::RenderGui() {
 	std::vector<const char*> names;
 	const char* name;
 	for (Actor* a : hierarchy) {
-		Logger::Info(a->GetName());
+	//	Logger::Info(a->GetName());
 		
 
 		names.push_back(a->GetName());
@@ -80,4 +81,12 @@ void ActorManager::RenderGui() {
 	ImGui::Text(names[current]);
 
 	ImGui::End();
+}
+void ActorManager::key_callback(class GLFWwindow* window, int key, int scancode, int action, int mods) {
+	for (Actor* a : hierarchy) {
+		Controller* c = a->GetComponent<Controller>();
+		if (c != nullptr) {
+			c->HandleKeyEvents(window, key, scancode, action, mods);
+		}
+	}
 }

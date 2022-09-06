@@ -4,14 +4,12 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Mesh.h"
-#include "Shader.h"
+#include "Components.h"
 #include <glm/ext.hpp>
-#include "Camera.h"
-#include "Material.h"
-#include "Transform.h"
+#include "Controller.h"
 #include "Geometry/BasicShapes.h"
 #include "ActorManager.h"
+
 Scene1::Scene1()
 {
 	triangle = new Triangle();
@@ -34,7 +32,7 @@ bool Scene1::OnCreate()
 	am = new ActorManager();
 
 	am->AddActor(new Actor(nullptr, "Camera"), new Camera(60, 16/9), new Transform());
-	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader(),new Mesh(nullptr,"src/Meshes/Mario.obj"), new Material(nullptr,"src/Textures/mario_main.png"), new Transform());
+	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader(),new Mesh(nullptr,"src/Meshes/Mario.obj"), new Material(nullptr,"src/Textures/mario_main.png"), new Transform(),new Controller());
 	am->OnCreate();
 
 
@@ -113,9 +111,10 @@ void Scene1::Render() const
 
 void Scene1::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-
+	am->key_callback(window, key, scancode, action, mods);
 	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+
 }
 
 void Scene1::RenderGui() {
