@@ -232,3 +232,7 @@ GLuint Shader::GetUniformID(std::string name)
 void Shader::OnDestroy() {}
 void Shader::Update(const float deltaTime) {}
 void Shader::Render() const {}
+
+void Shader::RenderGui()
+{
+}

@@ -138,6 +138,10 @@ void Mesh::Render() const {
 	glBindVertexArray(0); // Unbind the VAO
 }
 
+void Mesh::RenderGui()
+{
+}
+
 
 
 void Mesh::OnDestroy() {

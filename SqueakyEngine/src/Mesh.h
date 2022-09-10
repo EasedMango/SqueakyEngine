@@ -26,7 +26,7 @@ public:
 	void OnDestroy();
 	void Update(const float deltaTime);
 	void Render() const;
-	//bool OnCreate();
+	void RenderGui() override;
 	//void OnDestroy();
 	//void Update(const float deltaTime);
 	//void Render() const;

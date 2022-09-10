@@ -35,6 +35,6 @@ public:
 	void OnDestroy() override;
 	void Update(const float deltaTime) ;
 	void Render() const ;
-
+	void RenderGui() override;
 };
 

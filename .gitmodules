@@ -16,3 +16,5 @@
 [submodule "libs/std_image"]
 	path = libs/std_image
 	url = https://github.com/flickhail/stb_image.h.git
+[submodule "imgui"]
+	branch = docking

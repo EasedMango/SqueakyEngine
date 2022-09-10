@@ -43,6 +43,10 @@ void Material::OnDestroy() {}
 
 void Material::Render() const {}
 
+void Material::RenderGui()
+{
+}
+
 void Material::Update(const float deltaTime) {
 
 }

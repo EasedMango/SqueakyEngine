@@ -40,13 +40,14 @@ Actor* ActorManager::GetActor(std::string name) {
 void ActorManager::Update(const float deltaTime) {
 	for (Actor* a : hierarchy) {
 		a->Update(deltaTime);
+		//printf("update");
 	}
 
 }
 
 void ActorManager::Render() const {
 	for (Actor* a : hierarchy) {
-		a->MyRender(mainCamera->GetComponent<Camera>());
+		a->MyRender(mainCamera);
 	}
 
 
@@ -57,7 +58,7 @@ void ActorManager::AddActor2(Actor* actor) {
 }
 
 void ActorManager::RenderGui() {
-	ImGui::Begin("Main Menu");                          // Create a window called "Hello, world!" and append into it.
+	ImGui::Begin("Main Menu");                         
 	//ImGui::
 	static int current = 0;
 	std::vector<const char*> names;
@@ -77,16 +78,17 @@ void ActorManager::RenderGui() {
 		a[i] = name;
 	}
 	
-	ImGui::ListBox("Physics Bodies", &current, names.data(), names.size(), 2);
-	ImGui::Text(names[current]);
-
-	ImGui::End();
-}
-void ActorManager::key_callback(class GLFWwindow* window, int key, int scancode, int action, int mods) {
-	for (Actor* a : hierarchy) {
-		Controller* c = a->GetComponent<Controller>();
-		if (c != nullptr) {
-			c->HandleKeyEvents(window, key, scancode, action, mods);
+	ImGui::ListBox("Hierarchy", &current, names.data(), names.size(), 2);
+	
+	if (ImGui::TreeNode(names[current])) {
+		for (auto& a : GetActor(names[current])->GetComponents()) {
+			if (ImGui::TreeNode(typeid(*a).name())) {
+				a->RenderGui();
+				ImGui::TreePop();
+			}
 		}
+		ImGui::TreePop();
 	}
+	ImGui::End();
+	
 }

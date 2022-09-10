@@ -17,6 +17,7 @@ public:
 	 void OnDestroy()override;
 	 void Update(const float deltaTime)override;
 	 void Render() const override;
+	 void RenderGui() override;
 	 inline GLuint getTextureID() const { return textureID; }
 
 };

@@ -3,6 +3,8 @@
 #include <glm/vec3.hpp>
 #include <string>
 #include <iostream>
+#include "Actor.h"
+#include "Components.h"
 Gui::Gui()
 {
 }
@@ -46,6 +48,32 @@ void Gui::GuiV3(const char* t, glm::vec3& v)
 
 	/*v=(xyz);*/
 }
+void Gui::GuiQuat(const char* t, glm::quat& v)
+{
+
+	std::string tt = (std::string(" x ") + std::to_string(v.x) + std::string(" y ") + std::to_string(v.y) + std::string(" z ") + std::to_string(v.z) + std::string(" w ") + std::to_string(v.w));
+	const char* ttt = tt.c_str();
+	//printf(ttt);
+
+
+
+	if (ImGui::TreeNode(t)) {
+		ImGui::SameLine();
+		ImGui::Text(ttt);
+		ImGui::Text("      x"); ImGui::SameLine(); ImGui::Text("            y"); ImGui::SameLine(); ImGui::Text("            z"); ImGui::SameLine(); ImGui::Text("            w");
+		//glm::vec3 xyz = v;
+		ImGui::DragFloat4("", &v[0], 0.005f);
+		ImGui::NewLine();
+		ImGui::TreePop();
+	}
+	else {
+		ImGui::SameLine();
+		ImGui::Text(ttt);
+	}
+
+
+	/*v=(xyz);*/
+}
 void Gui::GuiM4(const char* t, glm::mat4& m)
 {
 	//std::string tt = (std::string(" x ") + std::to_string(v.x) + std::string(" y ") + std::to_string(v.y) + std::string(" z ") + std::to_string(v.z));
@@ -70,6 +98,13 @@ void Gui::GuiM4(const char* t, glm::mat4& m)
 	//	ImGui::SameLine();
 	//	ImGui::Text(ttt);
 	//}
+}
+void Gui::GuiComponents(Actor* actor)
+{
+	for (auto* comp : actor->GetComponents()) {
+
+	}
+	
 }
 ;
 

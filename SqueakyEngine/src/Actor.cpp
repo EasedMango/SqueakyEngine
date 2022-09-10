@@ -33,7 +33,9 @@ void Actor::OnDestroy() {
 }
 
 void Actor::Update(const float deltaTime) {
-
+	for (auto &component : components) {
+		component->Update(deltaTime);
+	}
 }
 
 void Actor::Render() const {
@@ -44,22 +46,36 @@ void Actor::Render() const {
 
 
 
-void Actor::MyRender( Camera* cam) {
+void Actor::MyRender( Actor* cam) {
 	if (GetComponent<Mesh>() == nullptr)
 		return;
 	Shader* shader = GetComponent<Shader>();
-	
-	
+	Camera* camCmp = cam->GetComponent<Camera>();
+	Transform* camTrn = cam->GetComponent<Transform>();
 
 	//MaterialComponent* texture = waluigi->GetComponent<MaterialComponent>();
 
 	glUseProgram(shader->GetProgram());
-	glUniformMatrix4fv(shader->GetUniformID("projectionMatrix"), 1, GL_FALSE, glm::value_ptr( cam->GetProjectionMatrix()));
-	glUniformMatrix4fv(shader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(cam->GetViewMatrix()));
+	glUniformMatrix4fv(shader->GetUniformID("projectionMatrix"), 1, GL_FALSE, glm::value_ptr(camCmp->GetProjectionMatrix()));
+	glUniformMatrix4fv(shader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(camTrn->GetTransformMatrix()*glm::translate(glm::mat4(1),glm::vec3(0,0,10))));
 	glUniformMatrix4fv(shader->GetUniformID("modelMatrix"), 1, GL_FALSE, glm::value_ptr(GetComponent < Transform>()->GetTransformMatrix()));
 	glBindTexture(GL_TEXTURE_2D, GetComponent<Material>()->getTextureID());
 	GetComponent<Mesh>()->Render();
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Actor::RenderGui()
+{
+}
+
+std::vector<Component*> Actor::GetComponents() {
+	std::vector<Component*> componentList;
+	for (auto component : components) {
+		if (component != nullptr) {
+			componentList.push_back(component);
+		}
+	}
+	return componentList;
 }
 
 void Actor::ListComponents() const {

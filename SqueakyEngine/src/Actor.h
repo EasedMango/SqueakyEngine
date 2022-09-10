@@ -23,8 +23,8 @@ public:
 	virtual void OnDestroy() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void Render() const override;
-	void MyRender( Camera* cam);
-
+	void MyRender(Actor* cam);
+	void RenderGui() override;
 
 	template<typename ComponentTemplate, typename ... Args>
 	void AddComponent(Args&& ... args_) {
@@ -46,6 +46,8 @@ public:
 		}
 		return nullptr;
 	}
+	
+	std::vector<Component*> GetComponents();
 
 	template<typename ComponentTemplate>
 	void RemoveComponent() {

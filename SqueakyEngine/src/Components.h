@@ -1,4 +1,5 @@
 #pragma once
+#include "Component.h"
 #include "Camera.h"
 #include "Actor.h"
 #include "Shader.h"

@@ -32,7 +32,7 @@ public:
 
 	}
 
-	void key_callback(class GLFWwindow* window, int key, int scancode, int action, int mods);
+
 	void AddActor2(Actor* actor);
 	Actor* GetActor(std::string name);
 	void DeleteActor(std::string name);
