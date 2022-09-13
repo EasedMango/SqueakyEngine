@@ -11,11 +11,12 @@ public:
 	void SetParent(Component* actor) {
 		parent = actor;
 	}
-	Component* GetParent() {
+	Component* GetParent() const {
 		return parent;
 	}
 protected:
 	Component* parent;
+
 	bool isCreated;
 };
 

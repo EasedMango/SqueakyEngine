@@ -25,12 +25,14 @@ bool Scene1::OnCreate()
 	Logger::Info("Creating scene 1");
 
 	am = new ActorManager();
+	am->AddActor(new Actor(nullptr, "Camera"), new Camera(90, 1280.f / 720.f), new Transform(glm::vec3(0.0f, 0, -3.0f)));
+	am->AddActor(new Actor(nullptr, "Cube"), new Shader(), new Mesh("src/Meshes/cube.obj"), new Transform(glm::vec3(-0.0f, 0.0f, 0)));
+	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader( "src/Shaders/phongVert.glsl", "src/Shaders/phongFrag.glsl"), new Mesh( "src/Meshes/Mario.obj"), new Material( "src/Textures/mario_main.png"), new Transform(), new Controller());
+	//am->AddActor(new Actor(nullptr, "Island"), new Shader(), new Mesh("src/Meshes/islandtestblend.obj"), new Transform(glm::vec3(-0.0f, -1.0f, 0)));
 
-	am->AddActor(new Actor(nullptr, "Camera"), new Camera(40, 1280.f/ 720.f), new Transform(nullptr,glm::vec3(0.0f,0,-3.0f)), new Controller());
-	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader(nullptr, "src/Shaders/textureVert.glsl", "src/Shaders/textureFrag.glsl"), new Mesh(nullptr, "src/Meshes/Mario.obj"), new Material(nullptr, "src/Textures/mario_main.png"), new Transform());
 	am->OnCreate();
-
-
+	//am->GetActor("Cube")->SetParent(am->GetActor("MarioOne"));
+	am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
 
 
 

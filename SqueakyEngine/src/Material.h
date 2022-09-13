@@ -8,7 +8,7 @@ class Material : public Component
 	const char* fileName;
 	GLuint textureID;
 public:
-	Material(Component* parent_=nullptr, const char* fileName_="");
+	Material( const char* fileName_="");
 	//Material();
 	~Material();
 

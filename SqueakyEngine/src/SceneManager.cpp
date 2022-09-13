@@ -56,6 +56,10 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 	glm::vec2 pos(xpos, ypos);
 	Input::GetInstance().SetMousePos(pos);
 }
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	Input::GetInstance().SetScroll(xoffset, yoffset);
+}
 
 SceneManager::SceneManager()
 {
@@ -74,11 +78,13 @@ void SceneManager::Run()
 	glfwSetWindowUserPointer(window->GetWindow(), this);
 	currentScene = new Scene1();
 	currentScene->OnCreate();
+	gui = new Gui(window);
+
 	glfwSetFramebufferSizeCallback(window->GetWindow(), SetBuffer);
 	glfwSetInputMode(window->GetWindow(), GLFW_STICKY_KEYS, GLFW_TRUE);
 	glfwSetCursorPosCallback(window->GetWindow(), cursor_position_callback);
 	glfwSetMouseButtonCallback(window->GetWindow(), mouse_button_callback);
-	gui = new Gui(window);
+	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 	gui->OnCreate();
 
 	// Our state
@@ -110,7 +116,9 @@ void SceneManager::Run()
 		//	printf("fs");
 			//GLFWkeyfun lol;
 		glfwSetKeyCallback(window->GetWindow(), key_callback);
-
+		if (Input::GetInstance().GetScrollWheel() != 0) {
+			Input::GetInstance().SetScroll(0, 0);
+		}
 	}
 
 

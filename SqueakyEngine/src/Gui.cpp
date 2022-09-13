@@ -74,7 +74,7 @@ void Gui::GuiQuat(const char* t, glm::quat& v)
 
 	/*v=(xyz);*/
 }
-void Gui::GuiM4(const char* t, glm::mat4& m)
+void Gui::GuiM4(const char* t, glm::mat4 m)
 {
 	//std::string tt = (std::string(" x ") + std::to_string(v.x) + std::string(" y ") + std::to_string(v.y) + std::string(" z ") + std::to_string(v.z));
 	//const char* ttt = tt.c_str();

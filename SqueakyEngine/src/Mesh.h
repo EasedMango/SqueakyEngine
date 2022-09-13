@@ -10,13 +10,14 @@ private:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec2> uvCoords;
+	std::vector<glm::vec3> colors;
 	size_t dataLength;
 	GLenum drawmode;
 
 	GLuint vao, vbo;
 public:
-	Mesh(Component* parent_=nullptr,  const char* filename_="src/Meshes/cube.obj");
-	Mesh(Component* parent_, std::vector<glm::vec3> verts);
+	Mesh(const char* filename_="src/Meshes/cube.obj");
+	Mesh( std::vector<glm::vec3> verts);
 	~Mesh();
 	void StoreMeshData(GLenum drawmode_);
 	void LoadModel(const char* filename);

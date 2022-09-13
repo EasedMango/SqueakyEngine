@@ -12,11 +12,20 @@ class Actor : public Component
 	Actor& operator=(Actor&&) = delete;
 
 private:
-	
+
 	std::vector<Component*> components;
+	std::vector<Actor*> children;
 	const char* name;
 
 public:
+	inline Actor* GetParentActor() {
+		return static_cast<Actor*>(parent);
+	}
+	inline std::vector<Actor*> const GetChildren() {
+		return children;
+	}
+	inline void AddChild(Actor* newChild) { children.push_back(newChild); }
+	void SetParent(Actor* parent_);
 	Actor(Component* parent_,const char* name_="Actor");
 	~Actor();
 	virtual bool OnCreate() override;
@@ -33,7 +42,7 @@ public:
 
 	}
 
-	void AddComponent(Component* comp) {
+	inline void AddComponent(Component* comp) {
 		components.push_back(comp);
 	}
 
@@ -66,7 +75,7 @@ public:
 	void RemoveAllComponents();
 
 
-	const char* GetName() const { return name; }
-	void SetName(const char* &name_) { name = name_; }
+	inline const char* GetName() const { return name; }
+	inline void SetName(const char* &name_) { name = name_; }
 };
 

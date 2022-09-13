@@ -37,8 +37,17 @@ Actor* ActorManager::GetActor(std::string name) {
 	Logger::Info(name + std::string(" was not found"));
 }
 
+void ActorManager::DeleteActor(std::string name)
+{
+	
+}
+
 void ActorManager::Update(const float deltaTime) {
+
 	for (Actor* a : hierarchy) {
+		for (Actor* c : a->GetChildren()) {
+			std::cout << c->GetName() << std::endl;
+		}
 		a->Update(deltaTime);
 		//printf("update");
 	}

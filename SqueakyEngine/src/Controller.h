@@ -7,9 +7,8 @@
 
 class Controller : public Component {
 private:
-	Actor* GetParent() {
-		return (Actor*)parent;
-	}
+	Actor* GetParentActor() {
+		return static_cast<Actor*>( parent);	}
 	glm::vec2 prevMouse;
 	float speed;
 public:

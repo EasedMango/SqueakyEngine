@@ -105,6 +105,9 @@
     <ClCompile Include="src\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h">
@@ -206,6 +209,9 @@
     <ClInclude Include="src\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\defaultFrag.glsl" />
@@ -216,5 +222,7 @@
     <None Include="src\Shaders\texture2Vert.glsl" />
     <None Include="src\Shaders\textureFrag.glsl" />
     <None Include="src\Shaders\textureVert.glsl" />
+    <None Include="src\Shaders\phongFrag.glsl" />
+    <None Include="src\Shaders\phongVert.glsl" />
   </ItemGroup>
 </Project>

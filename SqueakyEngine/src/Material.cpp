@@ -2,7 +2,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-Material::Material(Component* parent_, const char* fileName_) : fileName(fileName_), textureID(0) ,Component(parent_) {
+Material::Material( const char* fileName_) : fileName(fileName_), textureID(0) ,Component(nullptr) {
 
 }
 Material::~Material() {

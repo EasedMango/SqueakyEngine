@@ -39,7 +39,7 @@ struct click {
 	int mods; 
 	bool prevState;
 
-	float timer;
+	float timer=0;
 	inline void Update(const int& s) {
 		prevState = state;
 		state = (s);
@@ -61,7 +61,8 @@ private:
 	std::map<int, click> clicks_;
 	std::queue<click> unhandled_clicks;
 	glm::vec2 mousePos;
-
+	glm::vec2 prevScrollWheel;
+	glm::vec2 scrollWheel;
 	//class GLFWwindow* window;
 
 	float external_position[2];
@@ -69,6 +70,7 @@ private:
 	// std::map<int, std::function<void(/*args*/)>> key_functions;
 public:
 	inline void SetMousePos(glm::vec2& mp) { mousePos = mp; }
+	inline void SetScroll(const float& x, const float& y) { prevScrollWheel = scrollWheel; scrollWheel = glm::vec2(x, y); };
 	inline glm::vec2 GetMousePos() { return mousePos; }
 
 	inline void handle_key(GLFWwindow* window, int key, int code, int action, int modifiers) {
@@ -91,4 +93,10 @@ public:
 	bool OnKeyPress(int GLFW_key);
 	bool OnKeyHold(int GLFW_key);
 	bool OnKeyRelease(int GLFW_key);
+
+	bool OnClickPress(int GLFW_mouse);
+	bool OnClickHold(int GLFW_mouse);
+	bool OnClickRelease(int GLFW_mouse);
+
+	inline float GetScrollWheel() { return scrollWheel.y-prevScrollWheel.y; }
 };

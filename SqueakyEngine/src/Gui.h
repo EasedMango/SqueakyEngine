@@ -29,7 +29,7 @@ public:
 	}
 	static void  GuiV3(const char* t, glm::vec3& v);
 	static void  GuiQuat(const char* t, glm::quat& v);
-	static void GuiM4(const char* t, glm::mat4& m);
+	static void GuiM4(const char* t, glm::mat4 m);
 
 	static void GuiComponents(class Actor* actor);
 
