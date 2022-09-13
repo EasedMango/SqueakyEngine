@@ -23,7 +23,7 @@ private:
 	void SetUniformLocations();
 	std::string ReadFile(const char* filename);
 public:
-	Shader(Component* parent_=nullptr, const char* vsFilename_= "src/Shaders/defaultVert.glsl", const char* fsFilename_= "src/Shaders/defaultFrag.glsl");
+	Shader( const char* vsFilename_= "src/Shaders/defaultVert.glsl", const char* fsFilename_= "src/Shaders/defaultFrag.glsl");
 	~Shader();
 
 
@@ -35,6 +35,6 @@ public:
 	void OnDestroy() override;
 	void Update(const float deltaTime) ;
 	void Render() const ;
-
+	void RenderGui() override;
 };
 

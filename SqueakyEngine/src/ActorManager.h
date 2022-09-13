@@ -22,10 +22,14 @@ public:
 	void AddActor(Actor* actor,C&& ... comps) {
 
 		std::vector<Component*> compList = { std::forward<C>(comps)... };
+		
 		for (auto component : compList) {
 			std::cout << typeid(*component).name() << std::endl;
+			component->SetParent(actor);
 			actor->AddComponent(component);
 		}
+
+		//actor->SetParent(actor);
 		hierarchy.push_back(actor);
 		if (actor->GetName() == "Camera")
 			mainCamera = actor;

@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include <imgui.h>
 #include "Gui.h"
+#include "Controller.h"
 
 ActorManager::ActorManager() {
 
@@ -36,16 +37,26 @@ Actor* ActorManager::GetActor(std::string name) {
 	Logger::Info(name + std::string(" was not found"));
 }
 
+void ActorManager::DeleteActor(std::string name)
+{
+	
+}
+
 void ActorManager::Update(const float deltaTime) {
+
 	for (Actor* a : hierarchy) {
+		for (Actor* c : a->GetChildren()) {
+			std::cout << c->GetName() << std::endl;
+		}
 		a->Update(deltaTime);
+		//printf("update");
 	}
 
 }
 
 void ActorManager::Render() const {
 	for (Actor* a : hierarchy) {
-		a->MyRender(mainCamera->GetComponent<Camera>());
+		a->MyRender(mainCamera);
 	}
 
 
@@ -56,13 +67,13 @@ void ActorManager::AddActor2(Actor* actor) {
 }
 
 void ActorManager::RenderGui() {
-	ImGui::Begin("Main Menu");                          // Create a window called "Hello, world!" and append into it.
+	ImGui::Begin("Main Menu");                         
 	//ImGui::
 	static int current = 0;
 	std::vector<const char*> names;
 	const char* name;
 	for (Actor* a : hierarchy) {
-		Logger::Info(a->GetName());
+	//	Logger::Info(a->GetName());
 		
 
 		names.push_back(a->GetName());
@@ -76,8 +87,17 @@ void ActorManager::RenderGui() {
 		a[i] = name;
 	}
 	
-	ImGui::ListBox("Physics Bodies", &current, names.data(), names.size(), 2);
-	ImGui::Text(names[current]);
-
+	ImGui::ListBox("Hierarchy", &current, names.data(), names.size(), 2);
+	
+	if (ImGui::TreeNode(names[current])) {
+		for (auto& a : GetActor(names[current])->GetComponents()) {
+			if (ImGui::TreeNode(typeid(*a).name())) {
+				a->RenderGui();
+				ImGui::TreePop();
+			}
+		}
+		ImGui::TreePop();
+	}
 	ImGui::End();
+	
 }

@@ -5,16 +5,16 @@
 // Optional. define TINYOBJLOADER_USE_MAPBOX_EARCUT gives robust trinagulation. Requires C++11
 //#define TINYOBJLOADER_USE_MAPBOX_EARCUT
 #include "tiny_obj_loader.h"
-Mesh::Mesh(Component* parent_, const char* filename_) :
-Component(parent_), filename(filename_)
+Mesh::Mesh(const char* filename_) :
+	Component(nullptr), filename(filename_)
 {
 	//upload the vertex data to the gpu
 	LoadModel(filename);
 
 }
 
-Mesh::Mesh(Component* parent_, std::vector<glm::vec3> verts) :
-	Component(parent_),vertices(verts)
+Mesh::Mesh(std::vector<glm::vec3> verts) :
+	Component(nullptr), vertices(verts)
 {
 
 }
@@ -29,17 +29,19 @@ void Mesh::StoreMeshData(GLenum drawmode_)
 #define VERTEX_LENGTH 	(vertices.size() * (sizeof(glm::vec3)))
 #define NORMAL_LENGTH 	(normals.size() * (sizeof(glm::vec3)))
 #define TEXCOORD_LENGTH (uvCoords.size() * (sizeof(glm::vec2)))
+#define COLORS_LENGTH (colors.size() * (sizeof(glm::vec2)))
 	const int verticiesLayoutLocation = 0;
 	const int normalsLayoutLocation = 1;
 	const int uvCoordsLayoutLocation = 2;
+	const int colorsLayoutLocation = 3;
 	/// create and bind the VOA
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	/// Create and initialize vertex buffer object VBO
 	glGenBuffers(1, &vbo);// gens 1 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo); // make active object 
-	std::cout << VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH << " ~~~~~~~~~~~~~\n";
-	glBufferData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH,	0, GL_STATIC_DRAW); //give data
+	std::cout << VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH + COLORS_LENGTH << " ~~~~~~~~~~~~~\n";
+	glBufferData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH + COLORS_LENGTH, 0, GL_STATIC_DRAW); //give data
 	/// assigns the addr of "points" to be the beginning of the array buffer "sizeof(points)" in length
 	glBufferSubData(GL_ARRAY_BUFFER, 0, VERTEX_LENGTH, &vertices[0]);
 	glEnableVertexAttribArray(verticiesLayoutLocation);
@@ -56,12 +58,19 @@ void Mesh::StoreMeshData(GLenum drawmode_)
 		glEnableVertexAttribArray(uvCoordsLayoutLocation);
 		glVertexAttribPointer(uvCoordsLayoutLocation, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(VERTEX_LENGTH + NORMAL_LENGTH));
 	}
+	if (colors.size() != 0) {
+
+		/// assigns the addr of "texCoords" to be "sizeof(points) + sizeof(normals)" offset from the beginning and "sizeof(texCoords)" in length  
+		glBufferSubData(GL_ARRAY_BUFFER, VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH, COLORS_LENGTH, &colors[0]);
+		glEnableVertexAttribArray(colorsLayoutLocation);
+		glVertexAttribPointer(colorsLayoutLocation, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(VERTEX_LENGTH + NORMAL_LENGTH + TEXCOORD_LENGTH));
+
+	}
 
 
-	
 
 
-	
+
 
 	dataLength = vertices.size();
 	vertices.clear();
@@ -86,6 +95,19 @@ void Mesh::LoadModel(const char* filename)
 	if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filename)) {
 		throw std::runtime_error(warn + err);
 	}
+
+	//int shapeCount = shapes.size();
+	//
+
+
+	//	for (int i = 0; i < shapeCount; ++i) {
+	//		int indicesCount = shapes[i].mesh.indices.size();
+	//		
+	//		for (int j = 0; j < indicesCount;++j) {
+	//			shapes[i].mesh.indices[j].vertex_index;
+	//		}
+	//	}
+
 	for (const auto& shape : shapes) {
 		for (const auto& index : shape.mesh.indices) {
 			glm::vec3 vertex{};
@@ -105,10 +127,17 @@ void Mesh::LoadModel(const char* filename)
 				uvCoord.x = attrib.texcoords[2 * index.texcoord_index + 0];
 				uvCoord.y = attrib.texcoords[2 * index.texcoord_index + 1];
 			}
-
+			// Optional: vertex colors
+			glm::vec3 color(0);
+			if (attrib.colors.size() != 0) {
+				color.x = attrib.colors[3 * index.vertex_index + 0];
+				color.y = attrib.colors[3 * index.vertex_index + 1];
+				color.z = attrib.colors[3 * index.vertex_index + 2];
+			}
 			vertices.push_back(vertex);
 			normals.push_back(normal);
 			uvCoords.push_back(uvCoord);
+			colors.push_back(color);
 		}
 	}
 }
@@ -136,6 +165,10 @@ void Mesh::Render() const {
 
 	glDrawArrays(GL_TRIANGLES, 0, dataLength);
 	glBindVertexArray(0); // Unbind the VAO
+}
+
+void Mesh::RenderGui()
+{
 }
 
 

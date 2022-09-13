@@ -1,18 +1,22 @@
 #pragma once
 #include <glm/matrix.hpp>
-#include "Component.h"
+#include "Components.h"
+#include "Actor.h"
+
 class Camera : public Component
 {
 private:
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
 public:
+	Camera(float fov, float ratio);
 	 bool OnCreate() override;
 	 void OnDestroy() override;
 	 void Update(const float deltaTime) override;
 	 void Render() const override;
-	Camera(float fov, float ratio);
+	 void SendUniforms( class Shader* shader);
+	 void RenderGui() override;
 	glm::mat4 GetProjectionMatrix() { return projectionMatrix; }
-	glm::mat4 GetViewMatrix() { return viewMatrix; }
+	glm::mat4 GetViewMatrix();
 };
 

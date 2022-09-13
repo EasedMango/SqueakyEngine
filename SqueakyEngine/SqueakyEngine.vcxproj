@@ -183,6 +183,8 @@
       <DeploymentContent>false</DeploymentContent>
     </ClCompile>
     <ClCompile Include="Example.cpp" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\Material.cpp" />
@@ -226,6 +228,9 @@
       <DeploymentContent>false</DeploymentContent>
     </ClInclude>
     <ClInclude Include="..\libs\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="src\Light.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\Controller.h" />
     <ClInclude Include="src\ActorManager.h" />
     <ClInclude Include="src\Material.h" />
@@ -255,6 +260,8 @@
     <None Include="src\Shaders\defaultTriangleFrag.glsl" />
     <None Include="src\Shaders\defaultTriangleVert.glsl" />
     <None Include="src\Shaders\defaultVert.glsl" />
+    <None Include="src\Shaders\phongFrag.glsl" />
+    <None Include="src\Shaders\phongVert.glsl" />
     <None Include="src\Shaders\texture2Frag.glsl" />
     <None Include="src\Shaders\texture2Vert.glsl" />
     <None Include="src\Shaders\textureFrag.glsl" />

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Logger.h"
 
-Shader::Shader(Component* parent_, const char* vsFilename_, const char* fsFilename_) :Component(parent_),
+Shader::Shader( const char* vsFilename_, const char* fsFilename_) :Component(nullptr),
 shaderID(0), vertShaderID(0), fragShaderID(0) {
 	vsFilename = vsFilename_;
 	fsFilename = fsFilename_; {
@@ -232,3 +232,7 @@ GLuint Shader::GetUniformID(std::string name)
 void Shader::OnDestroy() {}
 void Shader::Update(const float deltaTime) {}
 void Shader::Render() const {}
+
+void Shader::RenderGui()
+{
+}
