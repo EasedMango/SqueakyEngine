@@ -2,7 +2,7 @@
 
 #include <string>
 class Camera;
-class GLFWwindow;
+struct GLFWwindow;
 class Scene;
 class SceneManager
 {

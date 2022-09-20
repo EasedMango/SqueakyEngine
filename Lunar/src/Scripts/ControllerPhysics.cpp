@@ -5,6 +5,8 @@
 #include "Input.h"
 #include<glm/ext.hpp>
 #include<glm/glm.hpp>
+#include <string>
+#include "Logger.h"
 ControllerPhysics::ControllerPhysics() :Component(nullptr) {
 
 }
@@ -25,13 +27,13 @@ void ControllerPhysics::Update(const float deltaTime) {
 	glm::vec3 dir(0);
 	
 	if (Input::GetInstance().OnKeyHold(GLFW_KEY_W))
-		dir -= transformCam->GetForward()*0.1f;//glm::vec3(0, 0, -0.1f);
+		dir -= transformCam->GetForward();//glm::vec3(0, 0, -0.1f);
 	if (Input::GetInstance().OnKeyHold(GLFW_KEY_S))
-		dir += transformCam->GetForward() * 0.1f;//glm::vec3(0, 0, 0.1f);
+		dir += transformCam->GetForward() ;//glm::vec3(0, 0, 0.1f);
 	if (Input::GetInstance().OnKeyHold(GLFW_KEY_A))
-		dir -= transformCam->GetRight() * 0.1f;//glm::vec3(-0.1f, 0, 0);
+		dir -= transformCam->GetRight() ;//glm::vec3(-0.1f, 0, 0);
 	if (Input::GetInstance().OnKeyHold(GLFW_KEY_D))
-		dir += transformCam->GetRight() * 0.1f;//glm::vec3(0.1f, 0, 0);
+		dir += transformCam->GetRight() ;//glm::vec3(0.1f, 0, 0);
 	if (Input::GetInstance().OnKeyPress(GLFW_KEY_SPACE)) {
 		printf("jump");
 	}
@@ -51,7 +53,13 @@ void ControllerPhysics::Update(const float deltaTime) {
 		if (rot.x != rot.x || rot.x >= 90.0f || rot.x <= -90.0f) return;
 		
 	}
+	
 	phyBod->SetVel( dir);
+	if (rot.length() != 0){
+		std::string mag =  std::to_string(phyBod->GetRotation().x + rot.x);
+		Logger::Info(mag);
+		
+	}
 	phyBod->SetRotation(phyBod->GetRotation() + rot);
 	phyBod->SetScale(phyBod->GetScale() + Input::GetInstance().GetScrollWheel() * 0.1f);
 	//transform->SetTransform(transform->GetPosition() + dir, transform->GetRotationEuler() + rot, transform->GetScale()+Input::GetInstance().GetScrollWheel()*0.1f);

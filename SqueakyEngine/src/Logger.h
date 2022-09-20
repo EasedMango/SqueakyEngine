@@ -28,6 +28,7 @@ class Logger
 
 		//}
 
+
 		static void Info(std::string info, const std::source_location location =
 			std::source_location::current());
 		static void Error(std::string info, const std::source_location location =

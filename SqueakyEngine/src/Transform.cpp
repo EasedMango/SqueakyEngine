@@ -28,7 +28,7 @@ void Transform::Update(const float deltaTime) {
 
 }
 
-glm::mat4 Transform::GetTransformMatrix()  {
+glm::mat4 Transform::GetTransformMatrix() const {
 	Actor* parentParent = ((Actor*)parent)->GetParentActor();
 	if (parentParent != nullptr) {
 		

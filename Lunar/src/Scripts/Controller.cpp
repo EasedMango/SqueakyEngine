@@ -50,6 +50,7 @@ void Controller::Update(const float deltaTime) {
 		if (rot.x != rot.x || rot.x >= 90.0f || rot.x <= -90.0f) return;
 		
 	}
+	
 	transform->SetTransform(transform->GetPosition() + dir, transform->GetRotationEuler() + rot, transform->GetScale()+Input::GetInstance().GetScrollWheel()*0.1f);
 	prevMouse = pos;
 
