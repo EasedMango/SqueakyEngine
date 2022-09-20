@@ -152,8 +152,11 @@ bool Mesh::OnCreateVert() {
 
 bool Mesh::OnCreate()
 {
+
 	if (isCreated) return true;
-	LoadModel(filename);
+	if (vertices.size() == 0) {
+		LoadModel(filename);
+	}
 	StoreMeshData(GL_TRIANGLES);
 	isCreated = true;
 	return true;

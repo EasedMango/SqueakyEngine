@@ -2,7 +2,6 @@
 #include "SceneManager.h"
 #include "Events.h"
 #include <iostream>
-#include "Scene1.h"
 #include "Scene.h"
 #include "Window.h"
 #include <glm/glm.hpp>
@@ -69,14 +68,14 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::Run()
+void SceneManager::Run(Scene* scene)
 {
 
 
 
 	curTime = 0;
 	glfwSetWindowUserPointer(window->GetWindow(), this);
-	currentScene = new Scene1();
+	currentScene = scene;
 	currentScene->OnCreate();
 	gui = new Gui(window);
 
@@ -127,6 +126,14 @@ void SceneManager::Run()
 
 	glfwDestroyWindow(window->GetWindow());
 	glfwTerminate();
+}
+
+void SceneManager::LoadScene(Scene* scene)
+{
+	currentScene->OnDestroy();
+	currentScene = scene;
+	currentScene->OnCreate();
+	
 }
 
 

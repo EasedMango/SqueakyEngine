@@ -15,8 +15,8 @@ class Logger
 
 	static std::string GetTime();
 
-	template<typename ... T>
-	static void Log(const std::string& ms, T ...m);
+	template<typename A, typename ... T>
+	static 	void Log(const A& ms, T ...m);
 
 
 	public:
@@ -27,6 +27,7 @@ class Logger
 		//	Log(" INFO: ", m ...);
 
 		//}
+
 
 		static void Info(std::string info, const std::source_location location =
 			std::source_location::current());

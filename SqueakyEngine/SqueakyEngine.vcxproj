@@ -27,26 +27,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -136,6 +136,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)libs\GLFW\lib-vc2022\glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)libs\GLFW\lib-vc2022\glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,38 +158,19 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)libs\GLFW\lib-vc2022\glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)libs\GLFW\lib-vc2022\glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\libs\GLAD\src\glad.c" />
-    <ClCompile Include="..\libs\imgui\backends\imgui_impl_glfw.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\backends\imgui_impl_opengl2.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\backends\imgui_impl_opengl3.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\imgui.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\imgui_demo.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\imgui_draw.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\imgui_tables.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
-    <ClCompile Include="..\libs\imgui\imgui_widgets.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
     <ClCompile Include="Example.cpp" />
+    <ClCompile Include="src\Physics\GeometryMath.cpp" />
+    <ClCompile Include="src\Physics\Geometry3D.cpp" />
+    <ClCompile Include="src\PhysicsEngine.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
-    <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Geometry\BasicShapes.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -194,44 +178,27 @@
     <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\PhysicsBody.cpp" />
+    <ClCompile Include="src\PhysicsMath.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Geometry\Collisions2D.cpp" />
     <ClCompile Include="src\Geometry\Geometry2D.cpp" />
-    <ClCompile Include="src\ExtraMath.cpp" />
+    <ClCompile Include="src\Physics\ExtraMath.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\Scene1.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_glfw.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl2.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl3.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl3_loader.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="..\libs\imgui\imconfig.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="..\libs\imgui\imgui.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
-    <ClInclude Include="..\libs\imgui\imgui_internal.h">
-      <DeploymentContent>false</DeploymentContent>
-    </ClInclude>
     <ClInclude Include="..\libs\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="src\Physics\GeometryMath.h" />
+    <ClInclude Include="src\Physics\Geometry3D.h" />
+    <ClInclude Include="src\PhysicsEngine.h" />
     <ClInclude Include="src\Light.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Components.h" />
-    <ClInclude Include="src\Controller.h" />
     <ClInclude Include="src\ActorManager.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Example.h" />
@@ -244,11 +211,13 @@
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\Geometry\Collisions2D.h" />
+    <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\PhysicsBody.h" />
+    <ClInclude Include="src\PhysicsMath.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Geometry\Geometry2D.h" />
-    <ClInclude Include="src\ExtraMath.h" />
+    <ClInclude Include="src\Physics\ExtraMath.h" />
     <ClInclude Include="src\SceneManager.h" />
-    <ClInclude Include="src\Scene1.h" />
     <ClInclude Include="src\Events.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\tiny_obj_loader.h" />
@@ -266,6 +235,11 @@
     <None Include="src\Shaders\texture2Vert.glsl" />
     <None Include="src\Shaders\textureFrag.glsl" />
     <None Include="src\Shaders\textureVert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImGui\ImGui.vcxproj">
+      <Project>{af081415-7cbc-4653-aa70-80fcc9c23a14}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

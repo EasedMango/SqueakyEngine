@@ -3,10 +3,10 @@
 #include "Camera.h"
 #include <imgui.h>
 #include "Gui.h"
-#include "Controller.h"
+#include "Physics.h"
 
 ActorManager::ActorManager() {
-
+	physics = new Physics();
 };
 ActorManager::~ActorManager() {
 
@@ -43,11 +43,11 @@ void ActorManager::DeleteActor(std::string name)
 }
 
 void ActorManager::Update(const float deltaTime) {
-
+	physics->Update(deltaTime);
 	for (Actor* a : hierarchy) {
-		for (Actor* c : a->GetChildren()) {
-			std::cout << c->GetName() << std::endl;
-		}
+		//for (Actor* c : a->GetChildren()) {
+		//	std::cout << c->GetName() << std::endl;
+		//}
 		a->Update(deltaTime);
 		//printf("update");
 	}

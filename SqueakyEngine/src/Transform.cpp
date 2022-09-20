@@ -1,5 +1,9 @@
 #include "Transform.h"
 #include "Gui.h"
+#include "Actor.h"
+//Transform::Transform() : Component(nullptr)
+//{
+//}
 Transform::Transform( glm::vec3 pos_, glm::vec3 orientation_, glm::vec3 scale_) :Component(nullptr) {
 
 	pos = pos_;
@@ -24,7 +28,7 @@ void Transform::Update(const float deltaTime) {
 
 }
 
-glm::mat4 Transform::GetTransformMatrix()  {
+glm::mat4 Transform::GetTransformMatrix() const {
 	Actor* parentParent = ((Actor*)parent)->GetParentActor();
 	if (parentParent != nullptr) {
 		
