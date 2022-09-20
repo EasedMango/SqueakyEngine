@@ -4,6 +4,9 @@
 #include <sstream>
 #include <iostream>
 #include "Logger.h"
+#include <filesystem>
+
+
 
 Shader::Shader( const char* vsFilename_, const char* fsFilename_) :Component(nullptr),
 shaderID(0), vertShaderID(0), fragShaderID(0) {
@@ -61,6 +64,7 @@ std::string Shader::ReadTextFile(const char* file_path) {
 		return shaderCode;
 	}
 	else {
+		std::cout << std::filesystem::current_path() << std::endl;
 		Logger::Info("Couldn't open file ");
 		getchar();
 		return 0;
@@ -93,15 +97,21 @@ bool Shader::CompileAttach() {
 	GLint status = 0;
 	try
 	{
+		vsFilename + shaderFilePath;
 		printf("start vert\n");
-		std::string vertS = ReadTextFile(vsFilename).c_str();
+		std::string vertFs=(shaderFilePath + vsFilename).c_str();
+		const char* vertFile = vertFs.c_str();
+		Logger::Info(vertFile);
+		std::string vertS = ReadTextFile(vertFile).c_str();
 		const char* vert = vertS.c_str();
 		vertShaderID = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertShaderID, 1, &vert, NULL);
 		CompileShader(vertShaderID, vsFilename, status);
 
 		printf("start frag\n");
-		std::string fragS = ReadTextFile(fsFilename).c_str();
+		std::string fragFs = (shaderFilePath + fsFilename).c_str();
+		const char* fragFile = fragFs.c_str();
+		std::string fragS = ReadTextFile(fragFile).c_str();
 		const char* frag = fragS.c_str();
 		fragShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragShaderID, 1, &frag, NULL);

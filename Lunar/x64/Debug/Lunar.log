@@ -1,0 +1,15 @@
+﻿  Scene1.cpp
+C:\Dev\SqueakyEngine\SqueakyEngine\src\Input.h(102,2): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+  Scene2.cpp
+C:\Dev\SqueakyEngine\SqueakyEngine\src\SceneManager.h(5,17): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
+C:\Dev\SqueakyEngine\SqueakyEngine\src\Scene.h(2): message : see declaration of 'GLFWwindow'
+C:\Dev\SqueakyEngine\SqueakyEngine\src\Input.h(102,2): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+  Controller.cpp
+C:\Dev\SqueakyEngine\SqueakyEngine\src\Input.h(102,2): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+  ControllerPhysics.cpp
+C:\Dev\SqueakyEngine\SqueakyEngine\src\Input.h(102,2): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+ControllerPhysics.obj : error LNK2019: unresolved external symbol "public: struct glm::mat<4,4,float,0> __cdecl Transform::GetTransformMatrix(void)const " (?GetTransformMatrix@Transform@@QEBA?AU?$mat@$03$03M$0A@@glm@@XZ) referenced in function "public: struct glm::vec<3,float,0> __cdecl Transform::GetForward(void)const " (?GetForward@Transform@@QEBA?AU?$vec@$02M$0A@@glm@@XZ)
+Controller.obj : error LNK2001: unresolved external symbol "public: struct glm::mat<4,4,float,0> __cdecl Transform::GetTransformMatrix(void)const " (?GetTransformMatrix@Transform@@QEBA?AU?$mat@$03$03M$0A@@glm@@XZ)
+C:\Dev\SqueakyEngine\x64\Debug\Lunar.exe : fatal error LNK1120: 1 unresolved externals

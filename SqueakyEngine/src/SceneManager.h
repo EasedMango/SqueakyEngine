@@ -3,13 +3,15 @@
 #include <string>
 class Camera;
 class GLFWwindow;
+class Scene;
 class SceneManager
 {
 	
 private:
-	class Scene1* currentScene;
+	Scene* currentScene;
 	class Window* window;
 	//class Input* input;
+	class ActorManager* actorManager;
 	class Gui* gui;
 	// ImGuiIO* io;
 	double curTime;
@@ -19,7 +21,8 @@ private:
 public:
 	SceneManager();
 	~SceneManager();
-	void Run();
+	void Run(Scene* scene);
+	void LoadScene(Scene* scene);
 	void RenderGui();
 	void HandleEvents(GLFWwindow* window, int key, int scancode, int action, int mods);
 	bool Initialize(const char* name_, int width_, int height_);

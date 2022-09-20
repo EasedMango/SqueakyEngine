@@ -9,6 +9,7 @@ class Shader : public Component
 	Shader& operator = (const Shader&) = delete;
 	Shader& operator = (Shader&&) = delete;
 private:
+	std::string shaderFilePath = "src/Shaders/";
 	const char* vsFilename;
 	const char* fsFilename;
 	GLuint shaderID;
@@ -23,7 +24,7 @@ private:
 	void SetUniformLocations();
 	std::string ReadFile(const char* filename);
 public:
-	Shader( const char* vsFilename_= "src/Shaders/defaultVert.glsl", const char* fsFilename_= "src/Shaders/defaultFrag.glsl");
+	Shader( const char* vsFilename_= "defaultVert.glsl", const char* fsFilename_= "defaultFrag.glsl");
 	~Shader();
 
 

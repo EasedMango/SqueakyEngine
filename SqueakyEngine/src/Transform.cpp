@@ -1,5 +1,9 @@
 #include "Transform.h"
 #include "Gui.h"
+#include "Actor.h"
+//Transform::Transform() : Component(nullptr)
+//{
+//}
 Transform::Transform( glm::vec3 pos_, glm::vec3 orientation_, glm::vec3 scale_) :Component(nullptr) {
 
 	pos = pos_;

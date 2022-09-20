@@ -11,8 +11,8 @@
 
 using namespace std::chrono;
 
-template<typename ... T>
-void Logger::Log(const std::string& ms, T ...m) {
+template<typename A,typename ... T>
+void Logger::Log(const A& ms, T ...m) {
 
 	std::cout << ms;
 	((std::cout << std::forward<T>(m) << " "), ...);
