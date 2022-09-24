@@ -9,10 +9,11 @@
 #include "Camera.h"
 #include "Shader.h"
 #include "Geometry/BasicShapes.h"
+#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #include "Gui.h"
 #include "Input.h"
 
-#include <backends/imgui_impl_opengl3_loader.h>
+//#include <backends/imgui_impl_opengl3_loader.h>
 static void errorGLFW(int error, const char* description) {
 	fprintf(stderr, "Error: %s\n", description);
 }
@@ -62,6 +63,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 SceneManager::SceneManager()
 {
+
 }
 
 SceneManager::~SceneManager()

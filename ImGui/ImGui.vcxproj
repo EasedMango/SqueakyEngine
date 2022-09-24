@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="imconfig.h" />
+    <ClInclude Include="imgui.h" />
+    <ClInclude Include="imgui_impl_glfw.h" />
+    <ClInclude Include="imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="imgui_internal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_demo.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui_tables.cpp" />
+    <ClCompile Include="imgui_widgets.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -104,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\imgui;$(SolutionDir)libs\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\imgui;$(SolutionDir)libs\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,27 +145,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\libs\GLFW\include\GLFW\glfw3.h" />
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\libs\imgui\backends\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="..\libs\imgui\imconfig.h" />
-    <ClInclude Include="..\libs\imgui\imgui.h" />
-    <ClInclude Include="..\libs\imgui\imgui_internal.h" />
-    <ClInclude Include="..\libs\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\libs\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\libs\imgui\imstb_truetype.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\libs\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\libs\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\libs\imgui\imgui.cpp" />
-    <ClCompile Include="..\libs\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\libs\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\libs\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\libs\imgui\imgui_widgets.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -7,7 +7,7 @@
 Transform::Transform( glm::vec3 pos_, glm::vec3 orientation_, glm::vec3 scale_) :Component(nullptr) {
 
 	pos = pos_;
-	rotation = orientation_;
+	rotation = glm::radians(orientation_);
 	scale = scale_;
 }
 

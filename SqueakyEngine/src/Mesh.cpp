@@ -1,6 +1,9 @@
 #include "Mesh.h"
 #include <glm/ext.hpp>
+#include "Logger.h"
 #include <iostream>
+#include <filesystem>
+
 #define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
 // Optional. define TINYOBJLOADER_USE_MAPBOX_EARCUT gives robust trinagulation. Requires C++11
 //#define TINYOBJLOADER_USE_MAPBOX_EARCUT
@@ -91,7 +94,8 @@ void Mesh::LoadModel(const char* filename)
 	vertices.clear();
 	normals.clear();
 	uvCoords.clear();
-
+	Logger::Info("FileName:");
+	std::cout << std::filesystem::current_path() << " " << filename<< std::endl;
 	if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filename)) {
 		throw std::runtime_error(warn + err);
 	}

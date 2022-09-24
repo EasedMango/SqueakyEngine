@@ -29,14 +29,14 @@ bool Scene2::OnCreate()
 
 	
 	am = new ActorManager();
-	am->AddActor(new Actor(nullptr, "Camera"), new Camera(90, 1280.f / 720.f), new Transform(glm::vec3(0.0f, 0, -3.0f)));
-	am->AddActor(new Actor(nullptr, "Cube"), new Shader(), new Mesh("src/Meshes/cube.obj"), new Transform(glm::vec3(-0.0f, 0.0f, 0)));
-	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"), new Transform(),  new Controller);
+	am->AddActor(new Actor(nullptr, "Camera"), new Camera(90, 1280.f / 720.f), new Transform(glm::vec3(0.0f, 10.0f, -80.0f)));
+	am->AddActor(new Actor(nullptr, "Mario"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/SpaceShip.jpg"), new Transform(glm::vec3(0.0f, 0.0f, 0), glm::vec3(-0.0f, 0.0f, 0), glm::vec3(-0.5f)));
+	//am->AddActor(new Actor(nullptr, "Normandy"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Normandy.obj"), new Material("src/Textures/NR2_InGame.png"), new Transform(glm::vec3(-2.0f, 0.0f, 0), glm::vec3(-90.0f, 0.0f, 0),glm::vec3(0.001f)), new Controller);
 	//am->AddActor(new Actor(nullptr, "Island"), new Shader(), new Mesh("src/Meshes/islandtestblend.obj"), new Transform(glm::vec3(-0.0f, -1.0f, 0)));
 
 	am->OnCreate();
 	//am->GetActor("Cube")->SetParent(am->GetActor("MarioOne"));
-	am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
+	//am->GetActor("Camera")->SetParent(am->GetActor("Normandy"));
 	//am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
 
 
