@@ -6,10 +6,6 @@
 #include <imgui.h>
 #include "Gui.h"
 
-PhysicsBody::PhysicsBody() : Component(nullptr), transform(nullptr), isStatic(false), mass(1),  velocity(0), acceleration(0), prevAccel(0),  length(1), width(1), height(1), radius(1),  rotationAcceleration(0), rotationVelocity(0)
-{
-	transform = ((Actor*)GetParent())->GetComponent<Transform>();
-}
 
 PhysicsBody::PhysicsBody(float mass_ , glm::vec3 vel, bool isStatic_ ) :Component(nullptr),transform(nullptr),  isStatic(isStatic_), mass(mass_), acceleration(0), prevAccel(0),  length(1), width(1), height(1), radius(1),rotationAcceleration(0),rotationVelocity(0)
 {
@@ -27,6 +23,10 @@ void PhysicsBody::Update(const float deltaTime)
 			fNet += f;
 		}
 
+		if ( glm::length(fNet )> 1.f) {
+			std::cout << "mag\n";
+		}
+		std::cout << glm::length(fNet) << std::endl;
 		ApplyForce(fNet);
 		
 		forces.clear();

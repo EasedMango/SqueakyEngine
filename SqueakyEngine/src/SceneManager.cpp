@@ -12,7 +12,10 @@
 #include "Gui.h"
 #include "Input.h"
 
+#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 
 #include <backends/imgui_impl_opengl3_loader.h>
+
+#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 
 static void errorGLFW(int error, const char* description) {
 	fprintf(stderr, "Error: %s\n", description);
 }

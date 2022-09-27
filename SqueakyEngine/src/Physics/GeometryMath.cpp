@@ -114,11 +114,51 @@ namespace Geometry {
 
 	bool GeometryMath::PointOnLine(const vec3& point, const Line& line)
 	{
-		return false;
+		vec3 closest = ClosestPoint(line, point);
+		float distanceSq = ExtraMath::MagSqr(closest - point);
+		// Consider using an epsilon test here!
+		// CMP(distanceSq, 0.0f);
+		return distanceSq == 0.0f;
 	}
 
 	vec3 GeometryMath::ClosestPoint(const Line& line, const vec3& point)
 	{
-		return vec3();
+		vec3 lVec = line.end - line.start; // Line Vector
+		float t = dot(point - line.start, lVec) /
+			dot(lVec, lVec);
+		t = fmaxf(t, 0.0f); // Clamp to 0
+		t = fminf(t, 1.0f); // Clamp to 1
+		return line.start + lVec * t;
+
+	}
+	bool GeometryMath::PointOnRay(const glm::vec3& point, const Ray& ray)
+	{
+		//If the point is at the origin of the ray, we can return true early:
+		if (point == ray.origin) {
+			return true;
+		}
+		//Find a normal from the point we are testing to the origin of the ray
+		vec3 norm = point - ray.origin;
+		normalize(norm);
+		// We assume the ray direction is normalized
+		//If the normal from the point to the ray and the normal of the ray point in the same direction, 
+		//the result of their dot products will be 1. A point is on a ray only if these vectors point in the same direction:
+		float diff = dot(norm, ray.direction);
+		// If BOTH vectors point in the same direction, 
+		// their dot product (diff) should be 1
+		return diff == 1.0f; // Consider using epsilon!
+		return false;
+	}
+	glm::vec3 GeometryMath::ClosestPoint(const Ray& ray, const glm::vec3& point)
+	{
+		float t = dot(point - ray.origin, ray.direction);
+		// We assume the direction of the ray is normalized
+		// If for some reason the direction is not normalized
+		// the below division is needed. So long as the ray 
+		// direction is normalized, we don't need this divide
+		// t /= Dot(ray.direction, ray.direction);
+		t = fmaxf(t, 0.0f);
+
+		return vec3(ray.origin + ray.direction * t);
 	}
 }

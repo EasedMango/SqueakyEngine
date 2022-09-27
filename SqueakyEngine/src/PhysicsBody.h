@@ -30,7 +30,7 @@ private:
 	inline void ApplyForce(glm::vec3 force) { acceleration = (force / mass); };
 
 public:
-	PhysicsBody();
+
 	PhysicsBody(float mass_=1, glm::vec3 vel = glm::vec3(0),bool isStatic_ = false);
 
 	void Update(const float deltaTime);

@@ -7,6 +7,7 @@
 #include "Components.h"
 #include <glm/ext.hpp>
 #include "Scripts/Controller.h"
+#include "Scripts/ControllerPhysics.h"
 #include "Geometry/BasicShapes.h"
 #include "ActorManager.h"
 #include "Input.h"
@@ -31,7 +32,7 @@ bool Scene2::OnCreate()
 	am = new ActorManager();
 	am->AddActor(new Actor(nullptr, "Camera"), new Camera(90, 1280.f / 720.f), new Transform(glm::vec3(0.0f, 0, -3.0f)));
 	am->AddActor(new Actor(nullptr, "Cube"), new Shader(), new Mesh("src/Meshes/cube.obj"), new Transform(glm::vec3(-0.0f, 0.0f, 0)));
-	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"), new Transform(),  new Controller);
+	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"), new Transform(glm::vec3(1.f,0.f,0.f), glm::vec3(0), glm::vec3(1.f)),new PhysicsBody, new ControllerPhysics);
 	//am->AddActor(new Actor(nullptr, "Island"), new Shader(), new Mesh("src/Meshes/islandtestblend.obj"), new Transform(glm::vec3(-0.0f, -1.0f, 0)));
 
 	am->OnCreate();

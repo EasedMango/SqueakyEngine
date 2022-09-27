@@ -36,9 +36,10 @@ void const Physics::Update(const float deltaTime)
 
 		for (PhysicsBody* p : bodies) {
 			
+
+			p->Update(deltaTime);
 			PhysicsMath::SimpleVerletMotion(*p, deltaTime);
 			PhysicsMath::RigidBodyRotation(*p, deltaTime);
-			p->Update(deltaTime);
 		}
 
 	}

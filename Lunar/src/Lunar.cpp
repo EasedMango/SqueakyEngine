@@ -8,7 +8,6 @@
 #include "Scene2.h"
 #include "SceneManager.h"
 
-
 	void main() {
 
 		SceneManager* sceneManager = new SceneManager();
