@@ -11,9 +11,8 @@ layout(location = 0) in vec2 texCoord;
 uniform sampler2D myTexture;
 
 void main() {
-	vec4 kd = vec4(0.6, 0.6, 0.6, 0.0);
-	vec4 ks = 0.5 * kd;
-	vec4 kTexture = texture(myTexture,texCoord);
+
+	fragColor = texture(myTexture,texCoord);
 //	vec4 ka = 0.01 * kTexture;
 //
 //	float diff = max(dot(vertNormal, lightDir), 0.0);
@@ -23,5 +22,5 @@ void main() {
 //	float spec = max(dot(eyeDir, reflection), 0.0);
 //	spec = pow(spec,14.0);
 
-    fragColor = kTexture;// ka + (diff * kTexture * kd) + (spec * ks);	
+   // fragColor = kTexture;// ka + (diff * kTexture * kd) + (spec * ks);	
 }

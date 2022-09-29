@@ -54,7 +54,7 @@ void Input::RenderGui()
 
 	const int currentItem = 0;
 	// ImGui::ListBox();
-	const ImGuiKey key_first = 0;
+	//const ImGuiKey key_first = 0;
 	ImGui::Text("Keys down:");
 	for (const std::pair<int, key>& v : keys_)//ImGuiKey key = key_first; key < ImGuiKey_COUNT; key++)
 	{

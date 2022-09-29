@@ -4,7 +4,7 @@
 #include <glm/ext.hpp>
 #include <map>
 #include <iomanip>
-#include "Gui.h"
+#include "Components/Gui.h"
 #include <cstring>
 
 

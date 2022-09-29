@@ -1,8 +1,8 @@
 #include "ActorManager.h"
-#include "Logger.h"
-#include "Camera.h"
+#include "Components/Logger.h"
+#include "Components/Camera.h"
 #include <imgui.h>
-#include "Gui.h"
+#include "Components/Gui.h"
 #include "Physics.h"
 
 ActorManager::ActorManager() {

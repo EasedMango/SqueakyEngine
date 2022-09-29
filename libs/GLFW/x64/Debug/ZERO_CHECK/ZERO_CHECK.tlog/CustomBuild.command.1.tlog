@@ -1,0 +1,10 @@
+^C:\DEV\SQUEAKYENGINE\LIBS\GLFW\CMAKEFILES\2FCB29BB6378A13479DCD8E0D71893E0\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Dev/SqueakyEngine/Modules/GLFW -BC:/Dev/SqueakyEngine/libs/GLFW --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Dev/SqueakyEngine/libs/GLFW/GLFW.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

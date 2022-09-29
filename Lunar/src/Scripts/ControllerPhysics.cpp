@@ -1,12 +1,12 @@
 
-#include"Transform.h"
-#include"Actor.h"
+#include"Components/Transform.h"
+#include"Components/Actor.h"
 #include "ControllerPhysics.h"
 #include "Input.h"
 #include<glm/ext.hpp>
 #include<glm/glm.hpp>
 #include <string>
-#include "Logger.h"
+#include "Components/Logger.h"
 ControllerPhysics::ControllerPhysics() :Component(nullptr) {
 
 }

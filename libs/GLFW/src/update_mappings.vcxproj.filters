@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Dev\SqueakyEngine\libs\GLFW\CMakeFiles\1bf062bf26a859c85188b99fc2c16bb9\update_mappings.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Dev\SqueakyEngine\Modules\GLFW\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Dev\SqueakyEngine\Modules\GLFW\src\mappings.h.in">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Dev\SqueakyEngine\Modules\GLFW\CMake\GenerateMappings.cmake" />
+    <None Include="C:\Dev\SqueakyEngine\libs\GLFW\src\CMakeFiles\update_mappings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F0B5629D-5ABA-31F8-BDEE-0621EE36592F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{BE21B11E-F85F-33A9-93E2-2A05BA978C51}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

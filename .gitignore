@@ -6,7 +6,7 @@
 *.lo
 *.o
 *.obj
-!src/Meshes*.obj
+!Lunar/src/Meshes*.obj
 # Precompiled Headers
 *.gch
 *.pch
@@ -25,7 +25,7 @@
 *.la
 *.a
 *.lib
-
+!libs/*.lib
 # Executables
 *.exe
 *.out

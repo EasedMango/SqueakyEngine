@@ -1,0 +1,15 @@
+[submodule "Modules/GLFW"]
+	path = Modules/GLFW
+	url = https://github.com/glfw/glfw
+[submodule "Modules/imgui"]
+	path = Modules/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Modules/glm"]
+	path = Modules/glm
+	url = https://github.com/g-truc/glm
+[submodule "Modules/tinyobjloader"]
+	path = Modules/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader
+[submodule "Modules/stb_image"]
+	path = Modules/stb_image
+	url = https://github.com/flickhail/stb_image.h

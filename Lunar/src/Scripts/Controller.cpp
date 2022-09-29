@@ -1,6 +1,6 @@
 
-#include"Transform.h"
-#include"Actor.h"
+#include"Components/Transform.h"
+#include"Components/Actor.h"
 #include "Controller.h"
 #include "Input.h"
 #include<glm/ext.hpp>

@@ -1,6 +1,7 @@
 #include "PhysicsMath.h"
 #include <glm/geometric.hpp>
 #include <iostream>
+#include "Components/PhysicsBody.h"
 
 void const PhysicsMath::SimpleVerletMotion(PhysicsBody& body, const float deltaTime)
 {

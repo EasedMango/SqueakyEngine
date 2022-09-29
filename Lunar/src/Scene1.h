@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-#include "Actor.h"
+#include "Components/Actor.h"
 class Scene1 :public  Scene
 {
 private:

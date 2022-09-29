@@ -1,0 +1,7 @@
+C:/Dev/SqueakyEngine/libs/GLFW/CMakeFiles/uninstall.dir
+C:/Dev/SqueakyEngine/libs/GLFW/CMakeFiles/INSTALL.dir
+C:/Dev/SqueakyEngine/libs/GLFW/CMakeFiles/ALL_BUILD.dir
+C:/Dev/SqueakyEngine/libs/GLFW/CMakeFiles/ZERO_CHECK.dir
+C:/Dev/SqueakyEngine/libs/GLFW/src/CMakeFiles/glfw.dir
+C:/Dev/SqueakyEngine/libs/GLFW/src/CMakeFiles/update_mappings.dir
+C:/Dev/SqueakyEngine/libs/GLFW/src/CMakeFiles/INSTALL.dir

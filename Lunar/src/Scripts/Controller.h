@@ -1,7 +1,6 @@
 #pragma once
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include "Component.h"
 #include "Components.h"
 #include "Input.h"
 

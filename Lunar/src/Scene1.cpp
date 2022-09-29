@@ -1,6 +1,6 @@
 #include "Scene1.h"
 #include "Window.h"
-#include "Logger.h"
+#include "Components/Logger.h"
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

@@ -5,11 +5,11 @@
 #include "Scene.h"
 #include "Window.h"
 #include <glm/glm.hpp>
-#include "Logger.h"
-#include "Camera.h"
-#include "Shader.h"
+#include "Components/Logger.h"
+#include "Components/Camera.h"
+#include "Components/Shader.h"
 #include "Geometry/BasicShapes.h"
-#include "Gui.h"
+#include "Components/Gui.h"
 #include "Input.h"
 
 #define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 
@@ -80,7 +80,7 @@ void SceneManager::Run(Scene* scene)
 	glfwSetWindowUserPointer(window->GetWindow(), this);
 	currentScene = scene;
 	currentScene->OnCreate();
-	gui = new Gui(window);
+	gui = new Gui(window->GetWindow());
 
 	glfwSetFramebufferSizeCallback(window->GetWindow(), SetBuffer);
 	glfwSetInputMode(window->GetWindow(), GLFW_STICKY_KEYS, GLFW_TRUE);
