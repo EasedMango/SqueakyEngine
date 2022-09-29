@@ -6,7 +6,9 @@
 *.lo
 *.o
 *.obj
-!Lunar/src/Meshes*.obj
+!Lunar/src/Meshes/
+Lunar/src/Meshes/*
+!Lunar/src/Meshes/*.txt
 # Precompiled Headers
 *.gch
 *.pch
@@ -25,7 +27,16 @@
 *.la
 *.a
 *.lib
-!libs/
+!libs/GLFW/src/Debug/
+libs/GLFW/src/Debug/*
+libs/GLFW/src/Debug/*.lib
+!libs/imgui/x64/Debug/
+libs/imgui/x64/Debug/*
+libs/imgui/x64/Debug/*.lib
+
+!folder/
+folder/*
+!folder/*.txt
 # Executables
 *.exe
 *.out
