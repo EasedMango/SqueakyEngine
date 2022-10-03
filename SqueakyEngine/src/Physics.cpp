@@ -22,17 +22,12 @@ void const Physics::AddBody(PhysicsBody* body)
 void const Physics::Update(const float deltaTime)
 {
 	if (bodies.size() != 0) {
-		//for (int x = 0; x < bodies.size() - 1; x++) {
+		for (int x = 0; x < bodies.size() - 1; x++) {
 
-		//	for (int y = x + 1; y < bodies.size(); y++) {
-
-		//		//PhysicsMath::GravityOrbit(*bodies[x], *bodies[y]);
-
-		//	}
-
-
-
-		//}
+			for (int y = x + 1; y < bodies.size(); y++) {
+				//static_cast<Actor*> bodies[x]->GetParent().
+			}
+		}
 
 		for (PhysicsBody* p : bodies) {
 			

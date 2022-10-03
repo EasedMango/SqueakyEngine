@@ -164,10 +164,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\libs\GLAD\src\glad.c" />
-    <ClCompile Include="src\Components\Collision.cpp" />
+    <ClCompile Include="src\Components\SphereCollider.cpp" />
+    <ClCompile Include="src\CollisionMath.cpp" />
+    <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="Example.cpp" />
-    <ClCompile Include="src\Physics\GeometryMath.cpp" />
-    <ClCompile Include="src\Physics\Geometry3D.cpp" />
+    <ClCompile Include="src\Components\Physics\GeometryMath.cpp" />
+    <ClCompile Include="src\Components\Physics\Geometry3D.cpp" />
     <ClCompile Include="src\PhysicsEngine.cpp" />
     <ClCompile Include="src\Components\Light.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -185,7 +187,7 @@
     <ClCompile Include="src\Components\Shader.cpp" />
     <ClCompile Include="src\Geometry\Collisions2D.cpp" />
     <ClCompile Include="src\Geometry\Geometry2D.cpp" />
-    <ClCompile Include="src\Physics\ExtraMath.cpp" />
+    <ClCompile Include="src\Components\Physics\ExtraMath.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -194,9 +196,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libs\tinyobjloader\tiny_obj_loader.h" />
-    <ClInclude Include="src\Components\Collision.h" />
-    <ClInclude Include="src\Physics\GeometryMath.h" />
-    <ClInclude Include="src\Physics\Geometry3D.h" />
+    <ClInclude Include="src\Components\SphereCollider.h" />
+    <ClInclude Include="src\CollisionMath.h" />
+    <ClInclude Include="src\Components\Collider.h" />
+    <ClInclude Include="src\Components\Physics\GeometryMath.h" />
+    <ClInclude Include="src\Components\Physics\Geometry3D.h" />
     <ClInclude Include="src\PhysicsEngine.h" />
     <ClInclude Include="src\Components\Light.h" />
     <ClInclude Include="src\Input.h" />
@@ -218,7 +222,7 @@
     <ClInclude Include="src\PhysicsMath.h" />
     <ClInclude Include="src\Components\Shader.h" />
     <ClInclude Include="src\Geometry\Geometry2D.h" />
-    <ClInclude Include="src\Physics\ExtraMath.h" />
+    <ClInclude Include="src\Components\Physics\ExtraMath.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\Events.h" />
     <ClInclude Include="src\Scene.h" />

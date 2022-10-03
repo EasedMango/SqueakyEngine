@@ -33,7 +33,7 @@
     <ClCompile Include="src\Geometry\Geometry2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\ExtraMath.cpp">
+    <ClCompile Include="src\Components\Physics\ExtraMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Shader.cpp">
@@ -81,10 +81,10 @@
     <ClCompile Include="src\PhysicsEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\Geometry3D.cpp">
+    <ClCompile Include="src\Components\Physics\Geometry3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\GeometryMath.cpp">
+    <ClCompile Include="src\Components\Physics\GeometryMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics.cpp">
@@ -96,7 +96,13 @@
     <ClCompile Include="src\Components\PhysicsBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Collision.cpp">
+    <ClCompile Include="src\Components\Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\SphereCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,7 +122,7 @@
     <ClInclude Include="src\Geometry\Geometry2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\ExtraMath.h">
+    <ClInclude Include="src\Components\Physics\ExtraMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\Shader.h">
@@ -179,10 +185,10 @@
     <ClInclude Include="src\PhysicsEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\Geometry3D.h">
+    <ClInclude Include="src\Components\Physics\Geometry3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\GeometryMath.h">
+    <ClInclude Include="src\Components\Physics\GeometryMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics.h">
@@ -194,7 +200,13 @@
     <ClInclude Include="src\Components\PhysicsBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Components\Collision.h">
+    <ClInclude Include="src\Components\Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CollisionMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\SphereCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

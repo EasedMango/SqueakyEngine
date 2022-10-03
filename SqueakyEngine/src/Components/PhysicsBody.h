@@ -4,12 +4,13 @@
 #include <glm/vec3.hpp>
 #include <string>
 #include <vector>
-
+#include "Collider.h"
 
 class PhysicsBody : public Component
 {
 private:
 	Transform* transform;
+	Collider* collider;
 	bool isStatic;
 	float mass, rotationalInertia;
 	glm::vec3 velocity, acceleration, prevAccel;
