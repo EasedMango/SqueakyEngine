@@ -14,7 +14,6 @@
 
 Scene1::Scene1() : am(nullptr)
 {
-	
 }
 
 Scene1::~Scene1()
@@ -23,21 +22,23 @@ Scene1::~Scene1()
 
 bool Scene1::OnCreate()
 {
-	Logger::Info("Creating scene 1");
+    Logger::Info("Creating scene 1");
 
-	am = new ActorManager();
-	am->AddActor(new Actor(nullptr, "Camera"), new Camera(90, 1280.f / 720.f), new Transform(glm::vec3(0.0f, 0, -3.0f)));
-	am->AddActor(new Actor(nullptr, "Cube"), new Shader(), new Mesh("src/Meshes/cube.obj"), new Transform(glm::vec3(-0.0f, 0.0f, 0)));
-	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader( "phongVert.glsl", "phongFrag.glsl"), new Mesh( "src/Meshes/Mario.obj"), new Material( "src/Textures/mario_main.png"), new Transform(),new PhysicsBody(1,glm::vec3(0.1f,0,0)), new ControllerPhysics());
-	//am->AddActor(new Actor(nullptr, "Island"), new Shader(), new Mesh("src/Meshes/islandtestblend.obj"), new Transform(glm::vec3(-0.0f, -1.0f, 0)));
+    am = new ActorManager();
+    
+    am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
+        new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
 
-	am->OnCreate();
-	//am->GetActor("Cube")->SetParent(am->GetActor("MarioOne"));
-	am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
+    am->AddActor(new Actor(nullptr, "StartMenuCube", new Shader("phongVert.glsl", "phongFrag.glsl"),
+        new Mesh("src/Meshes/StartMenuCube.obj"), new Material("src/Textures/StartMenu.png"),
+        new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
+
+    am->OnCreate();
+    //am->GetActor("Cube")->SetParent(am->GetActor("MarioOne"));
+   // am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
 
 
-
-	return false;
+    return false;
 }
 
 void Scene1::OnDestroy()
@@ -46,17 +47,16 @@ void Scene1::OnDestroy()
 
 void Scene1::Update(const float deltaTime)
 {
-	am->Update(deltaTime);
+    am->Update(deltaTime);
 }
 
 void Scene1::Render() const
 {
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	am->Render();
-
+    am->Render();
 }
 
 void Scene1::HandleEvents()
@@ -64,12 +64,7 @@ void Scene1::HandleEvents()
 }
 
 
-
-
-
-
-
-
-void Scene1::RenderGui() {
-	am->RenderGui();
+void Scene1::RenderGui()
+{
+    am->RenderGui();
 }

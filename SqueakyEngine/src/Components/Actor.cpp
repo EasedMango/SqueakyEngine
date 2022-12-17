@@ -6,10 +6,11 @@
 #include "Transform.h"
 #include "Material.h"
 #include <glm/ext.hpp>
-
+#include <Renderer.h>
+#include <glm/gtx/string_cast.hpp>
 void Actor::SetParent(Actor* parent_)
 {
-	parent = parent_; 
+	parent = parent_;
 	parent_->AddChild(this);
 }
 
@@ -17,7 +18,7 @@ Actor::Actor(Component* parent_, const char* name_) :Component(parent_), name(na
 	static int objctNmbr = 0;
 	objctNmbr = 0;
 	if (parent_ != nullptr) {
-		AddChild((Actor*)parent_);
+		AddChild(dynamic_cast<Actor*>(parent_));
 	}
 	if (name == "Actor") {
 		name += objctNmbr;
@@ -25,16 +26,19 @@ Actor::Actor(Component* parent_, const char* name_) :Component(parent_), name(na
 	}
 }
 
-Actor::~Actor() {}
+Actor::~Actor() = default;
 
 bool Actor::OnCreate() {
-	for (auto component : components) {
-		bool status = component->OnCreate();
+	std::cout << name << ":  //////////////////////////////" << std::endl;
+	for (const auto component : components) {
+		const bool status = component->OnCreate();
 		component->SetParent(this);
+		std::cout << typeid(*component).name() << std::endl;
 		if (status == false) {
 			return false;
 		}
 	}
+	std::cout <<  "  //////////////////////////////" << std::endl;
 	return true;
 }
 
@@ -43,7 +47,7 @@ void Actor::OnDestroy() {
 }
 
 void Actor::Update(const float deltaTime) {
-	for (auto& component : components) {
+	for (const auto& component : components) {
 		component->Update(deltaTime);
 	}
 }
@@ -56,28 +60,56 @@ void Actor::Render() const {
 
 
 
-void Actor::MyRender(Actor* cam) {
-	if (GetComponent<Mesh>() == nullptr)
+void Actor::MyRender() {
+
+
+
+
+	std::string meshName;
+	if (const Mesh* mesh = GetComponent<Mesh>(); mesh != nullptr)
+	{
+		meshName = mesh->GetFilename();
+
+	}
+	else
+	{
 		return;
-	Shader* shader = GetComponent<Shader>();
-	Material* mat = GetComponent<Material>();
+	}
 
-	//MaterialComponent* texture = waluigi->GetComponent<MaterialComponent>();
+	std::string materialName;
+	if (const Material* material = GetComponent<Material>(); material != nullptr)
+	{
+		materialName = material->GetFilename();
 
-	glUseProgram(shader->GetProgram());
-	cam->GetComponent<Camera>()->SendUniforms(shader);
-	glUniformMatrix4fv(shader->GetUniformID("modelMatrix"), 1, GL_FALSE, glm::value_ptr(GetComponent < Transform>()->GetTransformMatrix()));
-	if (mat != nullptr)
-		glBindTexture(GL_TEXTURE_2D, GetComponent<Material>()->getTextureID());
-	GetComponent<Mesh>()->Render();
-	glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	else
+		return;
+
+	std::string vert, frag;
+
+	if (const Shader* shader = GetComponent<Shader>(); shader != nullptr)
+	{
+		vert = shader->GetFilenameV();
+		frag = shader->GetFilenameF();
+	}
+	else return;
+
+
+	const glm::mat4 matrix = GetComponent<Transform>()->GetTransformMatrix();
+
+	//std::cout << glm::to_string(*matrix) << std::endl;
+	Renderer::GetInstance().AddToQueue(vert, frag, meshName, materialName, GetComponent<Transform>()->GetTransformMatrix());
+
+
+
 }
 
 void Actor::RenderGui()
 {
 }
 
-std::vector<Component*> Actor::GetComponents() {
+std::vector<Component*> Actor::GetComponents() const
+{
 	std::vector<Component*> componentList;
 	for (auto component : components) {
 		if (component != nullptr) {
@@ -96,7 +128,7 @@ void Actor::ListComponents() const {
 
 
 void Actor::RemoveAllComponents() {
-	for (auto component : components) {
+	for (const auto& component : components) {
 		component->OnDestroy();
 		delete component;
 	}

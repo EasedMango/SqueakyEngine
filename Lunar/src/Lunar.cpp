@@ -6,18 +6,21 @@
 #include "Scene0.h"
 #include "Scene1.h"
 #include "Scene2.h"
+#include "Scene3.h"
+#include "Scene4.h"
 #include "SceneManager.h"
 
-	void main() {
-
-		SceneManager* sceneManager = new SceneManager();
-		sceneManager->Initialize("Main", 1280, 720);
-
-		sceneManager->Run(((Scene*)(new Scene2())));
-
-
-	}
-
+void main()
+{
+    auto sceneManager = new SceneManager();
+    sceneManager->Initialize("Main", 1280, 720);
+   // sceneManager->AddScene(new Scene0());
+    sceneManager->AddScene(new Scene1());
+    sceneManager->AddScene(new Scene3());
+    sceneManager->AddScene(new Scene4());
+    sceneManager->AddScene(new Scene2());
+    sceneManager->Run(0);
+}
 
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

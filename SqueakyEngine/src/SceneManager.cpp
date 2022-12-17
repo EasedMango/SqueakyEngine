@@ -11,18 +11,17 @@
 #include "Geometry/BasicShapes.h"
 #include "Components/Gui.h"
 #include "Input.h"
+#include <Renderer.h>
 
 #define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 
-#include <backends/imgui_impl_opengl3_loader.h>
 
-#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 
 static void errorGLFW(int error, const char* description) {
 	fprintf(stderr, "Error: %s\n", description);
 }
 void SceneManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	static_cast<SceneManager*>(glfwGetWindowUserPointer(window))->HandleEvents(window, key, scancode, action, mods);
-	if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+	if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
 
 		int check = glfwGetInputMode(window, GLFW_CURSOR);
 
@@ -45,12 +44,13 @@ void SceneManager::key_callback(GLFWwindow* window, int key, int scancode, int a
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
 	}
+
 }
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	Input::GetInstance().handle_clicks(window, button, action, mods);
 	//if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-		
+
 }
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -71,14 +71,14 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::Run(Scene* scene)
+void SceneManager::Run(int scene)
 {
 
 
 
 	curTime = 0;
 	glfwSetWindowUserPointer(window->GetWindow(), this);
-	currentScene = scene;
+	currentScene = scenes[scene];
 	currentScene->OnCreate();
 	gui = new Gui(window->GetWindow());
 
@@ -93,7 +93,7 @@ void SceneManager::Run(Scene* scene)
 	bool show_demo_window = true;
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
+	//Renderer render;
 	Logger::Info("Starting main loop");
 	while (!glfwWindowShouldClose(window->GetWindow()))
 	{
@@ -101,9 +101,14 @@ void SceneManager::Run(Scene* scene)
 		prevTime = curTime;
 		curTime = glfwGetTime();
 		deltaTime = curTime - prevTime;
+		
+		int width, height;
+		glfwGetFramebufferSize(window->GetWindow(), &width, &height);
+		Input::GetInstance().SetViewportSize(width, height);
 		Input::GetInstance().handle_input(deltaTime);
 		currentScene->Update(deltaTime);
 		currentScene->Render();
+		Renderer::GetInstance().Render();
 		static int count = 0;
 
 
@@ -136,7 +141,7 @@ void SceneManager::LoadScene(Scene* scene)
 	currentScene->OnDestroy();
 	currentScene = scene;
 	currentScene->OnCreate();
-	
+
 }
 
 
@@ -144,7 +149,9 @@ void SceneManager::HandleEvents(GLFWwindow* window, int key, int scancode, int a
 {
 
 	Input::GetInstance().handle_key(window, key, scancode, action, mods);
-
+	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
+		LoadScene(scenes.back());
+	}
 }
 
 
@@ -181,6 +188,8 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 void SceneManager::SetBuffer(GLFWwindow* window, int width, int height) {
 	glfwGetFramebufferSize(window, &width, &height);
 	printf("buffer");
+
+
 	glViewport(0, 0, width, height);
 }
 

@@ -10,7 +10,7 @@ Scene0::~Scene0()
 
 bool Scene0::OnCreate()
 {
-	return false;
+    return false;
 }
 
 void Scene0::OnDestroy()

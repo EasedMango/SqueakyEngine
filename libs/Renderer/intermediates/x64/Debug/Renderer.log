@@ -1,0 +1,15 @@
+﻿  Gizmos.cpp
+  RenderCamera.cpp
+  RenderMaterial.cpp
+  RenderMesh.cpp
+C:\Dev\SqueakyEngine\Renderer\RenderMesh.cpp(136,45): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Renderer.cpp
+  RenderShader.cpp
+C:\Dev\SqueakyEngine\Renderer\RenderShader.cpp(39,36): warning C4101: 'e': unreferenced local variable
+C:\Dev\SqueakyEngine\Renderer\RenderShader.cpp(89,48): warning C4267: 'initializing': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Dev\SqueakyEngine\Renderer\RenderShader.cpp(106,20): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Dev\SqueakyEngine\Renderer\RenderShader.cpp(150,9): warning C4101: 'InfoLogLength': unreferenced local variable
+  RenderSkybox.cpp
+  Text.cpp
+  Generating Code...
+  Renderer.vcxproj -> C:\Dev\SqueakyEngine\libs\Renderer\x64\Debug\Renderer.lib

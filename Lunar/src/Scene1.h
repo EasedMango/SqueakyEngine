@@ -1,22 +1,21 @@
 #pragma once
 #include "Scene.h"
 #include "Components/Actor.h"
-class Scene1 :public  Scene
+
+class Scene1 : public Scene
 {
 private:
-	class ActorManager* am;
+    class ActorManager* am;
 
-	
 
 public:
-	explicit Scene1();
-	virtual ~Scene1();
+    explicit Scene1();
+    ~Scene1() override;
 
-	virtual bool OnCreate() ;
-	virtual void OnDestroy() ;
-	virtual void Update(const float deltaTime) ;
-	virtual void Render() const ;
-	virtual void HandleEvents();
-	virtual void RenderGui();
+    bool OnCreate() override;
+    void OnDestroy() override;
+    void Update(float deltaTime) override;
+    void Render() const override;
+    void HandleEvents() override;
+    void RenderGui() override;
 };
-

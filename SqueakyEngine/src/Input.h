@@ -9,13 +9,13 @@
 const enum key_states {
 	OnNull = 0, OnPress, OnHold, OnRelease
 };
-struct key_event {
+struct KeyEvent {
 	int key, code, action, modifiers;
 	// float timer;
 	std::chrono::steady_clock::time_point time_of_event;
 };
 
-struct key {
+struct Key {
 	int key, code, action;
 	int mods;
 	bool state, prevState;
@@ -32,7 +32,7 @@ struct key {
 	}
 };
 
-struct click {
+struct Click {
 	int button;
 	int action;
 	bool state;
@@ -56,13 +56,14 @@ private:
 	Input(Input&&) = delete;
 	Input& operator=(Input&&) = delete;
 	std::map<int, bool> keys;
-	std::map<int, key> keys_;
-	std::queue<key_event> unhandled_keys;
-	std::map<int, click> clicks_;
-	std::queue<click> unhandled_clicks;
+	std::map<int, Key> keys_;
+	std::queue<KeyEvent> unhandled_keys;
+	std::map<int, Click> clicks_;
+	std::queue<Click> unhandled_clicks;
 	glm::vec2 mousePos;
 	glm::vec2 prevScrollWheel;
 	glm::vec2 scrollWheel;
+	glm::vec2 viewportSize;
 	//class GLFWwindow* window;
 
 	float external_position[2];
@@ -72,6 +73,9 @@ public:
 	inline void SetMousePos(glm::vec2& mp) { mousePos = mp; }
 	inline void SetScroll(const float& x, const float& y) { prevScrollWheel = scrollWheel; scrollWheel = glm::vec2(x, y); };
 	inline glm::vec2 GetMousePos() { return mousePos; }
+
+	inline void SetViewportSize(int x, int y) { viewportSize = glm::vec2(x, y); }
+	inline glm::vec2 GetViewportSize() const { return viewportSize; }
 
 	inline void handle_key(GLFWwindow* window, int key, int code, int action, int modifiers) {
 

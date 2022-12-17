@@ -1,41 +1,21 @@
 #pragma once
-#include <glad/glad.h>
 #include "Component.h"
-#include <unordered_map>
-class Shader : public Component
+#include <string>
+class Shader :
+    public Component
 {
-	Shader(const Shader&) = delete;
-	Shader(Shader&&) = delete;
-	Shader& operator = (const Shader&) = delete;
-	Shader& operator = (Shader&&) = delete;
 private:
-	std::string shaderFilePath = "src/Shaders/";
-	const char* vsFilename;
-	const char* fsFilename;
-	GLuint shaderID;
-	GLuint vertShaderID;
-	GLuint fragShaderID;
-	std::unordered_map<std::string, GLuint> uniformMap;
-
-	std::string ReadTextFile(const char* file_path);
-	bool CompileShader(GLuint& id, const char* fileName, GLint &status);
-	bool CompileAttach();
-	bool Link();
-	void SetUniformLocations();
-	std::string ReadFile(const char* filename);
+	std::string filenameV;
+	std::string filenameF;
 public:
-	Shader( const char* vsFilename_= "defaultVert.glsl", const char* fsFilename_= "defaultFrag.glsl");
-	~Shader();
-
-
-	inline GLuint GetProgram() const { return shaderID; }
-	GLuint GetUniformID(std::string name);
-
-
+	Shader(const std::string& filenameV, const std::string& filenameF);
+	inline std::string GetFilenameV() const { return filenameV; }
+	inline std::string GetFilenameF() const { return filenameF; }
 	bool OnCreate() override;
 	void OnDestroy() override;
-	void Update(const float deltaTime) ;
-	void Render() const ;
+	void Update(const float deltaTime) override;
+	void Render() const override;
 	void RenderGui() override;
+	~Shader() override;
 };
 
