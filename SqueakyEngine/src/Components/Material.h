@@ -1,24 +1,25 @@
 #pragma once
-#include <glad/glad.h>
 #include "Component.h"
-class Material : public Component
+#include <string>
+
+class Material :
+    public Component
 {
-	
-	
-	const char* fileName;
-	GLuint textureID;
 public:
-	Material( const char* fileName_="");
-	//Material();
-	~Material();
+
+private:
+	std::string filename;
 
 
-	 bool OnCreate() override;
-	 void OnDestroy()override;
-	 void Update(const float deltaTime)override;
-	 void Render() const override;
-	 void RenderGui() override;
-	 inline GLuint getTextureID() const { return textureID; }
+public:
+	 Material( const std::string& filename);
 
+	bool OnCreate() override;
+	void OnDestroy() override;
+	void Update(const float deltaTime) override;
+	void Render() const override;
+	void RenderGui() override;
+	std::string GetFilename() const;
+	~Material() override;
 };
 

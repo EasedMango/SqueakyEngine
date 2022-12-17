@@ -27,5 +27,5 @@ void main() {
     vec3 vertDir = normalize(vertPos);
     eyeDir = -vertDir;
     lightDir = normalize(lightPos - vertPos); 
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vVertex*vec4(1,1,1,1);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vVertex;//*vec4(1,1,1,1);
 }

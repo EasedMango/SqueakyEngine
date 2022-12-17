@@ -5,14 +5,29 @@
 #include "Components/Gui.h"
 #include "Physics.h"
 
-ActorManager::ActorManager() {
+bool ActorManager::EmptyQueue()
+{
+	while (!spawnQueue.empty())
+	{
+		hierarchy.push_back(spawnQueue.front());
+		spawnQueue.pop();
+	}
+	while (!destroyQueue.empty())
+	{
+		DeleteActor(destroyQueue.front()->GetName());
+		destroyQueue.pop();
+	}
+	return true;
+}
+
+ActorManager::ActorManager(): mainCamera(nullptr)
+{
 	physics = new Physics();
-};
-ActorManager::~ActorManager() {
+} ;
+ActorManager::~ActorManager() = default;;
 
-};
-
-bool ActorManager::OnCreate() {
+bool ActorManager::OnCreate() const
+{
 
 	for (Actor* a : hierarchy) {
 		a->OnCreate();
@@ -20,43 +35,69 @@ bool ActorManager::OnCreate() {
 	return true;
 
 }
-void ActorManager::OnDestroy() {
+void ActorManager::OnDestroy() const
+{
 
 	for (Actor* a : hierarchy) {
 		a->OnDestroy();
 	}
+	
 
 }
 
-Actor* ActorManager::GetActor(std::string name) {
+Actor* ActorManager::GetActor(const std::string name) {
 	for (Actor* a : hierarchy) {
 		if (a->GetName() == name) {
 			return a;
+			
 		}
 	}
+	
 	Logger::Info(name + std::string(" was not found"));
 }
 
-void ActorManager::DeleteActor(std::string name)
+void ActorManager::DeleteActor(const std::string name)
 {
-	
+	for (Actor* a : hierarchy)
+	{
+		if (a->GetName() == name)
+		{
+			for (auto i = hierarchy.begin(); i != hierarchy.end(); ++i)
+			{
+				if (*i == a)
+				{
+					physics->RemoveBody(a->GetComponent<PhysicsBody>());
+					a->OnDestroy();
+					hierarchy.erase(i);
+					
+					break;
+				}
+			}
+			break;
+		}
+	}
 }
 
-void ActorManager::Update(const float deltaTime) {
+void ActorManager::DestroyActor(std::string name)
+{
+	destroyQueue.emplace(GetActor(name));
+}
+
+void ActorManager::Update(const float deltaTime) 
+{
+	EmptyQueue();
 	physics->Update(deltaTime);
 	for (Actor* a : hierarchy) {
-		//for (Actor* c : a->GetChildren()) {
-		//	std::cout << c->GetName() << std::endl;
-		//}
+		if(a == nullptr)
+			break;
 		a->Update(deltaTime);
-		//printf("update");
 	}
-
+	
 }
 
 void ActorManager::Render() const {
 	for (Actor* a : hierarchy) {
-		a->MyRender(mainCamera);
+		a->MyRender();
 	}
 
 
@@ -65,6 +106,12 @@ void ActorManager::Render() const {
 void ActorManager::AddActor2(Actor* actor) {
 	hierarchy.push_back(actor);
 }
+//template <typename ... C>
+//Actor* ActorManager::Instantiate(Actor* actor, C&&... comps)
+// actor;
+//}
+//template <typename ... C>
+//void ActorManager::AddActor(Actor* actor, C&&... comps)
 
 void ActorManager::RenderGui() {
 	ImGui::Begin("Main Menu");                         
@@ -72,7 +119,7 @@ void ActorManager::RenderGui() {
 	static int current = 0;
 	std::vector<const char*> names;
 	const char* name;
-	for (Actor* a : hierarchy) {
+	for (const Actor* a : hierarchy) {
 	//	Logger::Info(a->GetName());
 		
 
@@ -87,7 +134,7 @@ void ActorManager::RenderGui() {
 		a[i] = name;
 	}
 	
-	ImGui::ListBox("Hierarchy", &current, names.data(), names.size(), 2);
+	ImGui::ListBox("Hierarchy", &current, names.data(), names.size(), 6);
 	
 	if (ImGui::TreeNode(names[current])) {
 		for (auto& a : GetActor(names[current])->GetComponents()) {

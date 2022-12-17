@@ -16,7 +16,7 @@ void main() {
 	vec4 kd = vec4(0.6, 0.6, 0.6, 0.0);
 	vec4 ks = 0.5 * kd;
 	vec4 kTexture = texture(myTexture,texCoord);
-	vec4 ka = 0.1 * kTexture;
+	vec4 ka = 0.5 * kTexture;
 
 	float diff = max(dot(vertNormal, lightDir), 0.0);
 	/// Reflection is based incedent which means a vector from the light source
@@ -26,4 +26,5 @@ void main() {
 	//spec = pow(spec,14.0);
 
     fragColor = ka + (diff * kTexture * kd);// + (spec * ks);	
+
 }

@@ -18,22 +18,37 @@ private:
 	const char* name;
 
 public:
-	inline Actor* GetParentActor() {
-		return static_cast<Actor*>(parent);
+	inline Actor* GetParentActor() const
+	{
+		return dynamic_cast<Actor*>(parent);
 	}
-	inline std::vector<Actor*> const GetChildren() {
+	inline std::vector<Actor*> GetChildren()
+	{
 		return children;
 	}
 	inline void AddChild(Actor* newChild) { children.push_back(newChild); }
 	void SetParent(Actor* parent_);
-	Actor(Component* parent_,const char* name_="Actor");
-	~Actor();
+	explicit Actor(Component* parent_,const char* name_="Actor");
+	~Actor() override;
 	virtual bool OnCreate() override;
 	virtual void OnDestroy() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void Render() const override;
-	void MyRender(Actor* cam);
+	void MyRender();
 	void RenderGui() override;
+
+	template <typename ... C>
+	explicit Actor(Component* parent_, const char* name_ = "Actor", C&& ... comps) : Component(parent_) , name(name_)
+	{
+		for (const std::vector<Component*> compList = { std::forward<C>(comps)... }; auto component : compList)
+		{
+			std::cout << typeid(*component).name() << std::endl;
+
+			component->SetParent(this);
+			AddComponent(component);
+		}
+		
+	}
 
 	template<typename ComponentTemplate, typename ... Args>
 	void AddComponent(Args&& ... args_) {
@@ -56,7 +71,7 @@ public:
 		return nullptr;
 	}
 	
-	std::vector<Component*> GetComponents();
+	std::vector<Component*> GetComponents() const;
 
 	template<typename ComponentTemplate>
 	void RemoveComponent() {

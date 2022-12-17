@@ -12,61 +12,68 @@
 #include "ActorManager.h"
 #include "Input.h"
 #include "Geometry/BasicShapes.h"
-
+#include "Components/Collider.h"
+#include "Scripts/Player.h"
+#include "Scripts/Enemy.h"
+#include "Renderer.h"
+#include "Scripts/CameraController.h"
+#include "Scripts/Spawner.h"
+#include "Scripts/ShootWeapons.h"
+#include "Audio.h"
 Scene2::Scene2()
 {
 	am = new ActorManager();
+	audio = new Audio();
 }
-
 
 
 Scene2::~Scene2()
-{
-}
+= default;
 
 bool Scene2::OnCreate()
 {
 	Logger::Info("Creating scene 2");
 
-	
+
 	am = new ActorManager();
-	am->AddActor(new Actor(nullptr, "Camera"), new Camera(90, 1280.f / 720.f), new Transform(glm::vec3(0.0f, 0, -3.0f)));
-	am->AddActor(new Actor(nullptr, "MarioTwo"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"), new Transform(glm::vec3(-1.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)), new PhysicsBody);
-	am->AddActor(new Actor(nullptr, "MarioThree"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"), new Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)), new PhysicsBody);
+	am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
+		new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0,0,0), glm::vec3(1.0f)), new Spawner(am)));
 
-	am->AddActor(new Actor(nullptr, "MarioOne"), new Shader("phongVert.glsl", "phongFrag.glsl"), new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"), new Transform(glm::vec3(1.f,0.f,0.f), glm::vec3(0), glm::vec3(1.f)),new PhysicsBody, new ControllerPhysics);
-	//am->AddActor(new Actor(nullptr, "Island"), new Shader(), new Mesh("src/Meshes/islandtestblend.obj"), new Transform(glm::vec3(-0.0f, -1.0f, 0)));
+	am->AddActor(new Actor(nullptr, "SpaceStation", new Shader("phongVert.glsl", "phongFrag.glsl"),
+		new Mesh("src/Meshes/Spacestation.obj"), new Material("src/Textures/SpacestationTexture.png"),
+		new Transform(glm::vec3(9.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
+		new Collider(new Geometry::Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(true)));
 
-	am->OnCreate();
-	//am->GetActor("Cube")->SetParent(am->GetActor("MarioOne"));
-	am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
-	//am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
+	am->AddActor(new Actor(nullptr, "Player", new Shader("phongVert.glsl", "phongFrag.glsl"),
+		new Mesh("src/Meshes/Spaceship.obj"), new Material("src/Textures/SpaceshipTexture.png"),
+		new Transform(glm::vec3(-3.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
+		new Collider(new Geometry::Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(),
+		new ControllerPhysics(am), new Player(), new ShootWeapons(am)));
 
-
-
+	audio->SetListener(am->GetActor("Camera")->GetComponent<Transform>());
+	am->GetActor("Camera")->SetParent(am->GetActor("Player"));
+	//audio->PlayAudio("MidstoneJunk.wav", glm::vec3(0));
+	Renderer::GetInstance().GetCreateSkybox("src/Textures/StarSkyboxPosx.png", "src/Textures/StarSkyboxPosy.png",
+		"src/Textures/StarSkyboxPosz.png", "src/Textures/StarSkyboxNegx.png",
+		"src/Textures/StarSkyboxNegy.png", "src/Textures/StarSkyboxNegz.png");
 	return false;
 }
 
 void Scene2::OnDestroy()
 {
+	am->OnDestroy();
 }
 
 void Scene2::Update(const float deltaTime)
 {
 	am->Update(deltaTime);
+	audio->Update();
+	Renderer::GetInstance().AddText({ "hello",glm::vec3(4,3,5),2 });
 }
 
 void Scene2::Render() const
 {
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glFrontFace(GL_CW);
-	glCullFace(GL_BACK);
-	//glEnable(GL_CULL_FACE);
-
 	am->Render();
-
 }
 
 void Scene2::HandleEvents()
@@ -74,12 +81,7 @@ void Scene2::HandleEvents()
 }
 
 
-
-
-
-
-
-
-void Scene2::RenderGui() {
+void Scene2::RenderGui()
+{
 	am->RenderGui();
 }

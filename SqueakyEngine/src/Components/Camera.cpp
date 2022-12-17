@@ -3,13 +3,34 @@
 #include "Transform.h"
 #include "Shader.h"
 #include <glm/gtc/matrix_transform.hpp>
-Camera::Camera(float fov, float ratio) : Component(nullptr) {
-	projectionMatrix = glm::perspective(45.0f, (16.0f / 9.0f), 0.5f, 100000.0f);//(-ratio, ratio, -1.0f, 1.f);
-	viewMatrix = glm::lookAt(glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	//projectionMatrix = glm::translate(projectionMatrix, glm::vec3(0, 0, -10));
-}
-bool Camera::OnCreate() {
 
+#include "Renderer.h"
+
+Camera::Camera(const float fov_) : Component(nullptr), fov(fov_), projectionMatrix(), viewMatrix(), camTrn(nullptr)
+{
+}
+
+void Camera::UpdateViewMatrix()
+{
+	//if (Actor* parentParent = dynamic_cast<Actor*>(parent)->GetParentActor(); parentParent != nullptr) {
+
+	//	//std::cout << ((Actor*)parent)->GetName() << "'s parent's name is " << parentParent->GetName() << std::endl;
+	//	const Transform pmat = *parentParent->GetComponent<Transform>();
+	//	//  glm::translate(glm::mat4(1), pos) * glm::inverse(pmat) * glm::scale(glm::mat4(1), scale) * glm::mat4_cast(glm::quat(rotation));
+	//	//viewMatrix = ( camTrn->GetTransformMatrix()*glm::inverse( pmat.GetTransformMatrix()));
+	//	viewMatrix = (glm::lookAt(camTrn->GetPosition() + pmat.GetPosition(), camTrn->GetPosition() +pmat.GetPosition()+ camTrn->GetForward(), pmat.GetUp()));
+	//	return;
+	//}
+	viewMatrix =  (glm::lookAt(camTrn->GetPosition(), camTrn->GetPosition() + camTrn->GetForward(), glm::vec3(0, 1, 0)));
+}
+
+
+
+bool Camera::OnCreate() {
+	camTrn = dynamic_cast<Actor*>(parent)->GetComponent<Transform>();
+	projectionMatrix = glm::perspective(fov, (16.0f / 9.0f), 0.5f, 100000.0f);//(-ratio, ratio, -1.0f, 1.f);
+	UpdateViewMatrix();
+	Renderer::GetInstance().SetCamera(GetViewMatrix(), GetProjectionMatrix());
 	return true;
 }
 
@@ -19,9 +40,9 @@ void Camera::Render() const {}
 
 void Camera::SendUniforms(Shader* shader)
 {
-	glUniformMatrix4fv(shader->GetUniformID("projectionMatrix"), 1, GL_FALSE, glm::value_ptr(GetProjectionMatrix()));
+	//glUniformMatrix4fv(shader->GetUniformID("projectionMatrix"), 1, GL_FALSE, glm::value_ptr(GetProjectionMatrix()));
 
-	glUniformMatrix4fv(shader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(GetViewMatrix()));
+	//glUniformMatrix4fv(shader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(GetViewMatrix()));
 }
 
 void Camera::RenderGui()
@@ -29,17 +50,13 @@ void Camera::RenderGui()
 	Gui::GuiM4("Transform: ", GetViewMatrix());
 }
 
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4 Camera::GetViewMatrix() const
 {
-	Transform* camTrn = ((Actor*)parent)->GetComponent<Transform>();
+	return (camTrn->GetTransformMatrix());
 
-	if (camTrn != nullptr)
-		return camTrn->GetTransformMatrix();
-
-	else
-		return viewMatrix;
 }
 
 void Camera::Update(const float deltaTime) {
-
+	UpdateViewMatrix();
+	Renderer::GetInstance().UpdateCamera( camTrn->GetTransformMatrix());
 }

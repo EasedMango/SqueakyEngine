@@ -4,25 +4,25 @@
 void Input::handle_input(float delta_time)
 {
 	while (!unhandled_keys.empty()) {
-		key_event event = unhandled_keys.front();
+		KeyEvent event = unhandled_keys.front();
 		unhandled_keys.pop();
 		if (keys_.contains(event.key))
 			keys_[event.key].Update((bool)event.action);
 		else
-			keys_[event.key] = key(event.key, event.code, event.action, event.action);
+			keys_[event.key] = Key(event.key, event.code, event.action, event.action);
 	}
 	while (!unhandled_clicks.empty()) {
-		click event = unhandled_clicks.front();
+		Click event = unhandled_clicks.front();
 		unhandled_clicks.pop();
 		if (clicks_.contains(event.button))
 			clicks_[event.button].Update((bool)event.action);
 		else
-			clicks_[event.button] = click(event.button, event.action, event.action,event.mods);
+			clicks_[event.button] = Click(event.button, event.action, event.action,event.mods);
 	}
 
-	for (const std::pair<int, key> &v : keys_)
+	for (const std::pair<int, Key> &v : keys_)
 	{
-		key& ref = keys_[v.first];
+		Key& ref = keys_[v.first];
 		if (ref.state)
 		{
 			if (ref.timer >= 0.001f)
@@ -32,9 +32,9 @@ void Input::handle_input(float delta_time)
 		else
 			ref.timer = 0;
 	}
-	for (const std::pair<int, click>& v : clicks_)
+	for (const std::pair<int, Click>& v : clicks_)
 	{
-		click& ref = clicks_[v.first];
+		Click& ref = clicks_[v.first];
 		if (ref.state)
 		{
 			if (ref.timer >= 0.001f)
@@ -56,9 +56,9 @@ void Input::RenderGui()
 	// ImGui::ListBox();
 	//const ImGuiKey key_first = 0;
 	ImGui::Text("Keys down:");
-	for (const std::pair<int, key>& v : keys_)//ImGuiKey key = key_first; key < ImGuiKey_COUNT; key++)
+	for (const std::pair<int, Key>& v : keys_)//ImGuiKey key = key_first; key < ImGuiKey_COUNT; key++)
 	{
-		key& ref = keys_[v.first];
+		Key& ref = keys_[v.first];
 		//	if (v.second.state)
 		//	{
 
@@ -69,9 +69,9 @@ void Input::RenderGui()
 		ImGui::Text(str);
 		//}
 	}
-	for (const std::pair<int, click>& v : clicks_)//ImGuiKey key = key_first; key < ImGuiKey_COUNT; key++)
+	for (const std::pair<int, Click>& v : clicks_)//ImGuiKey key = key_first; key < ImGuiKey_COUNT; key++)
 	{
-		click& ref = clicks_[v.first];
+		Click& ref = clicks_[v.first];
 		//	if (v.second.state)
 		//	{
 		
@@ -106,60 +106,29 @@ void Input::RenderGui()
 
 bool Input::OnKeyPress(int GLFW_key)
 {
-	
-	if (keys_.contains(GLFW_key) && keys_[GLFW_key].prevState == false && keys_[GLFW_key].state == true) {
-		keys_[GLFW_key].Update(1);
-		//printf("OnPress\n");
-		return true;
-	}
-	return false;
+	return (keys_.contains(GLFW_key) && keys_[GLFW_key].prevState == false && keys_[GLFW_key].state == true);
 }
 
 bool Input::OnKeyHold(int GLFW_key)
 {
-	if (keys_.contains(GLFW_key) && keys_[GLFW_key].prevState == true && keys_[GLFW_key].state == true) {
-		keys_[GLFW_key].Update(1);
-		//printf("OnHold\n");
-		return true;
-	}
-	return false;
+	return (keys_.contains(GLFW_key) && keys_[GLFW_key].prevState == true && keys_[GLFW_key].state == true);
 }
 
 bool Input::OnKeyRelease(int GLFW_key)
 {
-	if (keys_.contains(GLFW_key) && keys_[GLFW_key].prevState == true && keys_[GLFW_key].state == false) {
-		keys_[GLFW_key].Update(0);
-		//printf("OnRelease\n");
-		return true;
-	}
-	return false;
+	return (keys_.contains(GLFW_key) && keys_[GLFW_key].prevState == true && keys_[GLFW_key].state == false);
 }
 bool Input::OnClickPress(int GLFW_mouse)
 {
-
-	if (clicks_.contains(GLFW_mouse) && clicks_[GLFW_mouse].prevState == false && clicks_[GLFW_mouse].state == true) {
-		//printf("OnPress\n");
-		return true;
-	}
-	return false;
+	return (clicks_.contains(GLFW_mouse) && clicks_[GLFW_mouse].prevState == false && clicks_[GLFW_mouse].state == true);
 }
 
 bool Input::OnClickHold(int GLFW_mouse)
 {
-	if (clicks_.contains(GLFW_mouse) && clicks_[GLFW_mouse].prevState == true && clicks_[GLFW_mouse].state == true) {
-		clicks_[GLFW_mouse].Update(1);
-		//printf("OnHold\n");
-		return true;
-	}
-	return false;
+	return (clicks_.contains(GLFW_mouse) && clicks_[GLFW_mouse].prevState == true && clicks_[GLFW_mouse].state == true);
 }
 
 bool Input::OnClickRelease(int GLFW_mouse)
 {
-	if (clicks_.contains(GLFW_mouse) && clicks_[GLFW_mouse].prevState == true && clicks_[GLFW_mouse].state == false) {
-		clicks_[GLFW_mouse].Update(0);
-		//printf("OnRelease\n");
-		return true;
-	}
-	return false;
+	return (clicks_.contains(GLFW_mouse) && clicks_[GLFW_mouse].prevState == true && clicks_[GLFW_mouse].state == false);
 }

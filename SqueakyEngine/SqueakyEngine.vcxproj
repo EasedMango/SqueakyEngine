@@ -82,8 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\SqueakyEngine\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\SqueakyEngine\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\GLAD\include;$(SolutionDir)libs\GLFW\include;$(SolutionDir)libs\GLM;$(SolutionDir)libs\imgui;$(SolutionDir)libs\imgui\backends;$(SolutionDir)libs\std_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\GLAD\include;$(SolutionDir)libs\GLFW\include;$(SolutionDir)libs\GLM;$(SolutionDir)libs\imgui;$(SolutionDir)libs\imgui\backends;$(SolutionDir)libs\std_image;$(SolutionDir)Renderer;$(SolutionDir)libs\FMOD\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,7 +137,7 @@
       <AdditionalDependencies>$(SolutionDir)libs\GLFW\lib-vc2022\glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)libs\GLFW\GLFWlib\glfw3.lib;$(SolutionDir)libs\imgui\x64\Debug\ImGui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)libs\GLFW\GLFWlib\glfw3.lib;$(SolutionDir)libs\imgui\x64\Debug\ImGui.lib;$(SolutionDir)libs\Renderer\$(Platform)\$(Configuration)\Renderer.lib;$(SolutionDir)libs\FMOD\lib\x64\fmod$(Suffix)_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,28 +164,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\libs\GLAD\src\glad.c" />
-    <ClCompile Include="src\Components\Collision.cpp" />
+    <ClCompile Include="src\Listener.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\Components\Physics\Geometry.cpp" />
+    <ClCompile Include="src\Components\Physics\Geometry3D.cpp" />
+    <ClCompile Include="src\Components\Physics\GeometryMath.cpp" />
+    <ClCompile Include="src\Components\Shader.cpp" />
+    <ClCompile Include="src\Components\Material.cpp" />
+    <ClCompile Include="src\Components\Mesh.cpp" />
+    <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="Example.cpp" />
-    <ClCompile Include="src\Physics\GeometryMath.cpp" />
-    <ClCompile Include="src\Physics\Geometry3D.cpp" />
-    <ClCompile Include="src\PhysicsEngine.cpp" />
     <ClCompile Include="src\Components\Light.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\ActorManager.cpp" />
-    <ClCompile Include="src\Components\Material.cpp" />
     <ClCompile Include="src\Geometry\BasicShapes.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Actor.cpp" />
     <ClCompile Include="src\Components\Gui.cpp" />
-    <ClCompile Include="src\Components\Mesh.cpp" />
     <ClCompile Include="src\Components\Logger.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Components\PhysicsBody.cpp" />
     <ClCompile Include="src\PhysicsMath.cpp" />
-    <ClCompile Include="src\Components\Shader.cpp" />
     <ClCompile Include="src\Geometry\Collisions2D.cpp" />
     <ClCompile Include="src\Geometry\Geometry2D.cpp" />
-    <ClCompile Include="src\Physics\ExtraMath.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -193,38 +194,39 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\libs\tinyobjloader\tiny_obj_loader.h" />
-    <ClInclude Include="src\Components\Collision.h" />
-    <ClInclude Include="src\Physics\GeometryMath.h" />
-    <ClInclude Include="src\Physics\Geometry3D.h" />
-    <ClInclude Include="src\PhysicsEngine.h" />
+    <ClInclude Include="src\Listener.h" />
+    <ClInclude Include="src\Audio.h" />
+    <ClInclude Include="src\Components\Physics\Geometry.h" />
+    <ClInclude Include="src\Components\Physics\Geometry3D.h" />
+    <ClInclude Include="src\Components\Physics\GeometryMath.h" />
+    <ClInclude Include="src\Components\Shader.h" />
+    <ClInclude Include="src\Components\Material.h" />
+    <ClInclude Include="src\Components\Mesh.h" />
+    <ClInclude Include="src\Components\Collider.h" />
     <ClInclude Include="src\Components\Light.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\ActorManager.h" />
-    <ClInclude Include="src\Components\Material.h" />
     <ClInclude Include="src\Example.h" />
     <ClInclude Include="src\Geometry\BasicShapes.h" />
     <ClInclude Include="src\Components\Gui.h" />
     <ClInclude Include="src\linmath.h" />
     <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\Actor.h" />
-    <ClInclude Include="src\Components\Mesh.h" />
     <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Components\Logger.h" />
     <ClInclude Include="src\Geometry\Collisions2D.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Components\PhysicsBody.h" />
     <ClInclude Include="src\PhysicsMath.h" />
-    <ClInclude Include="src\Components\Shader.h" />
     <ClInclude Include="src\Geometry\Geometry2D.h" />
-    <ClInclude Include="src\Physics\ExtraMath.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\Events.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Components\tiny_obj_loader.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Components\Transform.h" />
+    <ClInclude Include="src\Vec.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\defaultFrag.glsl" />
@@ -241,6 +243,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ImGui\ImGui.vcxproj">
       <Project>{af081415-7cbc-4653-aa70-80fcc9c23a14}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Renderer\Renderer.vcxproj">
+      <Project>{305acb9a-41d6-4192-a23a-5e4b9a08b4b8}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
