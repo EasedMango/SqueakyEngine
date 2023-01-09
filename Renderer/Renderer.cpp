@@ -3,7 +3,7 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 #include "RenderCamera.h"
-#include "RenderMaterial.h"
+#include "RenderTexture.h"
 #include "RenderMesh.h"
 #include "RenderShader.h"
 #include <glm/gtx/string_cast.hpp>
@@ -29,8 +29,11 @@ Renderer::Renderer()
 		letters[y - 65] = new RenderMesh(z);
 
 	}
-	letterShader = CreateShader("phongVert.glsl", "phongFrag.glsl");
+	letterShader = CreateShader("phong");
 }
+
+
+
 
 Renderer::~Renderer()
 = default;
@@ -100,7 +103,7 @@ RenderSkybox* Renderer::GetCreateSkybox(const std::string& posXFile_, const std:
 	return rm;
 }
 
-RenderMaterial* Renderer::GetMaterial(const std::string& filename) const
+RenderTexture* Renderer::GetMaterial(const std::string& filename) const
 {
 	for (const auto& element : materials)
 	{
@@ -111,9 +114,9 @@ RenderMaterial* Renderer::GetMaterial(const std::string& filename) const
 	return nullptr;
 }
 
-RenderMaterial* Renderer::CreateMaterial(const std::string& filename)
+RenderTexture* Renderer::CreateMaterial(const std::string& filename)
 {
-	const auto newMaterial = new RenderMaterial(filename);
+	const auto newMaterial = new RenderTexture(filename);
 	newMaterial->OnCreate();
 	materials.push_back(newMaterial);
 
@@ -121,9 +124,9 @@ RenderMaterial* Renderer::CreateMaterial(const std::string& filename)
 }
 
 
-RenderMaterial* Renderer::GetCreateMaterial(const std::string& filename)
+RenderTexture* Renderer::GetCreateMaterial(const std::string& filename)
 {
-	RenderMaterial* rm = GetMaterial(filename);
+	RenderTexture* rm = GetMaterial(filename);
 	if (rm == nullptr)
 	{
 		return CreateMaterial(filename);
@@ -132,9 +135,9 @@ RenderMaterial* Renderer::GetCreateMaterial(const std::string& filename)
 	return rm;
 }
 
-RenderShader* Renderer::CreateShader(const std::string& vFilename, const std::string& fFilename)
+RenderShader* Renderer::CreateShader(const std::string& filename)
 {
-	const auto newShader = new RenderShader(vFilename, fFilename);
+	const auto newShader = new RenderShader(filename);
 	if (!newShader->OnCreate())
 	{
 		std::cout << "Shader Failed to Create\n";
@@ -144,22 +147,22 @@ RenderShader* Renderer::CreateShader(const std::string& vFilename, const std::st
 	return newShader;
 }
 
-RenderShader* Renderer::GetShader(const std::string& vFilename, const std::string& fFilename) const
+RenderShader* Renderer::GetShader(const std::string& filename) const
 {
 	for (const auto& element : shaders)
 	{
-		if (element->GetVertFileName() == vFilename && element->GetFragFileName() == fFilename)
+		if (element->GetFileName() == filename)
 			return element;
 	}
 	return nullptr;
 }
 
-RenderShader* Renderer::GetCreateShader(const std::string& vFilename, const std::string& fFilename)
+RenderShader* Renderer::GetCreateShader(const std::string& filename)
 {
-	RenderShader* rs = GetShader(vFilename, fFilename);
+	RenderShader* rs = GetShader(filename);
 	if (rs == nullptr)
 	{
-		return CreateShader(vFilename, fFilename);
+		return CreateShader(filename);
 	}
 
 	return rs;
@@ -183,11 +186,11 @@ bool Renderer::MeshRender(const RenderObject& object)
 	bool emp = activeShader != nullptr;
 	if (emp)
 	{
-		emp = (object.fn == activeShader->GetFragFileName() && object.vn == activeShader->GetVertFileName());
+		emp = (object.shader == activeShader->GetFileName());
 	}
 	else
 	{
-		activeShader = GetCreateShader(object.vn, object.fn);
+		activeShader = GetCreateShader(object.shader);
 		if (activeShader == nullptr)
 		{
 			std::cout << "no shader found or created\n";
@@ -199,7 +202,7 @@ bool Renderer::MeshRender(const RenderObject& object)
 	if (emp)
 	{
 		LoadShader(activeShader);
-		const RenderMaterial* mat = GetCreateMaterial(object.material);
+		const RenderTexture* mat = GetCreateMaterial(object.texture);
 
 
 		const RenderMesh* mesh = GetCreateMesh(object.mesh);
@@ -209,7 +212,7 @@ bool Renderer::MeshRender(const RenderObject& object)
 		                   value_ptr(object.matrix));
 
 		if (mat != nullptr)
-			glBindTexture(GL_TEXTURE_2D, GetMaterial(object.material)->GetTextureID());
+			glBindTexture(GL_TEXTURE_2D, GetMaterial(object.texture)->GetTextureID());
 
 		mesh->Render();
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -225,7 +228,7 @@ bool Renderer::SkyboxRender(const RenderSkybox& skybox)
 	if (activeSkybox == nullptr)
 		return false;
 	if (activeShader == nullptr)
-		activeShader = GetCreateShader("skyboxVert.glsl", "skyboxFrag.glsl");
+		activeShader = GetCreateShader("skybox");
 
 	LoadShader(activeShader);
 
@@ -290,10 +293,10 @@ void Renderer::Render()
 	glUseProgram(0);
 }
 
-void Renderer::AddToQueue(const std::string& vn, const std::string& fn, const std::string& mesh_,
+void Renderer::AddToQueue( const std::string& shader, const std::string& mesh_,
                           const std::string& material_, const glm::mat4& modelMatrix)
 {
-	renderQueue.emplace(RenderObject{vn, fn, mesh_, material_, modelMatrix});
+	renderQueue.emplace(RenderObject{ shader,  mesh_, material_, modelMatrix});
 }
 
 void Renderer::UpdateCamera(const glm::mat4 view) const

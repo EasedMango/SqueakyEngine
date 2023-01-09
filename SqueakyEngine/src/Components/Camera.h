@@ -3,9 +3,11 @@
 #include "Component.h"
 #include "Actor.h"
 
+enum CameraType { Prespective, Orthographic };
 class Camera : public Component
 {
 private:
+	CameraType type;
 	float fov;
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
@@ -14,13 +16,34 @@ private:
 
 public:
 	Camera(float fov_);
+
+
+	/**
+	 * \brief Perspective Camera Constructor 
+	 */
+	//Camera(const int& fov);
+	/**
+	 * \brief Orthographic Camera Constructor
+	 */
+	//Camera(const int& fov);
+
 	void UpdateViewMatrix();
-	void UpdateViewMatrix(glm::vec3 pos);
+
+
+
+
 	 bool OnCreate() override;
+
+
 	 void OnDestroy() override;
+
+
 	 void Update(const float deltaTime) override;
+
+
 	 void Render() const override;
-	 void SendUniforms( class Shader* shader);
+
+
 	 void RenderGui() override;
 
 	glm::mat4 GetProjectionMatrix() const { return projectionMatrix; }

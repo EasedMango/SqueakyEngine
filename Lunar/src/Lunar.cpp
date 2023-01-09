@@ -15,7 +15,7 @@ void main()
     auto sceneManager = new SceneManager();
     sceneManager->Initialize("Main", 1280, 720);
    // sceneManager->AddScene(new Scene0());
-    sceneManager->AddScene(new Scene1());
+    sceneManager->AddScene(new Scene2());
     sceneManager->AddScene(new Scene3());
     sceneManager->AddScene(new Scene4());
     sceneManager->AddScene(new Scene2());

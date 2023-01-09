@@ -51,19 +51,6 @@ void PhysicsMath::GravityOrbit(PhysicsBody& body1, PhysicsBody& body2)
 	f = mass * normal;
 	body2.AddForce(f);
 }
-//template<class T>
-//T* GetShape(Collider& collider)
-//{
-//	if (std::holds_alternative<T*>(collider.GetShape()))
-//	{
-//		return std::get<0>(collider.GetShape());
-//	}
-//	if (std::holds_alternative<T*>(collider.GetShape()))
-//	{
-//		return std::get<1>(collider.GetShape());
-//	}
-//	return nullptr;
-//}
 
 bool PhysicsMath::CheckColliders(PhysicsBody* shape1, PhysicsBody* shape2)
 {

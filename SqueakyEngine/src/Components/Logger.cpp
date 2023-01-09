@@ -10,23 +10,51 @@
 #include <fstream>
 
 using namespace std::chrono;
+std::string Logger::fileName = "";
 
-template<typename A,typename ... T>
-void Logger::Log(const A& ms, T ...m) {
 
-	std::cout << ms;
-	((std::cout << std::forward<T>(m) << " "), ...);
-	//std::cout << m << std::endl;
+std::string Logger::LogTypeToString(const MessageType t) {
+	switch (t) {
+	case MessageType::TYPE_NONE:
+		return "NONE";
+	case MessageType::TYPE_FATAL_ERROR :
+		return "FATAL_ERROR";
+	case MessageType::TYPE_ERROR :
+		return "ERROR";
+	case MessageType::TYPE_WARNING:
+		return "WARNING";
+	case MessageType::TYPE_INFO:
+		return "INFO";
+	default:
+		return "You forgot to add this function.";
+	}
+}
 
-	printf("\n");
+
+void Logger::Log(const MessageType mt, const std::string& message, const std::string& filename, const std::string& function,
+                 const uint_least32_t& line)
+{
+	std::ofstream out;
+
+	out.open(fileName, std::ios::out | std::ios::app);
+
+#ifdef _DEBUG
+	std::cout << filename << " : " << function << " : " << line << " : " << LogTypeToString(mt) << ": " << message;
+	std::cout << "\n";
+#endif
+	out << filename << " : " << function << " : " << line << " : " << LogTypeToString(mt) << ": " << message;
+	out << "\n";
+	out.flush();
+	out.close();
+
 }
 
 std::string Logger::GetTime() {
 	char str[26]; /// get the time and date
 	system_clock::time_point p = system_clock::now();
-	std::time_t result = system_clock::to_time_t(p);
-	std::tm tm;
-	localtime_s(&tm ,&result);
+	const std::time_t result = system_clock::to_time_t(p);
+	std::tm tm{};
+	localtime_s(&tm, &result);
 	char mbstr[100];
 	std::strftime(mbstr, 100, "%D %T", (&tm));
 	std::string dateAjoutSysteme(mbstr);
@@ -37,10 +65,10 @@ std::string Logger::GetTime() {
 	return dateAjoutSysteme;
 
 }
-std::string split_c(std::string str)
+std::string SplitC(const std::string& str)
 {
 	std::string w = "";
-	for (auto x : str)
+	for (const auto x : str)
 	{
 		if (x == '\\')
 		{
@@ -55,33 +83,45 @@ std::string split_c(std::string str)
 	return w;
 }
 
-void Logger::Info(std::string info, const std::source_location location) {
-	std::string loc = location.file_name();
-	loc = split_c(loc);
-	Log(loc, ":", location.function_name(), ":", location.line(), ":", "\nINFO: ", info);
-}
-void Logger::Error(std::string info, const std::source_location location) {
-
-	std::string loc = location.file_name();
-	loc =split_c(loc);
-	
-	Log(loc, ":", location.function_name(), ":", location.line(), ":", "\nWARNING: ", info);
-}
-
-void Logger::FileWriter(const char* arr, std::string logFileName)
+void Logger::InitLogger(const std::string& fileName_)
 {
+	fileName = fileName_;
 	std::ofstream out;
-	std::string msg= logFileName;
-	out.open(logFileName, std::ios::out | std::ios::app);
+	out.open(fileName, std::ios::out);
 
-#ifdef _DEBUG
-	std::cout << msg << std::endl;
-#endif
-	out << msg << std::endl;
-	out.flush();
+	char str[26]; /// get the time and date
+	system_clock::time_point p = system_clock::now();
+	std::time_t result = system_clock::to_time_t(p);
+	ctime_s(str, sizeof str, &result); /// Since C11
+	out << str;
+
 	out.close();
 }
 
+void Logger::Info(const std::string& info, const std::source_location location) {
+
+	Log(MessageType::TYPE_INFO, info, SplitC(location.file_name()), location.function_name(), location.line());
+}
+void Logger::Error(const std::string& info, const std::source_location location) {
 
 
+
+	Log(MessageType::TYPE_ERROR, info, SplitC(location.file_name()), location.function_name(), location.line());
+
+}
+
+void Logger::FatalError(const std::string& info, const std::source_location location)
+{
+	Log(MessageType::TYPE_FATAL_ERROR, info, SplitC(location.file_name()), location.function_name(), location.line());
+}
+
+void Logger::Warning(const std::string& info, const std::source_location location)
+{
+	Log(MessageType::TYPE_WARNING, info, SplitC(location.file_name()), location.function_name(), location.line());
+}
+
+void Logger::None(const std::string& info, const std::source_location location)
+{
+	Log(MessageType::TYPE_NONE, info, SplitC(location.file_name()), location.function_name(), location.line());
+}
 

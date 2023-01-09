@@ -23,7 +23,7 @@ bool Enemy::OnCreate()
 
 void Enemy::Update(const float deltaTime)
 {
-    Actor* missle=nullptr;
+
     for (const Collider* c : dynamic_cast<Actor*>(GetParent())->GetComponent<Collider>()->GetHandles())
     {
         if (dynamic_cast<Actor*>(c->GetParent())->GetComponent<Player>() != nullptr)
@@ -32,16 +32,13 @@ void Enemy::Update(const float deltaTime)
         }
         if (const Missle* miss =dynamic_cast<Actor*>(c->GetParent())->GetComponent<Missle>(); miss != nullptr)
         {
-            missle = dynamic_cast<Actor*>(c->GetParent());
+            am->DestroyActor(dynamic_cast<Actor*>(c->GetParent()));
             health -= miss->GetDamage();
         }
     }
     if (health <= 0) {
-        am->DestroyActor(dynamic_cast<Actor*>(GetParent())->GetName());
-        if(missle!=nullptr)
-        {
-            am->DestroyActor(missle->GetName());
-        }
+        am->DestroyActor(dynamic_cast<Actor*>(GetParent()));
+
         return;
     }
 

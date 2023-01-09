@@ -29,8 +29,8 @@ bool Scene3::OnCreate()
     am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
         new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
 
-    am->AddActor(new Actor(nullptr, "GameOverMenuCube", new Shader("phongVert.glsl", "phongFrag.glsl"),
-        new Mesh("src/Meshes/GameOverMenuCube.obj"), new Material("src/Textures/GameOverMenu.png"),
+    am->AddActor(new Actor(nullptr, "GameOverMenuCube", 
+        new Mesh("src/Meshes/GameOverMenuCube.obj"), new Material("src/Textures/GameOverMenu.png","phong"),
         new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
 
     am->OnCreate();

@@ -17,8 +17,7 @@ Scene1::Scene1() : am(nullptr)
 }
 
 Scene1::~Scene1()
-{
-}
+= default;
 
 bool Scene1::OnCreate()
 {
@@ -29,13 +28,12 @@ bool Scene1::OnCreate()
     am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
         new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
 
-    am->AddActor(new Actor(nullptr, "StartMenuCube", new Shader("phongVert.glsl", "phongFrag.glsl"),
-        new Mesh("src/Meshes/StartMenuCube.obj"), new Material("src/Textures/StartMenu.png"),
+    am->AddActor(new Actor(nullptr, "StartMenuCube",
+        new Mesh("src/Meshes/StartMenuCube.obj"), new Material("src/Textures/StartMenu.png","phong"),
         new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
 
-    am->OnCreate();
-    //am->GetActor("Cube")->SetParent(am->GetActor("MarioOne"));
-   // am->GetActor("Camera")->SetParent(am->GetActor("MarioOne"));
+    return am->OnCreate();
+
 
 
     return false;
@@ -43,6 +41,7 @@ bool Scene1::OnCreate()
 
 void Scene1::OnDestroy()
 {
+    am->OnDestroy();
 }
 
 void Scene1::Update(const float deltaTime)

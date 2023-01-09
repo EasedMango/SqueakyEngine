@@ -29,8 +29,8 @@ bool Scene4::OnCreate()
     am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
         new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
 
-    am->AddActor(new Actor(nullptr, "WinMenuCube", new Shader("phongVert.glsl", "phongFrag.glsl"),
-        new Mesh("src/Meshes/WinMenuCube.obj"), new Material("src/Textures/WinMenu.png"),
+    am->AddActor(new Actor(nullptr, "WinMenuCube", 
+        new Mesh("src/Meshes/WinMenuCube.obj"), new Material("src/Textures/WinMenu.png","phong"),
         new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
 
     am->OnCreate();

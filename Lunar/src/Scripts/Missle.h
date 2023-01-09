@@ -8,7 +8,7 @@ private:
 	float speed;
 	float damage;
 	class PhysicsBody* transform;
-	glm::vec3 dir;
+	glm::vec3 dir{};
 public:
 	Missle(Component* const parent_, class Actor* target, const float speed, const float damage, const glm::vec3 dir);
 	inline float GetDamage()const { return damage; }

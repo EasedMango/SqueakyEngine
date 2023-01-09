@@ -1,7 +1,6 @@
 #include "Camera.h"
 #include "Gui.h"
 #include "Transform.h"
-#include "Shader.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Renderer.h"
@@ -27,8 +26,8 @@ void Camera::UpdateViewMatrix()
 
 
 bool Camera::OnCreate() {
-	camTrn = dynamic_cast<Actor*>(parent)->GetComponent<Transform>();
-	projectionMatrix = glm::perspective(fov, (16.0f / 9.0f), 0.5f, 100000.0f);//(-ratio, ratio, -1.0f, 1.f);
+	camTrn = dynamic_cast<Actor*>(parent)->GetComponent<Transform>();//glm::ortho(-10.f,10.f,-10.f,10.f,0.01f,1000.f);//
+	projectionMatrix =  glm::perspective(fov, (16.0f / 9.0f), 0.5f, 100000.0f);
 	UpdateViewMatrix();
 	Renderer::GetInstance().SetCamera(GetViewMatrix(), GetProjectionMatrix());
 	return true;
@@ -38,12 +37,7 @@ void Camera::OnDestroy() {}
 
 void Camera::Render() const {}
 
-void Camera::SendUniforms(Shader* shader)
-{
-	//glUniformMatrix4fv(shader->GetUniformID("projectionMatrix"), 1, GL_FALSE, glm::value_ptr(GetProjectionMatrix()));
 
-	//glUniformMatrix4fv(shader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(GetViewMatrix()));
-}
 
 void Camera::RenderGui()
 {

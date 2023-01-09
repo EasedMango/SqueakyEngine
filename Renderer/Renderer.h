@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include <vector>
 #include <string>
 #include <glad/glad.h>
@@ -11,7 +12,7 @@
 class RenderSkybox;
 class RenderCamera;
 class RenderShader;
-class RenderMaterial;
+class RenderTexture;
 class RenderMesh;
 class RenderLight;
 #define MAX_LIGHTS 12;
@@ -19,12 +20,7 @@ class RenderLight;
 class Renderer
 {
 private:
-	//keep only single instance of renderer 
-	Renderer();
-	Renderer(const Renderer&) = delete;
-	Renderer& operator=(const Renderer&) = delete;
-	Renderer(Renderer&&) = delete;
-	Renderer& operator=(Renderer&&) = delete;
+
 
 	RenderMesh* letters[26]{};
 	RenderShader* letterShader{};
@@ -33,10 +29,9 @@ private:
 
 	struct RenderObject
 	{
-		std::string vn;
-		std::string fn;
+		std::string shader;
 		std::string mesh;
-		std::string material;
+		std::string texture;
 		glm::mat4 matrix;
 	};
 
@@ -47,7 +42,7 @@ private:
 
 
 	std::vector<RenderMesh*> meshes;
-	std::vector<RenderMaterial*> materials;
+	std::vector<RenderTexture*> materials;
 	std::vector<RenderShader*> shaders;
 	std::vector<RenderSkybox*> skyboxes;
 	RenderCamera* camera{};
@@ -60,12 +55,12 @@ private:
 	~Renderer();
 
 	//Material Getters and Setters 
-	RenderMaterial* CreateMaterial(const std::string& filename);
-	RenderMaterial* GetMaterial(const std::string& filename) const;
+	RenderTexture* CreateMaterial(const std::string& filename);
+	RenderTexture* GetMaterial(const std::string& filename) const;
 
 	//Shader Getters and Setters 
-	RenderShader* CreateShader(const std::string& vFilename, const std::string& fFilename);
-	RenderShader* GetShader(const std::string& vFilename, const std::string& fFilename) const;
+	RenderShader* CreateShader(const std::string& filename);
+	RenderShader* GetShader(const std::string& filename) const;
 
 	//Mesh Getters and Setters 
 	RenderMesh* CreateMesh(const std::string& filename);
@@ -88,6 +83,15 @@ private:
 	bool SkyboxRender(const RenderSkybox& skybox);
 	void RenderText(const class Text& text_);
 public:
+
+	//keep only single instance of renderer 
+	Renderer();
+	Renderer(const Renderer&) = delete;
+	Renderer& operator=(const Renderer&) = delete;
+	Renderer(Renderer&&) = delete;
+	Renderer& operator=(Renderer&&) = delete;
+
+
 	//Get Renderer
 	static Renderer& GetInstance()
 	{
@@ -106,16 +110,15 @@ public:
 	 * \param filename filename and location of the texture
 	 * \return RenderMaterial Pointer
 	 */
-	RenderMaterial* GetCreateMaterial(const std::string& filename);
+	RenderTexture* GetCreateMaterial(const std::string& filename);
 
 
 	/**
 	 * \brief Tries to get Shader if it exists. Else will try to create Shader. If both fail it returns a nullptr
-	 * \param vFilename filename and location of the vertShader
-	 * \param fFilename filename and location of the fragShader
+	 * \param filename filename and location of the Shader
 	 * \return RenderShader Pointer
 	 */
-	RenderShader* GetCreateShader(const std::string& vFilename, const std::string& fFilename);
+	RenderShader* GetCreateShader(const std::string& filename);
 
 
 	/**
@@ -135,9 +138,10 @@ public:
 	//Render loop for handles the Queues 
 	void Render();
 
-	/* Adds renderObject to queue */
-	void AddToQueue(const ::std::string& vn, const ::std::string& fn, const ::std::string& mesh_, const ::std::string& material_,
-	                const glm::mat4& modelMatrix);
+	/* Creates and Adds renderObject to queue */
+	void AddToQueue(const std::string& shader, const std::string& mesh_, const std::string& material_, const glm::mat4& modelMatrix);
+
+
 
 	//updates Camera Position 
 	void UpdateCamera(glm::mat4 view) const;

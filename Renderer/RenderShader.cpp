@@ -4,11 +4,13 @@
 #include <sstream>
 #include <iostream>
 #include <filesystem>
-RenderShader::RenderShader(std::string vsFilename_, std::string fsFilename_) :
+#include <utility>
+
+RenderShader::RenderShader(const std::string& filename_) :
 shaderID(0), vertShaderID(0), fragShaderID(0)
 {
-    vsFilename = vsFilename_.c_str();
-    fsFilename = fsFilename_.c_str();
+    this->filename = (filename_);
+
 
 }
 
@@ -47,11 +49,13 @@ std::string RenderShader::ReadFile(const char* filename)
 RenderShader::~RenderShader()
 = default;
 
-std::string RenderShader::GetVertFileName() const
-{ return vsFilename; }
+std::string RenderShader::GetFileName() const
+{
+    return filename;
+}
 
-std::string RenderShader::GetFragFileName() const
-{ return fsFilename; }
+
+
 
 GLuint RenderShader::GetProgram() const
 { return shaderID; }
@@ -103,26 +107,26 @@ bool RenderShader::CompileAttach()
     GLint status = 0;
     try
     {
-        vsFilename + shaderFilePath;
+        
         printf("start vert\n");
-        std::string vertFs = (shaderFilePath + vsFilename);
+        std::string vertFs = (shaderFilePath + filename+ std::string(".vert"));
         const char* vertFile = vertFs.c_str();
         std::cout << (vertFile) << std::endl;
         std::string vertS = ReadTextFile(vertFile);
         const char* vert = vertS.c_str();
         vertShaderID = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertShaderID, 1, &vert, nullptr);
-        CompileShader(vertShaderID, vsFilename, status);
+        CompileShader(vertShaderID, filename, status);
 
         printf("start frag\n");
-        std::string fragFs = (shaderFilePath + fsFilename);
+        std::string fragFs = (shaderFilePath + filename + std::string(".frag"));
         const char* fragFile = fragFs.c_str();
         std::cout << (fragFile) << std::endl;
         std::string fragS = ReadTextFile(fragFile);
         const char* frag = fragS.c_str();
         fragShaderID = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragShaderID, 1, &frag, nullptr);
-        CompileShader(fragShaderID, fsFilename, status);
+        CompileShader(fragShaderID, filename, status);
 
 
 
@@ -223,9 +227,9 @@ void RenderShader::SetUniformLocations()
 }
 
 
-GLuint RenderShader::GetUniformID(const std::string name)
+GLuint RenderShader::GetUniformID(const std::string& name)
 {
-    auto id = uniformMap.find(name);
+	const auto id = uniformMap.find(name);
 #ifdef _DEBUG
     if (id == uniformMap.end())
     {

@@ -1,21 +1,15 @@
 #pragma once
-#include <glad/glad.h>
-#include <string>
+#include "RenderTexture.h"
+#include "RenderShader.h"
+class RenderMaterial
+{
+private:
+	RenderShader* shader;
+	RenderTexture* texture;
+	const unsigned int id;
 
-	class RenderMaterial
-	{
+public:
+	RenderMaterial(const RenderShader& shaderName, const RenderTexture& textureName, unsigned int id);
 
-	private:
-		std::string fileName;
-		GLuint textureID;
-	public:
-		RenderMaterial(const std::string& filename);
-
-		~RenderMaterial();
-
-		bool OnCreate();
-
-		GLuint GetTextureID() const;
-		std::string GetFileName()const;
-	};
+};
 

@@ -10,8 +10,8 @@ class RenderShader
 	//RenderShader& operator =(RenderShader&&) = delete;
 private:
 	std::string shaderFilePath = "src/Shaders/";
-	std::string vsFilename;
-	std::string fsFilename;
+	std::string filename;
+
 	GLuint shaderID;
 	GLuint vertShaderID;
 	GLuint fragShaderID;
@@ -24,13 +24,13 @@ private:
 	void SetUniformLocations();
 	static std::string ReadFile(const char* filename);
 public:
-	RenderShader(std::string vsFilename_ = "defaultVert.glsl", std::string fsFilename_ = "defaultFrag.glsl");
+	RenderShader(const std::string& filename_ = "default");
 	~RenderShader();
 
-	std::string GetVertFileName()const;
-	std::string GetFragFileName()const;
+	std::string GetFileName()const;
+
 	GLuint GetProgram() const;
-	GLuint GetUniformID(std::string name);
+	GLuint GetUniformID(const std::string& name);
 
 	bool OnCreate();
 

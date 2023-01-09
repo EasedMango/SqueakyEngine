@@ -144,8 +144,10 @@
     <ClInclude Include="Gizmos.h" />
     <ClInclude Include="RenderCamera.h" />
     <ClInclude Include="RenderMaterial.h" />
+    <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="RenderMesh.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderObject.h" />
     <ClInclude Include="RenderShader.h" />
     <ClInclude Include="RenderSkybox.h" />
     <ClInclude Include="Text.h" />
@@ -155,8 +157,10 @@
     <ClCompile Include="Gizmos.cpp" />
     <ClCompile Include="RenderCamera.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
+    <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="RenderMesh.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="RenderSkybox.cpp" />
     <ClCompile Include="Text.cpp" />

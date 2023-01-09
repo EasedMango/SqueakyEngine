@@ -24,5 +24,6 @@ public:
 	void StoreMeshData(GLenum drawmode_);
 	void LoadModel(const std::string& filename);
 	void Render() const;
-
+	size_t GetSize() { return dataLength; }
+	GLuint GetVAO() { return vao; }
 };

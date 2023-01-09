@@ -41,6 +41,8 @@ public:
 
 	//}
 
+	Window* GetWindow() const { return window; }
+
 	void AddScene(Scene* scene)
 	{
 		scenes.push_back(scene);
@@ -49,7 +51,7 @@ public:
 	void RenderGui();
 	void HandleEvents(GLFWwindow* window, int key, int scancode, int action, int mods);
 	bool Initialize(const char* name_, int width_, int height_);
-	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void SetBuffer(GLFWwindow* window, int width, int height);
 };
 

@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include "Components/Logger.h"
 #include "Components/Camera.h"
-#include "Components/Shader.h"
+
 #include "Geometry/BasicShapes.h"
 #include "Components/Gui.h"
 #include "Input.h"
@@ -17,15 +17,15 @@
 
 static void errorGLFW(int error, const char* description) {
 	fprintf(stderr, "Error: %s\n", description);
+	const std::string errors = std::to_string(error) + " " + description;
+	Logger::Info("GLFW initialization failed: " + errors);
 }
-void SceneManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void SceneManager::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	static_cast<SceneManager*>(glfwGetWindowUserPointer(window))->HandleEvents(window, key, scancode, action, mods);
 	if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
 
-		int check = glfwGetInputMode(window, GLFW_CURSOR);
-
-		switch (check) {
+		switch (int check = glfwGetInputMode(window, GLFW_CURSOR)) {
 		case GLFW_CURSOR_DISABLED:
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			break;
@@ -46,47 +46,51 @@ void SceneManager::key_callback(GLFWwindow* window, int key, int scancode, int a
 	}
 
 }
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	Input::GetInstance().handle_clicks(window, button, action, mods);
 	//if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
 
 }
 
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	glm::vec2 pos(xpos, ypos);
 	Input::GetInstance().SetMousePos(pos);
 }
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	Input::GetInstance().SetScroll(xoffset, yoffset);
 }
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(): currentScene(nullptr), window(nullptr), actorManager(nullptr), gui(nullptr), curTime(0),
+                              deltaTime(0),
+                              prevTime(0), pause(false)
 {
+	Logger::InitLogger("EngineLog.txt");
+	Logger::Info("Constructing SceneManager");
 }
 
 SceneManager::~SceneManager()
-{
-}
+= default;
 
-void SceneManager::Run(int scene)
+void SceneManager::Run(const int scene)
 {
-
+	Logger::Info("Starting Run");
 
 
 	curTime = 0;
 	glfwSetWindowUserPointer(window->GetWindow(), this);
 	currentScene = scenes[scene];
+
 	currentScene->OnCreate();
 	gui = new Gui(window->GetWindow());
 
 	glfwSetFramebufferSizeCallback(window->GetWindow(), SetBuffer);
 	glfwSetInputMode(window->GetWindow(), GLFW_STICKY_KEYS, GLFW_TRUE);
-	glfwSetCursorPosCallback(window->GetWindow(), cursor_position_callback);
-	glfwSetMouseButtonCallback(window->GetWindow(), mouse_button_callback);
-	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
+	glfwSetCursorPosCallback(window->GetWindow(), CursorPositionCallback);
+	glfwSetMouseButtonCallback(window->GetWindow(), MouseButtonCallback);
+	glfwSetScrollCallback(window->GetWindow(), ScrollCallback);
 	gui->OnCreate();
 
 	// Our state
@@ -94,6 +98,7 @@ void SceneManager::Run(int scene)
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	//Renderer render;
+	
 	Logger::Info("Starting main loop");
 	while (!glfwWindowShouldClose(window->GetWindow()))
 	{
@@ -102,12 +107,13 @@ void SceneManager::Run(int scene)
 		curTime = glfwGetTime();
 		deltaTime = curTime - prevTime;
 		
-		int width, height;
-		glfwGetFramebufferSize(window->GetWindow(), &width, &height);
-		Input::GetInstance().SetViewportSize(width, height);
+		//Logger::Info("Handle Input");
 		Input::GetInstance().handle_input(deltaTime);
+		//Logger::Info("Update");
 		currentScene->Update(deltaTime);
+		//Logger::Info("SceneRender");
 		currentScene->Render();
+		//Logger::Info("Renderer");
 		Renderer::GetInstance().Render();
 		static int count = 0;
 
@@ -120,9 +126,7 @@ void SceneManager::Run(int scene)
 		//glfwSwapInterval(1);
 		/* Poll for and process events */
 		glfwPollEvents();
-		//	printf("fs");
-			//GLFWkeyfun lol;
-		glfwSetKeyCallback(window->GetWindow(), key_callback);
+		glfwSetKeyCallback(window->GetWindow(), KeyCallback);
 		if (Input::GetInstance().GetScrollWheel() != 0) {
 			Input::GetInstance().SetScroll(0, 0);
 		}
@@ -131,9 +135,13 @@ void SceneManager::Run(int scene)
 
 
 
+	Logger::Info("Ending Run");
+
+	currentScene->OnDestroy();
 
 	glfwDestroyWindow(window->GetWindow());
 	glfwTerminate();
+	
 }
 
 void SceneManager::LoadScene(Scene* scene)
@@ -161,7 +169,7 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 	if (!glfwInit())
 	{
 		glfwSetErrorCallback(errorGLFW);
-		// Initialization failed
+		Logger::Info("GLFW initialization failed");
 	}
 
 
@@ -169,8 +177,8 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 	window = new Window(width_, height_, "Main");
 
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "Failed to initialize OpenGL context" << std::endl;
+	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
+		Logger::FatalError("Failed to initialize OpenGL context");
 		return -1;
 	}
 	//glfwSwapInterval(1);
@@ -188,7 +196,7 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 void SceneManager::SetBuffer(GLFWwindow* window, int width, int height) {
 	glfwGetFramebufferSize(window, &width, &height);
 	printf("buffer");
-
+	Input::GetInstance().SetViewportSize(width, height);
 
 	glViewport(0, 0, width, height);
 }

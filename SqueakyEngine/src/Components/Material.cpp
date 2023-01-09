@@ -1,8 +1,10 @@
 #include "Material.h"
 
 
- Material::Material(const std::string& filename) : Component(nullptr),
-filename(filename)
+Material::Material(std::string filenameTexture, std::string filenameShader) : Component(nullptr), textureFilename(
+	                                                                              std::move(filenameTexture)),
+                                                                              shaderFilename(
+	                                                                              std::move(filenameShader)), id(0)
 {
 }
 
@@ -27,10 +29,15 @@ filename(filename)
 {
 }
 
+std::string Material::GetTextureFilename() const
+{ return textureFilename; }
+
  Material::~Material()
 = default;
 
- std::string Material::GetFilename() const
+ std::string Material::GetShaderFilename() const
 {
-	return filename;
+	return shaderFilename;
 }
+
+

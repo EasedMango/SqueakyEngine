@@ -1,8 +1,6 @@
 #include "Scene2.h"
 #include "Window.h"
 #include "Components/Logger.h"
-#include <iostream>
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Components.h"
 #include <glm/ext.hpp>
@@ -11,12 +9,9 @@
 #include "Geometry/BasicShapes.h"
 #include "ActorManager.h"
 #include "Input.h"
-#include "Geometry/BasicShapes.h"
 #include "Components/Collider.h"
 #include "Scripts/Player.h"
-#include "Scripts/Enemy.h"
 #include "Renderer.h"
-#include "Scripts/CameraController.h"
 #include "Scripts/Spawner.h"
 #include "Scripts/ShootWeapons.h"
 #include "Audio.h"
@@ -37,15 +32,15 @@ bool Scene2::OnCreate()
 
 	am = new ActorManager();
 	am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
-		new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0,0,0), glm::vec3(1.0f)), new Spawner(am)));
+		new Transform(glm::vec3(0.0f, -2.f, -4.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f)), new Spawner(am)));
 
-	am->AddActor(new Actor(nullptr, "SpaceStation", new Shader("phongVert.glsl", "phongFrag.glsl"),
-		new Mesh("src/Meshes/Spacestation.obj"), new Material("src/Textures/SpacestationTexture.png"),
+	am->AddActor(new Actor(nullptr, "SpaceStation",
+		new Mesh("src/Meshes/Spacestation.obj"), new Material("src/Textures/SpacestationTexture.png", "phong"),
 		new Transform(glm::vec3(9.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
 		new Collider(new Geometry::Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(true)));
 
-	am->AddActor(new Actor(nullptr, "Player", new Shader("phongVert.glsl", "phongFrag.glsl"),
-		new Mesh("src/Meshes/Spaceship.obj"), new Material("src/Textures/SpaceshipTexture.png"),
+	am->AddActor(new Actor(nullptr, "Player",
+		new Mesh("src/Meshes/Spaceship.obj"), new Material("src/Textures/SpaceshipTexture.png", "phong"),
 		new Transform(glm::vec3(-3.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
 		new Collider(new Geometry::Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(),
 		new ControllerPhysics(am), new Player(), new ShootWeapons(am)));
@@ -62,6 +57,7 @@ bool Scene2::OnCreate()
 void Scene2::OnDestroy()
 {
 	am->OnDestroy();
+
 }
 
 void Scene2::Update(const float deltaTime)

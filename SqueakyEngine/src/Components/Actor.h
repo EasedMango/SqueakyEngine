@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Component.h"
 #include <string>
+#include "Logger.h"
 class Camera;
 class Actor : public Component
 {
@@ -12,10 +13,14 @@ class Actor : public Component
 	Actor& operator=(Actor&&) = delete;
 
 private:
-
+	friend class ActorManager;
 	std::vector<Component*> components;
 	std::vector<Actor*> children;
 	const char* name;
+	class Mesh* mesh;
+	class Material* material;
+	int id{};
+
 
 public:
 	inline Actor* GetParentActor() const
@@ -28,17 +33,19 @@ public:
 	}
 	inline void AddChild(Actor* newChild) { children.push_back(newChild); }
 	void SetParent(Actor* parent_);
-	explicit Actor(Component* parent_,const char* name_="Actor");
+	explicit Actor(const char* name_ = "Actor", Component* parent_ = nullptr);
 	~Actor() override;
 	virtual bool OnCreate() override;
 	virtual void OnDestroy() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void Render() const override;
+
+	int GetID() { return id; }
 	void MyRender();
 	void RenderGui() override;
 
 	template <typename ... C>
-	explicit Actor(Component* parent_, const char* name_ = "Actor", C&& ... comps) : Component(parent_) , name(name_)
+	explicit Actor(Component* parent_, const char* name_ = "Actor", C&& ... comps) : Component(parent_), name(name_)
 	{
 		for (const std::vector<Component*> compList = { std::forward<C>(comps)... }; auto component : compList)
 		{
@@ -47,7 +54,7 @@ public:
 			component->SetParent(this);
 			AddComponent(component);
 		}
-		
+
 	}
 
 	template<typename ComponentTemplate, typename ... Args>
@@ -68,9 +75,10 @@ public:
 				return dynamic_cast<ComponentTemplate*>(component);
 			}
 		}
+		Logger::Info(std::string(name).append(std::string(" Component Not Found ").append(typeid(ComponentTemplate).name())));
 		return nullptr;
 	}
-	
+
 	std::vector<Component*> GetComponents() const;
 
 	template<typename ComponentTemplate>
@@ -91,6 +99,6 @@ public:
 
 
 	inline const char* GetName() const { return name; }
-	inline void SetName(const char* &name_) { name = name_; }
+	inline void SetName(const char*& name_) { name = name_; }
 };
 

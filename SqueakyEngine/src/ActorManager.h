@@ -3,6 +3,7 @@
 #include <vector>
 #include "Renderer.h"
 #include "Physics.h"
+#include "Components/Mesh.h"
 #include "Components/Camera.h"
 
 class ActorManager {
@@ -14,6 +15,7 @@ private:
 	Actor* mainCamera;
 	class Physics* physics;
 	bool EmptyQueue();
+	void DeleteActor(Actor* actor);
 public:
 	ActorManager();
 	~ActorManager();
@@ -24,34 +26,8 @@ public:
 	void Update(const float deltaTime) ;
 
 	void Render() const;
-	Actor* GetCamera() { return mainCamera; }
-	//template <typename ... C>
-	//Actor* Instantiate(Actor* actor, C&& ... comps) {
-	//	for (const std::vector<Component*> compList = { std::forward<C>(comps)... }; const auto component : compList)
-	//	{
-	//		component->SetParent(actor);
-	//		actor->AddComponent(component);
-	//	}
-	//	actor->OnCreate();
-	//	for (auto* component : actor->GetComponents()) {
-	//		
-
-	//		if (typeid(*component) == typeid(PhysicsBody))
-	//			physics->AddBody(dynamic_cast<PhysicsBody*>(component));
-	//		if (typeid(*component) == typeid(Camera)) {
-	//			mainCamera = actor;
-	//			Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
-	//		}
-	//	}
-	//	//actor->SetParent(actor);
-	//	spawnQueue.emplace(new Actor(actor));
-	//	if (actor->GetName() == "Camera") {
-	//		mainCamera = actor;
-	//		Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
-	//	}
-
-	//	return actor;
-	//}
+	Actor* GetCamera() const { return mainCamera; }
+	void DestroyActor(Actor* actor);
 	Actor* Instantiate(Actor* actor) {
 		
 		for (auto* component : actor->GetComponents()) {
@@ -59,6 +35,7 @@ public:
 
 			if (typeid(*component) == typeid(PhysicsBody))
 				physics->AddBody(dynamic_cast<PhysicsBody*>(component));
+
 
 		}
 		actor->OnCreate();
@@ -112,9 +89,8 @@ public:
 	
 
 	void AddActor2(Actor* actor);
-	Actor* GetActor(std::string name);
-	void DeleteActor(std::string name);
-	void DestroyActor(std::string name);
+	Actor* GetActor(const std::string& name);
+	void DestroyActor(const std::string& name);
 	void RenderGui();
 };
 

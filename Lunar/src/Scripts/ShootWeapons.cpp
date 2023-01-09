@@ -5,7 +5,7 @@
 #include "Physics.h"
 #include "Components/Material.h"
 #include "Components/Mesh.h"
-#include "Components/Shader.h"
+
 #include "Vec.h"
 #include "Missle.h"
 
@@ -16,10 +16,6 @@ ShootWeapons::ShootWeapons(ActorManager* const am) : Component(nullptr), am(am),
 bool ShootWeapons::OnCreate()
 {
 
-	laser = new Actor(nullptr, "MarioThree", new Shader("phongVert.glsl", "phongFrag.glsl"),
-		new Mesh("src/Meshes/Mario.obj"), new Material("src/Textures/mario_main.png"),
-		new Transform(glm::vec3(6.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-		new Collider(new Geometry::AABB(glm::vec3(0), glm::vec3(1.0f))), new PhysicsBody());
 	return true;
 }
 
@@ -47,16 +43,16 @@ void ShootWeapons::Update(const float deltaTime)
 
 		std::cout << transform->GetForward() << std::endl;
 		if (hit.actor != nullptr) {
-			Actor* a = am->Instantiate(new Actor(nullptr, "Missle", new Shader("phongVert.glsl", "phongFrag.glsl"),
-				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png"),
+			Actor* a = am->Instantiate(new Actor(nullptr, "Missle", 
+				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png","phong"),
 				new Transform(pos2 + dir2, transformCam->GetRotation(), glm::vec3(1.f)),
 				new Collider(new Geometry::Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, hit.actor, 5.f, 20.f,glm::vec3(0))));
 
 			std::cout << a->GetComponent<Transform>()->GetForward() << std::endl;
 		}
 		else
-			Actor* a = am->Instantiate(new Actor(nullptr, "Missle", new Shader("phongVert.glsl", "phongFrag.glsl"),
-				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png"),
+			Actor* a = am->Instantiate(new Actor(nullptr, "Missle",
+				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png", "phong"),
 				new Transform(pos2 + dir2, transformCam->GetRotation(), glm::vec3(1.f)),
 				new Collider(new Geometry::Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, nullptr, 5.f, 20.f, dir2)));
 		//glm::vec3(transform->GetPosition()), transform->GetRotation());

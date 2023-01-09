@@ -65,6 +65,7 @@ FMOD::Sound* Audio::GetCreate(const std::string& filename)
 
 			return val;
 	}
+
 	const std::string filepath = "src/Audio/" + filename;
 	FMOD::Sound* sound = nullptr;
 	FMOD_RESULT result = system->createSound(filepath.c_str(), FMOD_3D, 0, &sound);

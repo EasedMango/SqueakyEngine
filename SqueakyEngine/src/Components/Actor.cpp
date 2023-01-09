@@ -1,7 +1,6 @@
 #include "Actor.h"
 #include <glad/glad.h>
 #include "Mesh.h"
-#include "Shader.h"
 #include "Camera.h"
 #include "Transform.h"
 #include "Material.h"
@@ -14,7 +13,7 @@ void Actor::SetParent(Actor* parent_)
 	parent_->AddChild(this);
 }
 
-Actor::Actor(Component* parent_, const char* name_) :Component(parent_), name(name_) {
+Actor::Actor(const char* name_, Component* parent_) :Component(parent_), name(name_), mesh(nullptr), material(nullptr) {
 	static int objctNmbr = 0;
 	objctNmbr = 0;
 	if (parent_ != nullptr) {
@@ -29,16 +28,20 @@ Actor::Actor(Component* parent_, const char* name_) :Component(parent_), name(na
 Actor::~Actor() = default;
 
 bool Actor::OnCreate() {
-	std::cout << name << ":  //////////////////////////////" << std::endl;
+	//	std::cout << name << ":  //////////////////////////////" << std::endl;
 	for (const auto component : components) {
 		const bool status = component->OnCreate();
 		component->SetParent(this);
-		std::cout << typeid(*component).name() << std::endl;
+		//std::cout << typeid(*component).name() << std::endl;
 		if (status == false) {
 			return false;
 		}
+		if (typeid(*component) == typeid(Mesh))
+			mesh = dynamic_cast<Mesh*>(component);
+		if (typeid(*component) == typeid(Material))
+			material = dynamic_cast<Material*>(component);
 	}
-	std::cout <<  "  //////////////////////////////" << std::endl;
+	//	std::cout <<  "  //////////////////////////////" << std::endl;
 	return true;
 }
 
@@ -63,42 +66,18 @@ void Actor::Render() const {
 void Actor::MyRender() {
 
 
-
-
-	std::string meshName;
-	if (const Mesh* mesh = GetComponent<Mesh>(); mesh != nullptr)
-	{
-		meshName = mesh->GetFilename();
-
+	if (mesh == nullptr) {
+		//mesh = GetComponent<Mesh>();
+		//if (mesh == nullptr)
+			return;
 	}
-	else
-	{
-		return;
+	if (material == nullptr) {
+		//material = GetComponent<Material>();
+		//if (material == nullptr)
+			return;
 	}
 
-	std::string materialName;
-	if (const Material* material = GetComponent<Material>(); material != nullptr)
-	{
-		materialName = material->GetFilename();
-
-	}
-	else
-		return;
-
-	std::string vert, frag;
-
-	if (const Shader* shader = GetComponent<Shader>(); shader != nullptr)
-	{
-		vert = shader->GetFilenameV();
-		frag = shader->GetFilenameF();
-	}
-	else return;
-
-
-	const glm::mat4 matrix = GetComponent<Transform>()->GetTransformMatrix();
-
-	//std::cout << glm::to_string(*matrix) << std::endl;
-	Renderer::GetInstance().AddToQueue(vert, frag, meshName, materialName, GetComponent<Transform>()->GetTransformMatrix());
+	Renderer::GetInstance().AddToQueue(material->GetShaderFilename(), mesh->GetFilename(), material->GetTextureFilename(), GetComponent<Transform>()->GetTransformMatrix());
 
 
 

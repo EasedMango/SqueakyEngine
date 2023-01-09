@@ -169,7 +169,6 @@
     <ClCompile Include="src\Components\Physics\Geometry.cpp" />
     <ClCompile Include="src\Components\Physics\Geometry3D.cpp" />
     <ClCompile Include="src\Components\Physics\GeometryMath.cpp" />
-    <ClCompile Include="src\Components\Shader.cpp" />
     <ClCompile Include="src\Components\Material.cpp" />
     <ClCompile Include="src\Components\Mesh.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
@@ -199,7 +198,6 @@
     <ClInclude Include="src\Components\Physics\Geometry.h" />
     <ClInclude Include="src\Components\Physics\Geometry3D.h" />
     <ClInclude Include="src\Components\Physics\GeometryMath.h" />
-    <ClInclude Include="src\Components\Shader.h" />
     <ClInclude Include="src\Components\Material.h" />
     <ClInclude Include="src\Components\Mesh.h" />
     <ClInclude Include="src\Components\Collider.h" />
