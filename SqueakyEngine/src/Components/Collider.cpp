@@ -1,7 +1,10 @@
 #include "Collider.h"
 #include "Gui.h"
 #include <variant>
+
+#include "Physics/AABB.h"
 #include "Physics/Geometry3D.h"
+#include "Physics/Sphere.h"
 
 
 Collider::Collider() : Component(nullptr)
@@ -9,8 +12,7 @@ Collider::Collider() : Component(nullptr)
 }
 
 Collider::~Collider()
-{
-}
+= default;
 
 void Collider::Update(const float deltaTime)
 {
@@ -31,16 +33,16 @@ void Collider::Render() const
 
 void Collider::RenderGui()
 {
-    if (std::holds_alternative<Geometry::AABB*>(shape))
+    if (std::holds_alternative<AABB*>(shape))
     {
-        Geometry::AABB* bc = (std::get<0>(shape));
-        Gui::GuiV3("Origin", bc->center);
-        Gui::GuiV3("Size", bc->radius);
+        AABB* bc = (std::get<0>(shape));
+        Gui::GuiV3("Origin", bc->min);
+        Gui::GuiV3("Size", bc->max);
     }
-    else if (std::holds_alternative<Geometry::Sphere*>(shape))
+    else if (std::holds_alternative<Sphere*>(shape))
     {
-        Geometry::Sphere* bc = std::get<1>(shape);
-        Gui::GuiV3("Origin", bc->center);
+        Sphere* bc = std::get<1>(shape);
+        Gui::GuiV3("Origin", bc->pos);
         //Gui::GuiV3("Size", bc->radius);
     }
 }

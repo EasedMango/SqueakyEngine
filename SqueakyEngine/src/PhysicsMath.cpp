@@ -7,12 +7,14 @@
 
 #include "Components/Actor.h"
 #include "Vec.h"
-#include "Components/Physics/Geometry.h"
-
+#include "Components/Physics/AABB.h"
+#include "Components/Physics/Sphere.h"
+#include "ColliderMath.h"
 using namespace glm;
 
 void PhysicsMath::SimpleVerletMotion(PhysicsBody& body, const float deltaTime)
 {
+
 	//std::cout << "G: " << G << std::endl;
 	body.SetPos(body.GetPos() + body.GetVel() * deltaTime + (0.5f * body.GetPrevAccel() * deltaTime * deltaTime));
 
@@ -52,47 +54,52 @@ void PhysicsMath::GravityOrbit(PhysicsBody& body1, PhysicsBody& body2)
 	body2.AddForce(f);
 }
 
-bool PhysicsMath::CheckColliders(PhysicsBody* shape1, PhysicsBody* shape2)
+bool PhysicsMath::CheckColliders(PhysicsBody& shape1, PhysicsBody& shape2)
 {
 
-	if (const auto  ab= shape1->GetShape<Geometry::AABB>();ab!=nullptr)
+	if (const auto  ab= shape1.GetShape<AABB>();ab!=nullptr)
 	{
 		
-		ab->center = shape1->GetPos();
+		ab->min = shape1.GetPos();
 
-		if (const auto  bc = shape2->GetShape<Geometry::AABB>(); bc != nullptr)
+		if (const auto  bc = shape2.GetShape<AABB>(); bc != nullptr)
 		{
 
-			bc->center = shape2->GetPos();
+			bc->min = shape2.GetPos();
 			float ma = 0;
 			float mt = 0;
-			return Geometry::IntersectMovingAABBAABB(*ab, *bc,shape1->GetVel(),shape2->GetVel(),ma,mt);
+			return false;// IntersectMovingAABBAABB(*ab, *bc, shape1->GetVel(), shape2->GetVel(), ma, mt);
 		}
-		if (const auto  bc = shape2->GetShape<Geometry::Sphere>(); bc != nullptr)
+		if (const auto  bc = shape2.GetShape<Sphere>(); bc != nullptr)
 		{
-			bc->center = shape2->GetPos();
+			bc->pos = shape2.GetPos();
 			float ma = 0;
 			return false;
 		}
 	}
-	if (const auto  ab = shape1->GetShape<Geometry::Sphere>(); ab != nullptr)
+	if (const auto  ab = shape1.GetShape<Sphere>(); ab != nullptr)
 	{
 
-		ab->center = shape1->GetPos();
+		ab->pos = shape1.GetPos();
 
-		if (const auto  bc = shape2->GetShape<Geometry::AABB>(); bc != nullptr)
+		if (const auto  bc = shape2.GetShape<AABB>(); bc != nullptr)
 		{
 
-			bc->center = shape2->GetPos();
+			bc->min = shape2.GetPos();
 			float ma = 0;
 			float mt = 0;
 			return false;
 		}
-		if (const auto  bc = shape2->GetShape<Geometry::Sphere>(); bc != nullptr)
+		if (const auto  bc = shape2.GetShape<Sphere>(); bc != nullptr)
 		{
-			bc->center = shape2->GetPos();
+			bc->pos = shape2.GetPos();
 			float ma = 0;
-			return Geometry::TestMovingSphereSphere(*ab, *bc, shape1->GetVel(), shape2->GetVel(), ma);
+			bool detect = ColliderMath::SphereSphereCollisionDetected(shape1, shape2);//false;//TestMovingSphereSphere(*ab, *bc, shape1->GetVel(), shape2->GetVel(), ma);
+			if (detect) {
+				shape1.GetCollider()->AddHandle(shape2.GetCollider());
+				shape2.GetCollider()->AddHandle(shape1.GetCollider());
+			}
+			return detect;
 		}
 	}
 	return false;
@@ -100,10 +107,10 @@ bool PhysicsMath::CheckColliders(PhysicsBody* shape1, PhysicsBody* shape2)
 
 
 
-void PhysicsMath::SimpleCollisionResponse(PhysicsBody* body, const Geometry::AABB* shape)
+void PhysicsMath::SimpleCollisionResponse(PhysicsBody* body, const AABB* shape)
 {
 	// std::cout << dynamic_cast<Actor*>(body->GetParent())->GetName() << " is colliding\n";
-	const vec3 n = normalize(body->GetPos() - shape->center);
+	const vec3 n = normalize(body->GetPos() - shape->min);
 	if (all(isnan(n)))
 	{
 		return;
@@ -116,9 +123,9 @@ void PhysicsMath::SimpleCollisionResponse(PhysicsBody* body, const Geometry::AAB
 	body->SetVel(v);
 }
 
-void PhysicsMath::SimpleCollisionResponse(PhysicsBody* body, const Geometry::Sphere* shape)
+void PhysicsMath::SimpleCollisionResponse(PhysicsBody* body, const Sphere* shape)
 {
-	const vec3 n = normalize(body->GetPos() - shape->center);
+	const vec3 n = normalize(body->GetPos() - shape->pos);
 	const vec3 p = dot(-body->GetVel(), n) * n;
 	const vec3 v = body->GetVel() + (2.0f * p);
 

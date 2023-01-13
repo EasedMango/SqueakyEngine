@@ -15,6 +15,7 @@
 #include "Scripts/Spawner.h"
 #include "Scripts/ShootWeapons.h"
 #include "Audio.h"
+#include <Components/Physics/Sphere.h>
 Scene2::Scene2()
 {
 	am = new ActorManager();
@@ -37,12 +38,12 @@ bool Scene2::OnCreate()
 	am->AddActor(new Actor(nullptr, "SpaceStation",
 		new Mesh("src/Meshes/Spacestation.obj"), new Material("src/Textures/SpacestationTexture.png", "phong"),
 		new Transform(glm::vec3(9.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-		new Collider(new Geometry::Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(true)));
+		new Collider(new Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(true)));
 
 	am->AddActor(new Actor(nullptr, "Player",
 		new Mesh("src/Meshes/Spaceship.obj"), new Material("src/Textures/SpaceshipTexture.png", "phong"),
 		new Transform(glm::vec3(-3.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-		new Collider(new Geometry::Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(),
+		new Collider(new Sphere(glm::vec3(0), (0.5f))), new PhysicsBody(),
 		new ControllerPhysics(am), new Player(), new ShootWeapons(am)));
 
 	audio->SetListener(am->GetActor("Camera")->GetComponent<Transform>());

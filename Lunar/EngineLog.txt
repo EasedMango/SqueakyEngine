@@ -1,91 +1,10 @@
-Sun Jan  8 18:57:49 2023
+Wed Jan 11 17:01:23 2023
 SceneManager.cpp : SceneManager : 71 : INFO: Constructing SceneManager
 Window.cpp : Window : 24 : INFO: Constructing Window
 Window.cpp : Window : 41 : INFO: Compiled against GLFW 3.4.0
 Window.cpp : Window : 49 : INFO: Created Window, Main with Width: 1280 Height: 720
 Window.cpp : Window : 57 : INFO: Setting Window context
 SceneManager.cpp : Run : 79 : INFO: Starting Run
-Scene2.cpp : OnCreate : 30 : INFO: Creating scene 2
+Scene1.cpp : OnCreate : 32 : INFO: Creating scene 1
 SceneManager.cpp : Run : 102 : INFO: Starting main loop
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: Missle Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: Missle Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: Missle Component Not Found class Enemy
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: Missle Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: Missle Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Player
-Actor.h : GetComponent : 78 : INFO: UFO Component Not Found class Missle
 SceneManager.cpp : Run : 138 : INFO: Ending Run

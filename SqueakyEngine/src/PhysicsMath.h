@@ -1,5 +1,7 @@
 #pragma once
-#include "Components/Physics/Geometry.h"
+class AABB;
+struct Sphere;
+//#include "Components/Physics/Geometry.h"
 class PhysicsBody;
 class Collider;
 
@@ -17,9 +19,9 @@ public:
 
 
     static void GravityOrbit(PhysicsBody& body1, PhysicsBody& body2);
-    static bool CheckColliders(PhysicsBody* shape1, PhysicsBody* shape2);
-    static void SimpleCollisionResponse(PhysicsBody* body, const Geometry::AABB* shape);
-    static void SimpleCollisionResponse(PhysicsBody* body, const Geometry::Sphere* shape);
+    static bool CheckColliders(PhysicsBody& shape1, PhysicsBody& shape2);
+    static void SimpleCollisionResponse(PhysicsBody* body, const AABB* shape);
+    static void SimpleCollisionResponse(PhysicsBody* body, const Sphere* shape);
 
     static void CollisionResponse(PhysicsBody* body1, PhysicsBody* body2);
 };

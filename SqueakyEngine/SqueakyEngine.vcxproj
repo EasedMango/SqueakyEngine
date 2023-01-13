@@ -164,6 +164,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\libs\GLAD\src\glad.c" />
+    <ClCompile Include="src\PhysicsMaths.cpp" />
+    <ClCompile Include="src\ColliderMath.cpp" />
+    <ClCompile Include="src\Components\Physics\AABB.cpp" />
+    <ClCompile Include="src\Components\Physics\Plane.cpp" />
+    <ClCompile Include="src\Components\Physics\Ray.cpp" />
+    <ClCompile Include="src\Components\Physics\Sphere.cpp" />
     <ClCompile Include="src\Listener.cpp" />
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Components\Physics\Geometry.cpp" />
@@ -193,6 +199,12 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PhysicsMaths.h" />
+    <ClInclude Include="src\ColliderMath.h" />
+    <ClInclude Include="src\Components\Physics\AABB.h" />
+    <ClInclude Include="src\Components\Physics\Plane.h" />
+    <ClInclude Include="src\Components\Physics\Ray.h" />
+    <ClInclude Include="src\Components\Physics\Sphere.h" />
     <ClInclude Include="src\Listener.h" />
     <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\Components\Physics\Geometry.h" />

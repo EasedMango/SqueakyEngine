@@ -15,6 +15,7 @@ private:
 
 
 	bool isStatic;
+	bool collision;
 	float mass, rotationalInertia{};
 	glm::vec3 velocity{}, acceleration, prevAccel;
 
@@ -33,7 +34,7 @@ private:
 	float length, width, height;
 	float radius;
 
-	
+
 protected:
 	Transform* transform;
 public:
@@ -45,6 +46,7 @@ public:
 	void OnDestroy() override;
 	void Render() const override;
 	void RenderGui() override;
+	float GetRotationalInertia() const { return rotationalInertia; }
 
 	Collider* GetCollider() const;
 
@@ -88,7 +90,7 @@ public:
 	//Physics Properties
 	float GetMass() const { return mass; }
 	void SetMass(float mass_) { mass = mass_; }
-	glm::vec3 GetPos()  { return transform->pos; }
+	glm::vec3 GetPos() const { return transform->pos; }
 	void SetPos(glm::vec3 pos_) { transform->lastPos = transform->pos; transform->pos = pos_; }
 	glm::vec3 GetVel() const { return velocity; }
 	void SetVel(glm::vec3 vel_) { velocity = vel_; }

@@ -5,7 +5,7 @@
 #include "Physics.h"
 #include "Components/Material.h"
 #include "Components/Mesh.h"
-
+#include "Components/Physics/Sphere.h"
 #include "Vec.h"
 #include "Missle.h"
 
@@ -46,7 +46,7 @@ void ShootWeapons::Update(const float deltaTime)
 			Actor* a = am->Instantiate(new Actor(nullptr, "Missle", 
 				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png","phong"),
 				new Transform(pos2 + dir2, transformCam->GetRotation(), glm::vec3(1.f)),
-				new Collider(new Geometry::Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, hit.actor, 5.f, 20.f,glm::vec3(0))));
+				new Collider(new Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, hit.actor, 5.f, 20.f,glm::vec3(0))));
 
 			std::cout << a->GetComponent<Transform>()->GetForward() << std::endl;
 		}
@@ -54,7 +54,7 @@ void ShootWeapons::Update(const float deltaTime)
 			Actor* a = am->Instantiate(new Actor(nullptr, "Missle",
 				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png", "phong"),
 				new Transform(pos2 + dir2, transformCam->GetRotation(), glm::vec3(1.f)),
-				new Collider(new Geometry::Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, nullptr, 5.f, 20.f, dir2)));
+				new Collider(new Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, nullptr, 5.f, 20.f, dir2)));
 		//glm::vec3(transform->GetPosition()), transform->GetRotation());
 	}
 }
