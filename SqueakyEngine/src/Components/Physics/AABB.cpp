@@ -1,23 +1,12 @@
 #include "AABB.h"
-AABB::AABB(const float& width, const float& height, const  float& depth) : min(0, 0, 0), max(width,height,depth) {
+AABB::AABB(const float& width, const float& height, const  float& depth) : min(-width / 2,- height / 2, -depth / 2), max(width/2,height/2,depth/2) {
 
 
-	planes[0] = Plane(1, 0, 0, min.x);
-	planes[1] = Plane(0, 1, 0, min.y);
-	planes[2] = Plane(0, 0, 1, min.z);
-	planes[3] = Plane(1, 0, 0, -max.x);
-	planes[4] = Plane(0, 1, 0, -max.y);
-	planes[5] = Plane(0, 0, 1, -max.z);
 }
 
-AABB::AABB(): min(0,0,0), max(1,1,1)
+AABB::AABB(): min(-0.5f, -0.5f, -0.5f), max(0.5f,0.5f,0.5f)
 {
-	planes[0] = Plane(1, 0, 0, min.x);
-	planes[1] = Plane(0, 1, 0, min.y);
-	planes[2] = Plane(0, 0, 1, min.z);
-	planes[3] = Plane(1, 0, 0, -max.x);
-	planes[4] = Plane(0, 1, 0, -max.y);
-	planes[5] = Plane(0, 0, 1, -max.z);
+
 }
 
 AABB::~AABB()

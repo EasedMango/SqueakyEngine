@@ -89,6 +89,11 @@ RenderSkybox* Renderer::GetSkybox(const std::string& filename) const
 	return nullptr;
 }
 
+void Renderer::DrawSphere(const glm::vec3& pos)
+{
+	AddToQueue("default", "src/Meshes/Sphere.obj", "White.png", glm::translate(glm::mat4(1),pos));
+}
+
 RenderSkybox* Renderer::GetCreateSkybox(const std::string& posXFile_, const std::string& posYFile_,
                                         const std::string& posZFile_, const std::string& negXFile_,
                                         const std::string& negYFile_,
@@ -211,9 +216,10 @@ bool Renderer::MeshRender(const RenderObject& object)
 		glUniformMatrix4fv(activeShader->GetUniformID("modelMatrix"), 1, GL_FALSE,
 		                   value_ptr(object.matrix));
 
-		if (mat != nullptr)
+		if (mat != nullptr && mat->GetFileName()!="White.png")
 			glBindTexture(GL_TEXTURE_2D, GetMaterial(object.texture)->GetTextureID());
-
+		else
+			glBindTexture(GL_TEXTURE_2D, 0);
 		mesh->Render();
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);

@@ -26,12 +26,13 @@ void PhysicsBody::Update(const float deltaTime)
 		fNet += f;
 	}
 
-	if (glm::length(fNet) > 1.f) {
+	if (glm::length(fNet) > 0.01f) {
 		//std::cout << "mag\n";
+		
 	}
 	//std::cout << glm::length(fNet) << std::endl;
-	ApplyForce(fNet);
 
+	ApplyForce(fNet);
 	forces.clear();
 	//}
 }

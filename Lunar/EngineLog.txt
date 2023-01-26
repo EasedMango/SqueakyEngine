@@ -1,10 +1,21 @@
-Wed Jan 11 17:01:23 2023
+Wed Jan 25 23:02:52 2023
 SceneManager.cpp : SceneManager : 71 : INFO: Constructing SceneManager
 Window.cpp : Window : 24 : INFO: Constructing Window
 Window.cpp : Window : 41 : INFO: Compiled against GLFW 3.4.0
 Window.cpp : Window : 49 : INFO: Created Window, Main with Width: 1280 Height: 720
 Window.cpp : Window : 57 : INFO: Setting Window context
 SceneManager.cpp : Run : 79 : INFO: Starting Run
-Scene1.cpp : OnCreate : 32 : INFO: Creating scene 1
+Scene1.cpp : OnCreate : 33 : INFO: Creating scene 1
 SceneManager.cpp : Run : 102 : INFO: Starting main loop
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.001513
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.000528
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.003913
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.003644
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.007835
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.003065
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.001222
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.001374
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.001115
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.003243
+PhysicsMath.cpp : CollisionResponse : 192 : INFO: Depth: 0.009841
 SceneManager.cpp : Run : 138 : INFO: Ending Run
