@@ -52,3 +52,5 @@
 bin/
 *.lnk
 *.enc
+/ImGui/x64/Debug/ImGui.log
+/ImGui/x64/Debug/ImGui.Build.CppClean.log
