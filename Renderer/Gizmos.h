@@ -1,14 +1,12 @@
 #pragma once
+#include <glm/fwd.hpp>
+
 class Gizmos
 {
 
-	class OrientationAxis
-	{
+	static void DrawSphere(const glm::vec3& pos);
 
-		void OnCreate();
 
-		void Render();
-	};
 
 };
 

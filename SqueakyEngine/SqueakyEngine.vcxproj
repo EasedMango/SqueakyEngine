@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\libs\GLAD\src\glad.c" />
+    <ClCompile Include="src\Components\Physics\OBB.cpp" />
     <ClCompile Include="src\PhysicsMaths.cpp" />
     <ClCompile Include="src\ColliderMath.cpp" />
     <ClCompile Include="src\Components\Physics\AABB.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Physics\OBB.h" />
     <ClInclude Include="src\PhysicsMaths.h" />
     <ClInclude Include="src\ColliderMath.h" />
     <ClInclude Include="src\Components\Physics\AABB.h" />

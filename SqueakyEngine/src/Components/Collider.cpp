@@ -2,7 +2,7 @@
 #include "Gui.h"
 #include <variant>
 
-#include "Physics/AABB.h"
+#include "Physics/OBB.h"
 #include "Physics/Geometry3D.h"
 #include "Physics/Sphere.h"
 
@@ -33,11 +33,11 @@ void Collider::Render() const
 
 void Collider::RenderGui()
 {
-    if (std::holds_alternative<AABB*>(shape))
+    if (std::holds_alternative<OBB*>(shape))
     {
-        AABB* bc = (std::get<0>(shape));
-        Gui::GuiV3("Origin", bc->min);
-        Gui::GuiV3("Size", bc->max);
+        OBB* bc = (std::get<0>(shape));
+        Gui::GuiV3("Origin", bc->center);
+        Gui::GuiV3("Size", bc->extents);
     }
     else if (std::holds_alternative<Sphere*>(shape))
     {

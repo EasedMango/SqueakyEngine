@@ -7,80 +7,50 @@
 #include "Components/Gui.h"
 #include <cstring>
 #include "PhysicsMath.h"
+#include "ColliderMath.h"
 #include "Components/Actor.h"
-
+#include "Components/Physics/AABB.h"
+#include "Components/Physics/Sphere.h"
+#include "Components/Physics/Ray.h"
 
 bool Physics::Raycast(const glm::vec3& pos, const glm::vec3& dir, Rayhit& rayhit) const
 {
 	float distance = 1000;
 
-	//for (const auto bo : bodies)
-	//{
+	for (const auto &body : bodies)
+	{
 
+		Ray ray(pos, dir);
+		//if (const auto  ab = body->GetShape<AABB>(); ab != nullptr)
+		//{
+		//	if (const glm::vec3 point= ColliderMath::RayAABCollisionPoint(ray, *ab); point.x != FLT_EPSILON)
+		//	{
+		//		rayhit.actor = dynamic_cast<Actor*>(body->GetParent());
+		//		rayhit.point = point;
+		//		rayhit.normal = glm::vec3(0, 0, 0);
+		//		rayhit.distance = glm::distance(pos, point);
+		//		return true;
+		//	}
+		//		return false;
+		//}
 
-	//	auto dir2 = glm::vec3(-dir.x, -dir.y, dir.z);
-	//	if (const auto  bc = bo->GetShape<Geometry::AABB>(); bc != nullptr)
-	//	{
-
-	//		bc->center = bo->GetPos();
-	//		float ma = 0;
-
-	//		if (glm::vec3 mt; Geometry::IntersectRayAABB(pos, dir2, *bc, ma, mt) && distance > ma)
-	//		{
-	//			distance = ma;
-	//			rayhit.actor = dynamic_cast<Actor*>(bo->GetParent());
-	//			rayhit.distance = ma;
-	//			rayhit.point = (mt);
-
-	//		}
-
-	//	}
-	//	if (const auto  bc = bo->GetShape<Geometry::Sphere>(); bc != nullptr)
-	//	{
-	//		bc->center = bo->GetPos();
-	//		float ma = 0;
-	//		glm::vec3 mt = { 0,0,0 };
-
-	//		const Geometry::RayResults rayResults = Geometry::RaySphereCollisionPoint(Geometry::Ray(pos, dir2), *bc);
-
-	//		std::cout << "Casting against: " << dynamic_cast<Actor*>(bo->GetParent())->GetName() << std::endl;
-
-
-	//	
-
-	//		glm::vec3 trigDir = glm::normalize(bo->GetPos() - pos);
-
-	//		const float dot = glm::dot(trigDir, dir2);
-
-	//		const bool isLooking = dot >= 0.4f;
-
-
-
-
-	//		std::cout << "Dot: " << dot << " Threshold: " << 0.4f << std::endl;
-	//		std::cout << "Is looking? " << isLooking << std::endl;
-	//		std::cout << "Distance:" << rayResults.distance << "\n" << std::endl;
-
-
-
-	//		if (rayResults.distance < distance && rayResults.distance > FLT_EPSILON)
-	//		{
-
-	//			distance = ma;
-	//			rayhit.actor = dynamic_cast<Actor*>(bo->GetParent());
-	//			rayhit.distance = rayResults.distance;
-	//			rayhit.point = (rayResults.point);
-
-	//		}
-
-
-	//	}
-
-	//}
-	//if (rayhit.actor != nullptr)
-	//{
-	//	return true;
-	//}
+		if (const auto  ab = body->GetShape<Sphere>(); ab != nullptr)
+		{
+			if (const glm::vec3 point = ColliderMath::RaySphereCollisionPoint(ray, *ab); point.x != FLT_EPSILON)
+			{
+				rayhit.actor = dynamic_cast<Actor*>(body->GetParent());
+				rayhit.point = point;
+				rayhit.normal = glm::vec3(0, 0, 0);
+				rayhit.distance = glm::distance(pos, point);
+				return true;
+			}
+				return false;
+		}
+	}
+	if (rayhit.actor != nullptr)
+	{
+		return true;
+	}
 	return false;
 
 
@@ -97,13 +67,7 @@ void Physics::Update(const float deltaTime) const
 {
 	if (!bodies.empty())
 	{
-		for (PhysicsBody* p : bodies)
-		{
-			p->GetCollider()->ClearHandles();
-			p->Update(deltaTime);
-			PhysicsMath::SimpleVerletMotion(*p, deltaTime);
-			PhysicsMath::RigidBodyRotation(*p, deltaTime);
-		}
+
 
 		for (int x = 0; x < bodies.size() - 1; x++)
 		{
@@ -111,11 +75,18 @@ void Physics::Update(const float deltaTime) const
 			{
 				if (PhysicsMath::CheckColliders(*bodies[x], *bodies[y]))
 				{
-					bodies[x]->GetCollider()->AddHandle(bodies[y]->GetCollider());
-					bodies[y]->GetCollider()->AddHandle(bodies[x]->GetCollider());
-					PhysicsMath::CollisionResponse(bodies[x], bodies[y]);
+					//bodies[x]->GetCollider()->AddHandle(bodies[y]->GetCollider());
+					//bodies[y]->GetCollider()->AddHandle(bodies[x]->GetCollider());
+					//PhysicsMath::CollisionResponse(bodies[x], bodies[y]);
 				}
 			}
+		}
+		for (PhysicsBody* p : bodies)
+		{
+			p->GetCollider()->ClearHandles();
+			p->Update(deltaTime);
+			PhysicsMath::SimpleVerletMotion(*p, deltaTime);
+			PhysicsMath::RigidBodyRotation(*p, deltaTime);
 		}
 	}
 }

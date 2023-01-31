@@ -37,6 +37,13 @@ libs/imgui/x64/Debug/*.lib
 !folder/
 folder/*
 !folder/*.txt
+#Compiled
+*.tlog
+*.lastbuildstate
+*.recipe
+*.log
+*.pdb
+
 # Executables
 *.exe
 *.out

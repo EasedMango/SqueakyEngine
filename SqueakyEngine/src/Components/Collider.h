@@ -2,15 +2,23 @@
 #include "Component.h"
 #include <variant>
 #include <vector>
+struct OBB;
 struct Sphere;
-struct AABB;
+
 //#include "Physics/Geometry3D.h"
 //#include "Physics/AABB.h"
 class Collider :
     public Component
 {
 private:
-    std::variant<AABB*, Sphere*> shape;
+    std::variant<OBB*, Sphere*> shape;
+
+    struct Collision
+    {
+        Collider* col;
+        
+    };
+
     std::vector<Collider*> handles;
 public:
     //template<class T>
@@ -19,7 +27,7 @@ public:
     //    
     //};
 
-    explicit Collider(AABB* shape_) : Component(nullptr), shape(shape_)
+    explicit Collider(OBB* shape_) : Component(nullptr), shape(shape_)
     {
     }
 
@@ -45,5 +53,8 @@ public:
     void ClearHandles() { handles.clear(); }
     std::vector<Collider*> GetHandles() { return handles; }
 
-    std::variant<AABB*, Sphere*> GetShape() const { return shape; }
+  //  template<typename T>
+
+
+    std::variant<OBB*, Sphere*> GetShape() const { return shape; }
 };

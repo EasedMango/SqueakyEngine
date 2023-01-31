@@ -24,4 +24,6 @@ public:
     static void SimpleCollisionResponse(PhysicsBody* body, const Sphere* shape);
 
     static void CollisionResponse(PhysicsBody* body1, PhysicsBody* body2);
+    static void CollisionResponse(PhysicsBody* body1, PhysicsBody* body2, const float& depthPen);
+    static void CollisionResponse(PhysicsBody* body1, PhysicsBody* body2, const float& penetration, const float& e);
 };

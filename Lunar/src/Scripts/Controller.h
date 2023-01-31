@@ -13,6 +13,8 @@ private:
     }
 
     glm::vec2 prevMouse;
+    PhysicsBody* phyBod{};
+    Transform* transform{};
     float speed;
 public:
     Controller();

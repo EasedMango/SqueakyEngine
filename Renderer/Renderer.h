@@ -73,6 +73,7 @@ private:
 	RenderSkybox* GetSkybox(const std::string& filename) const;
 
 
+
 	//Tells gpu to use given shader
 	void LoadShader(RenderShader* shader) const;
 
@@ -91,7 +92,7 @@ public:
 	Renderer(Renderer&&) = delete;
 	Renderer& operator=(Renderer&&) = delete;
 
-
+	void DrawSphere(const glm::vec3& pos);
 	//Get Renderer
 	static Renderer& GetInstance()
 	{

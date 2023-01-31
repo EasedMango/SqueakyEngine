@@ -41,7 +41,7 @@ public:
 	inline void ApplyForce(glm::vec3 force) { acceleration = (force / mass); };
 	PhysicsBody(bool isStatic_ = false,float mass_=1, glm::vec3 vel = glm::vec3(0));
 	Transform* GetTransform()const { return transform; }
-	void Update(const float deltaTime);
+	void Update(const float deltaTime) override;
 	bool OnCreate() override;
 	void OnDestroy() override;
 	void Render() const override;

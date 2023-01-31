@@ -36,25 +36,25 @@ void ShootWeapons::Update(const float deltaTime)
 
 			std::cout << hit.actor->GetName() << " was hit!\n";
 		}
-		auto dirGet = transform->GetForward();
-		auto dir2 = glm::vec3(-dirGet.x,- dirGet.y,- dirGet.z);
-		auto posGet = transformCam->GetWorldPosition();
-		auto pos2 = glm::vec3(posGet.x, posGet.y, posGet.z);
+		const auto dirGet = transform->GetForward();
+		const auto dir2 = glm::vec3(-dirGet.x,- dirGet.y,- dirGet.z);
+		const auto posGet = transformCam->GetWorldPosition();
+		const auto pos2 = glm::vec3(posGet.x, posGet.y, posGet.z);
 
 		std::cout << transform->GetForward() << std::endl;
 		if (hit.actor != nullptr) {
 			Actor* a = am->Instantiate(new Actor(nullptr, "Missle", 
 				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png","phong"),
-				new Transform(pos2 + dir2, transformCam->GetRotation(), glm::vec3(1.f)),
+				new Transform(pos2 + (dir2*2.f), transformCam->GetRotation(), glm::vec3(1.f)),
 				new Collider(new Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, hit.actor, 5.f, 20.f,glm::vec3(0))));
 
 			std::cout << a->GetComponent<Transform>()->GetForward() << std::endl;
 		}
-		else
+		/*else
 			Actor* a = am->Instantiate(new Actor(nullptr, "Missle",
 				new Mesh("src/Meshes/Missle.obj"), new Material("src/Textures/MissleArnold_diffuse_albedo.png", "phong"),
 				new Transform(pos2 + dir2, transformCam->GetRotation(), glm::vec3(1.f)),
-				new Collider(new Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, nullptr, 5.f, 20.f, dir2)));
+				new Collider(new Sphere(glm::vec3(0), 0.25f)), new PhysicsBody(false, 1, dir2 * 3.f), new Missle(nullptr, nullptr, 5.f, 20.f, dir2)));*/
 		//glm::vec3(transform->GetPosition()), transform->GetRotation());
 	}
 }
