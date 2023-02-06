@@ -1,4 +1,5 @@
 #pragma once
+
 #include <queue>
 #include <map>
 #include <GLFW/glfw3.h>
@@ -6,6 +7,9 @@
 #include <functional>
 #include <iostream>
 #include <glm/vec2.hpp>
+
+#include "Components/Camera.h"
+
 const enum key_states {
 	OnNull = 0, OnPress, OnHold, OnRelease
 };
@@ -45,7 +49,7 @@ struct Click {
 		state = (s);
 	}
 };
-static class Input
+ class Input
 {
 private:
 	Input() = default;
@@ -73,25 +77,30 @@ public:
 	inline void SetMousePos(glm::vec2& mp) { mousePos = mp; }
 	inline void SetScroll(const float& x, const float& y) { prevScrollWheel = scrollWheel; scrollWheel = glm::vec2(x, y); };
 	inline glm::vec2 GetMousePos() { return mousePos; }
-
+	glm::vec3 GetMouseInWorld();
 	inline void SetViewportSize(int x, int y) { viewportSize = glm::vec2(x, y); }
 	inline glm::vec2 GetViewportSize() const { return viewportSize; }
 
-	inline void handle_key(GLFWwindow* window, int key, int code, int action, int modifiers) {
+	inline void HandleKey(GLFWwindow* window, int key, int code, int action, int modifiers) {
 
 		unhandled_keys.emplace(key, code, action, modifiers, std::chrono::steady_clock::now());
 	}
-	inline void handle_clicks(GLFWwindow* window, int button, int action, int modifiers) {
+	inline void HandleClicks(GLFWwindow* window, int button, int action, int modifiers) {
 
 		unhandled_clicks.emplace(button, action, action, modifiers);
 	}
+
+	
+
 	static Input* input;
 	static Input& GetInstance() {
 		// Allocate with `new` in case Singleton is not trivially destructible.
 		static Input* singleton = new Input();
 		return *singleton;
 	}
-	void handle_input(float delta_time);
+
+	glm::vec3 GetMouseDepthPosition();
+	void HandleInput(float delta_time);
 	void RenderGui();
 
 	bool OnKeyPress(int GLFW_key);

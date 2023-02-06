@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Components/Logger.h"
 #include <iostream>
-#include <glad/glad.h>
+//#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Components.h"
 #include <glm/ext.hpp>

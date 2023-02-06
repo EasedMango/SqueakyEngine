@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include "Components/Logger.h"
 #include "Components/Camera.h"
-
+#define GLFW_INCLUDE_NONE
 #include "Geometry/BasicShapes.h"
 #include "Components/Gui.h"
 #include "Input.h"
@@ -48,7 +48,7 @@ void SceneManager::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 }
 void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	Input::GetInstance().handle_clicks(window, button, action, mods);
+	Input::GetInstance().HandleClicks(window, button, action, mods);
 	//if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
 
 }
@@ -61,6 +61,13 @@ static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	Input::GetInstance().SetScroll(xoffset, yoffset);
+}
+
+void WindowSizeCallback(GLFWwindow* window, int width, int height)
+{
+	static_cast<SceneManager*>(glfwGetWindowUserPointer(window))->GetWindow()->SetWidthHeight(width, height);
+	Input::GetInstance().SetViewportSize(width, height);
+	std::cout << width << " " << height << std::endl;
 }
 
 SceneManager::SceneManager(): currentScene(nullptr), window(nullptr), actorManager(nullptr), gui(nullptr), curTime(0),
@@ -87,6 +94,7 @@ void SceneManager::Run(const int scene)
 	gui = new Gui(window->GetWindow());
 
 	glfwSetFramebufferSizeCallback(window->GetWindow(), SetBuffer);
+	glfwSetWindowSizeCallback(window->GetWindow(), WindowSizeCallback);
 	glfwSetInputMode(window->GetWindow(), GLFW_STICKY_KEYS, GLFW_TRUE);
 	glfwSetCursorPosCallback(window->GetWindow(), CursorPositionCallback);
 	glfwSetMouseButtonCallback(window->GetWindow(), MouseButtonCallback);
@@ -108,7 +116,7 @@ void SceneManager::Run(const int scene)
 		deltaTime = curTime - prevTime;
 		
 		//Logger::Info("Handle Input");
-		Input::GetInstance().handle_input(deltaTime);
+		Input::GetInstance().HandleInput(deltaTime);
 		//Logger::Info("Update");
 		currentScene->Update(deltaTime);
 		//Logger::Info("SceneRender");
@@ -156,7 +164,7 @@ void SceneManager::LoadScene(Scene* scene)
 void SceneManager::HandleEvents(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 
-	Input::GetInstance().handle_key(window, key, scancode, action, mods);
+	Input::GetInstance().HandleKey(window, key, scancode, action, mods);
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
 		LoadScene(scenes.back());
 	}
@@ -196,7 +204,7 @@ bool SceneManager::Initialize(const char* name_, int width_, int height_)
 void SceneManager::SetBuffer(GLFWwindow* window, int width, int height) {
 	glfwGetFramebufferSize(window, &width, &height);
 	printf("buffer");
-	Input::GetInstance().SetViewportSize(width, height);
+
 
 	glViewport(0, 0, width, height);
 }

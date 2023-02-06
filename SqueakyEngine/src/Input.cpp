@@ -1,7 +1,114 @@
+#include <glad/glad.h>
 #include "Input.h"
 #include <imgui.h>
+
+
+#define GLFW_INCLUDE_NONE
+#include "Vec.h"
+#include <glm/geometric.hpp>
+#include <glm/ext/matrix_projection.hpp>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/geometric.hpp>
+#include <glm/gtx/closest_point.hpp>
+#include <glm/gtx/intersect.hpp>
+
+#include "Components/Physics/Plane.h"
+#include "Components/Physics/Ray.h"
+using namespace glm;
+//#include "linmath.h"
 #define STRING(num) #num
-void Input::handle_input(float delta_time)
+
+glm::vec3 Input::GetMouseInWorld()
+{
+	glm::vec3 mousePos(GetMousePos(), 0);
+	float x = mousePos.x;
+	float y = mousePos.y;
+	glm::mat4 proj = Camera::GetMainCamera()->GetProjectionMatrix();
+
+	glm::mat4 view = Camera::GetMainCamera()->GetViewMatrix();
+
+	glm::vec4 viewport(0, 0, GetViewportSize());
+	glm::vec4 mousePosNDC = { (mousePos - vec3(viewport.x, viewport.y, 0)) / vec3(viewport.z, viewport.w, 1), 0
+	};
+	vec4 eyespace = mousePosNDC * inverse(proj);
+	vec4 worldspace = eyespace * inverse(view);
+	float winX, winY, winZ;               // Holds Our X, Y and Z Coordinates
+
+
+	winX = (float)x;
+	winY = (float)viewport[3] - (float)y;
+	winZ = 1.0f;
+		//glReadPixels(x, (winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+
+	vec3 origin = view[3];
+		//glm::closestPointOnLine()
+	view[3] = { 0,0,view[3].z,view[3].w };
+	glm::vec3 worldPosNear = glm::unProject(vec3(winX, winY, 0), view, proj, viewport);
+	glm::vec3 worldPosFar = glm::unProject(vec3(winX, winY, 1), view, proj, viewport);
+	
+	//glm::vec4 myParallelPlaneProjection = (proj * glm::vec4(0, 0, -(worldPosNear + (worldPosFar - worldPosNear) * 0.5f), 1.0f));
+	vec4 myParallelPlaneProjection = proj*- vec4(  (worldPosNear + (worldPosFar - worldPosNear) * 0.5f), 1.0f);
+	float myParallelPlaneDepth = myParallelPlaneProjection.z / myParallelPlaneProjection.w;
+
+	
+	glm::vec3 windows_coords = glm::vec3(winX, winY, myParallelPlaneDepth);
+	glm::vec3 position = glm::unProject(windows_coords, view , proj, viewport);
+	
+
+
+	glm::vec3 worldPos = glm::unProject(vec3(winX, winY, 0.975f), view, proj, viewport);
+	//position = position;// worldPos.z - 2;
+	position = position / (position.z * 10.f);
+	float intersectionDistance;
+	
+	glm::intersectRayPlane({ 0,0,origin .z}, worldPosNear, { 0,0,0 }, vec3(0, 0, 1), intersectionDistance);
+	Ray ray({ 0,0,origin.z }, worldPosFar);
+	Plane zed(view[1] );
+
+
+	vec3 point = zed.IntersectionPoint(ray);
+
+	//worldPos.z = ;
+
+
+	return { -(point.x +origin.x),-(point.y+origin.y),point.z};// origin + intersectionDistance * worldPosNear;// unProject(vec3(winX, winY, winZ), mat4(1), proj, viewport);
+}
+
+glm::vec3 Input::GetMouseDepthPosition()
+{
+	glm::vec3 mousePos(GetMousePos(), 0);
+	float x = mousePos.x;
+	float y = mousePos.y;
+	glm::mat4 proj = Camera::GetMainCamera()->GetProjectionMatrix();
+
+	glm::mat4 view = Camera::GetMainCamera()->GetViewMatrix();
+
+	glm::vec4 viewport(0, 0, GetViewportSize());
+	glm::vec4 mousePosNDC = {(mousePos - vec3(viewport.x, viewport.y, 0)) / vec3(viewport.z, viewport.w, 1), 0
+};
+	vec4 eyespace = mousePosNDC * inverse(proj);
+	vec4 worldspace = eyespace * inverse(view);
+	float winX, winY, winZ;               // Holds Our X, Y and Z Coordinates
+
+
+	winX = (float)x;
+	winY = (float)viewport[3] - (float)y;
+	winZ = 0;
+//	glReadPixels(x, (winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+
+	
+
+
+	glm::mat4 model = (glm::mat4(1.0f)); // identity matrix
+
+
+
+	glm::vec3 worldPos = glm::unProject(vec3(winX, winY, winZ), view, proj, viewport);
+	worldPos.z = 0;// worldPos.z - 2;
+	return worldPos;// unProject(vec3(winX, winY, winZ), mat4(1), proj, viewport);
+}
+
+void Input::HandleInput(float delta_time)
 {
 	while (!unhandled_keys.empty()) {
 		KeyEvent event = unhandled_keys.front();

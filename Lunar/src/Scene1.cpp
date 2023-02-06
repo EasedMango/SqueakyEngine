@@ -17,6 +17,7 @@
 #include "Audio.h"
 #include <Components/Physics/Sphere.h>
 #include <Components/Physics/OBB.h>
+#include "Scripts/MouseController.h"
 #include <Audio.h>
 Scene1::Scene1()
 {
@@ -35,13 +36,14 @@ bool Scene1::OnCreate()
 
 	am = new ActorManager();
 	am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
-		new Transform(glm::vec3(0.0f, -2.f, -24.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
+		new Transform(glm::vec3(0.0f, -0.f, -24.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
 
-	//am->AddActor(new Actor(nullptr, "Test",
-	//	new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
-	//	new Transform(glm::vec3(4.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-	//	new Collider(new Sphere({ 0.f, 0.f, 0.f },{ 1.f})), new PhysicsBody(true)));
-
+	am->AddActor(new Actor(nullptr, "GameOverMenuCube",
+		new Mesh("src/Meshes/GameOverMenuCube.obj"), new Material("src/Textures/GameOverMenu.png", "phong"),
+		new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
+	am->AddActor(new Actor(nullptr, "Mouse",
+		new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
+		new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),new MouseController()));
 	am->AddActor(new Actor(nullptr, "SpaceShip",
 		new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
 		new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
@@ -59,7 +61,7 @@ bool Scene1::OnCreate()
 		new Collider(new OBB(1.f, 1.f, 1.f)), new PhysicsBody(), new Controller()));
 
 	//audio->SetListener(am->GetActor("Camera")->GetComponent<Transform>());
-//	am->GetActor("Camera")->SetParent(am->GetActor("Player"));
+	am->GetActor("Camera")->SetParent(am->GetActor("Player"));
 	//audio->PlayAudio("MidstoneJunk.wav", glm::vec3(0));
 	Renderer::GetInstance().GetCreateSkybox("src/Textures/StarSkyboxPosx.png", "src/Textures/StarSkyboxPosy.png",
 		"src/Textures/StarSkyboxPosz.png", "src/Textures/StarSkyboxNegx.png",

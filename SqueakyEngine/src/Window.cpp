@@ -1,8 +1,9 @@
 
 #include "Window.h"
 #include <cmath>
-#include <gl/GL.h>
 
+
+#include "Input.h"
 #include "SceneManager.h"
 
 void DrawCircle() {
@@ -15,10 +16,7 @@ void DrawCircle() {
 }
 Window::Window()
 = default;
-void WindowSizeCallback(GLFWwindow* window, int width, int height)
-{
-	static_cast<SceneManager*>(glfwGetWindowUserPointer(window))->GetWindow()->SetWidthHeight(width, height);
-}
+
 Window::Window(const int width_, const int height_, const char* title) : window(nullptr)
 {
 	Logger::Info("Constructing Window");

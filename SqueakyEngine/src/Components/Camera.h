@@ -15,24 +15,17 @@ private:
 
 
 public:
+	inline static Camera* mainCamera=nullptr;
 	Camera(float fov_);
 
 
-	/**
-	 * \brief Perspective Camera Constructor 
-	 */
-	//Camera(const int& fov);
-	/**
-	 * \brief Orthographic Camera Constructor
-	 */
-	//Camera(const int& fov);
+
 
 	void UpdateViewMatrix();
 
+	static Camera* GetMainCamera();
 
-
-
-	 bool OnCreate() override;
+	bool OnCreate() override;
 
 
 	 void OnDestroy() override;

@@ -143,6 +143,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Scripts\MouseController.cpp" />
     <ClCompile Include="src\Scene3.cpp" />
     <ClCompile Include="src\Scene4.cpp" />
     <ClCompile Include="src\Scripts\Missle.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="src\Scripts\Controller.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Scripts\MouseController.h" />
     <ClInclude Include="src\Scene3.h" />
     <ClInclude Include="src\Scene4.h" />
     <ClInclude Include="src\Scripts\Missle.h" />
