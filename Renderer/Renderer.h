@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <memory>
 #include <vector>
 #include <string>
 #include <glad/glad.h>
@@ -7,7 +8,7 @@
 #include "glm/matrix.hpp"
 #include <queue>
 #include "Text.h"
-
+#include <unordered_map>
 
 class RenderSkybox;
 class RenderCamera;
@@ -26,7 +27,7 @@ private:
 	RenderShader* letterShader{};
 
 	std::queue<Text> textQueue;
-
+	
 	struct RenderObject
 	{
 		std::string shader;
@@ -41,10 +42,10 @@ private:
 	float attenuation{};
 
 
-	std::vector<RenderMesh*> meshes;
-	std::vector<RenderTexture*> materials;
-	std::vector<RenderShader*> shaders;
-	std::vector<RenderSkybox*> skyboxes;
+	std::vector<std::unique_ptr<RenderMesh>> meshes;
+	std::unordered_map<std::string, std::unique_ptr<RenderShader>> textures;
+	std::vector< std::unique_ptr<RenderShader>> shaders;
+	std::vector< std::unique_ptr<RenderSkybox>> skyboxes;
 	RenderCamera* camera{};
 	RenderShader* activeShader{};
 	RenderSkybox* activeSkybox{};
@@ -55,8 +56,8 @@ private:
 	~Renderer();
 
 	//Material Getters and Setters 
-	RenderTexture* CreateMaterial(const std::string& filename);
-	RenderTexture* GetMaterial(const std::string& filename) const;
+	GLuint<RenderTexture> CreateMaterial(const std::string& filename);
+	GLuint<RenderTexture> GetMaterial(const std::string& filename) const;
 
 	//Shader Getters and Setters 
 	RenderShader* CreateShader(const std::string& filename);
@@ -111,7 +112,7 @@ public:
 	 * \param filename filename and location of the texture
 	 * \return RenderMaterial Pointer
 	 */
-	RenderTexture* GetCreateMaterial(const std::string& filename);
+	GLuint GetCreateMaterial(const std::string& filename);
 
 
 	/**

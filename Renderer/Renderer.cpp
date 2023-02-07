@@ -108,20 +108,23 @@ RenderSkybox* Renderer::GetCreateSkybox(const std::string& posXFile_, const std:
 	return rm;
 }
 
-RenderTexture* Renderer::GetMaterial(const std::string& filename) const
+GLuint Renderer::GetMaterial(const std::string& filename) const
 {
+
+	text
 	for (const auto& element : materials)
 	{
-		if (element->GetFileName() == filename)
+		if (element.get()->GetFileName() == filename)
 			return element;
 	}
+	ret
 
 	return nullptr;
 }
 
-RenderTexture* Renderer::CreateMaterial(const std::string& filename)
+GLuint Renderer::CreateMaterial(const std::string& filename)
 {
-	const auto newMaterial = new RenderTexture(filename);
+	std::unique_ptr<RenderTexture> newMaterial(new RenderTexture(filename));
 	newMaterial->OnCreate();
 	materials.push_back(newMaterial);
 
@@ -129,9 +132,9 @@ RenderTexture* Renderer::CreateMaterial(const std::string& filename)
 }
 
 
-RenderTexture* Renderer::GetCreateMaterial(const std::string& filename)
+GLuint Renderer::GetCreateMaterial(const std::string& filename)
 {
-	RenderTexture* rm = GetMaterial(filename);
+	std::unique_ptr<RenderTexture> rm = GetMaterial(filename);
 	if (rm == nullptr)
 	{
 		return CreateMaterial(filename);
