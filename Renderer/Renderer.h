@@ -42,10 +42,10 @@ private:
 	float attenuation{};
 
 
-	std::vector<std::unique_ptr<RenderMesh>> meshes;
-	std::unordered_map<std::string, std::unique_ptr<RenderShader>> textures;
-	std::vector< std::unique_ptr<RenderShader>> shaders;
-	std::vector< std::unique_ptr<RenderSkybox>> skyboxes;
+	std::unordered_map<std::string, std::unique_ptr<RenderMesh>> meshes;
+	std::unordered_map<std::string, std::unique_ptr<RenderTexture>> textures;
+	std::unordered_map<std::string, std::unique_ptr<RenderShader>> shaders;
+	std::unordered_map<std::string, std::unique_ptr<RenderSkybox>> skyboxes;
 	RenderCamera* camera{};
 	RenderShader* activeShader{};
 	RenderSkybox* activeSkybox{};
@@ -56,8 +56,8 @@ private:
 	~Renderer();
 
 	//Material Getters and Setters 
-	GLuint<RenderTexture> CreateMaterial(const std::string& filename);
-	GLuint<RenderTexture> GetMaterial(const std::string& filename) const;
+	RenderTexture* CreateMaterial(const std::string& filename);
+	RenderTexture* GetMaterial(const std::string& filename) const;
 
 	//Shader Getters and Setters 
 	RenderShader* CreateShader(const std::string& filename);
@@ -104,7 +104,7 @@ public:
 
 
 	//sets the camera
-	void SetCamera(glm::mat4 viewmat, glm::mat4 projmat);
+	void SetCamera( RenderCamera* cam);
 
 
 	/**
@@ -112,7 +112,7 @@ public:
 	 * \param filename filename and location of the texture
 	 * \return RenderMaterial Pointer
 	 */
-	GLuint GetCreateMaterial(const std::string& filename);
+	RenderTexture* GetCreateMaterial(const std::string& filename);
 
 
 	/**

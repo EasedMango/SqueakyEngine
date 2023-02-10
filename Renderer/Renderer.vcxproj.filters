@@ -48,6 +48,12 @@
     <ClInclude Include="RenderMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenderLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UBO_PADDING.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -78,6 +84,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UBO_PADDING.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

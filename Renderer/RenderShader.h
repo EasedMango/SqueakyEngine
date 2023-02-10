@@ -19,6 +19,7 @@ private:
 
 	std::string ReadTextFile(const char* file_path) const;
 	bool CompileShader(GLuint& id, std::string fileName, GLint& status);
+
 	bool CompileAttach();
 	bool Link() const;
 	void SetUniformLocations();
@@ -34,5 +35,5 @@ public:
 
 	bool OnCreate();
 
-
+	void OnDestroy() const;
 };

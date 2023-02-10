@@ -41,9 +41,9 @@ bool Scene1::OnCreate()
 	am->AddActor(new Actor(nullptr, "GameOverMenuCube",
 		new Mesh("src/Meshes/GameOverMenuCube.obj"), new Material("src/Textures/GameOverMenu.png", "phong"),
 		new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
-	am->AddActor(new Actor(nullptr, "Mouse",
-		new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
-		new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),new MouseController()));
+	//am->AddActor(new Actor(nullptr, "Mouse",
+	//	new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
+	//	new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),new MouseController()));
 	am->AddActor(new Actor(nullptr, "SpaceShip",
 		new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
 		new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
@@ -63,9 +63,9 @@ bool Scene1::OnCreate()
 	//audio->SetListener(am->GetActor("Camera")->GetComponent<Transform>());
 	am->GetActor("Camera")->SetParent(am->GetActor("Player"));
 	//audio->PlayAudio("MidstoneJunk.wav", glm::vec3(0));
-	Renderer::GetInstance().GetCreateSkybox("src/Textures/StarSkyboxPosx.png", "src/Textures/StarSkyboxPosy.png",
+	/*Renderer::GetInstance().GetCreateSkybox("src/Textures/StarSkyboxPosx.png", "src/Textures/StarSkyboxPosy.png",
 		"src/Textures/StarSkyboxPosz.png", "src/Textures/StarSkyboxNegx.png",
-		"src/Textures/StarSkyboxNegy.png", "src/Textures/StarSkyboxNegz.png");
+		"src/Textures/StarSkyboxNegy.png", "src/Textures/StarSkyboxNegz.png");*/
 	return false;
 }
 

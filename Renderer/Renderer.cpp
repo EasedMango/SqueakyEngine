@@ -41,63 +41,104 @@ Renderer::~Renderer()
 
 RenderMesh* Renderer::CreateMesh(const std::string& filename)
 {
-	const auto rm = new RenderMesh(filename);
-
-	meshes.push_back(rm);
-	return rm;
+	if (!meshes.contains(filename))
+		return (meshes.at(filename).get());
+	return nullptr;
 }
 
 RenderMesh* Renderer::GetMesh(const std::string& filename) const
 {
-	for (const auto& element : meshes)
-	{
-		if (element->GetFileName() == filename)
-			return element;
-	}
+	if (meshes.contains(filename))
+		return (meshes.at(filename).get());
 	return nullptr;
 }
 
 RenderMesh* Renderer::GetCreateMesh(const std::string& filename)
 {
-	RenderMesh* rm = GetMesh(filename);
-	if (rm == nullptr)
-	{
-		return CreateMesh(filename);
-	}
-
-	return rm;
+	if (meshes.contains(filename))
+		return (meshes.at(filename).get());
+	return meshes.emplace(filename, std::make_unique<RenderMesh>(filename)).first->second.get();
 }
 
-RenderSkybox* Renderer::CreateSkybox(const std::string& posXFile_, const std::string& posYFile_,
-                                     const std::string& posZFile_, const std::string& negXFile_,
-                                     const std::string& negYFile_, const std::string& negZFile_)
+RenderTexture* Renderer::GetMaterial(const std::string& filename) const
 {
-	const auto newShader = new RenderSkybox(posXFile_, posYFile_, posZFile_, negXFile_, negYFile_, negZFile_);
-	newShader->OnCreate();
-	skyboxes.push_back(newShader);
-	activeSkybox = newShader;
-	return newShader;
+
+	if (textures.contains(filename))
+		return (textures.at(filename).get());
+	return nullptr;
 }
 
-RenderSkybox* Renderer::GetSkybox(const std::string& filename) const
+RenderTexture* Renderer::CreateMaterial(const std::string& filename)
 {
-	for (const auto& element : skyboxes)
-	{
-		if (element->GetFilename() == filename)
-			return element;
+	if (!meshes.contains(filename)) {
+		
+		RenderTexture* temp= textures.emplace(filename, std::make_unique<RenderTexture>(filename)).first->second.get();
+		temp->OnCreate();
+		return temp;
 	}
 	return nullptr;
 }
 
-void Renderer::DrawSphere(const glm::vec3& pos)
+
+RenderTexture* Renderer::GetCreateMaterial(const std::string& filename)
 {
-	AddToQueue("default", "src/Meshes/Sphere.obj", "White.png", glm::translate(glm::mat4(1),pos));
+	if (textures.contains(filename))
+		return (textures.at(filename).get());
+
+	RenderTexture* temp = textures.emplace(filename, std::make_unique<RenderTexture>(filename)).first->second.get();
+	temp->OnCreate();
+	return temp;
 }
 
+RenderShader* Renderer::GetShader(const std::string& filename) const
+{
+	if (shaders.contains(filename))
+		return (shaders.at(filename).get());
+	return nullptr;
+}
+
+RenderShader* Renderer::CreateShader(const std::string& filename)
+{
+	RenderShader* temp = shaders.emplace(filename, std::make_unique<RenderShader>(filename)).first->second.get();
+	temp->OnCreate();
+	return temp;
+}
+
+
+
+RenderShader* Renderer::GetCreateShader(const std::string& filename)
+{
+	if (shaders.contains(filename))
+		return (shaders.at(filename).get());
+
+
+	RenderShader* temp = shaders.emplace(filename, std::make_unique<RenderShader>(filename)).first->second.get();
+	temp->OnCreate();
+	return temp;
+}
+
+RenderSkybox* Renderer::CreateSkybox(const std::string& posXFile_, const std::string& posYFile_,
+	const std::string& posZFile_, const std::string& negXFile_,
+	const std::string& negYFile_, const std::string& negZFile_)
+{
+	/*const auto newShader = std::make_unique<RenderSkybox>(posXFile_, posYFile_, posZFile_, negXFile_, negYFile_, negZFile_);*/
+	RenderSkybox* temp = skyboxes.emplace(posXFile_, std::make_unique<RenderSkybox>(posXFile_, posYFile_, posZFile_, negXFile_, negYFile_, negZFile_)).first->second.get();
+	temp->OnCreate();
+	activeSkybox = temp;
+	return temp;
+
+	return activeSkybox;
+}
+RenderSkybox* Renderer::GetSkybox(const std::string& filename) const
+{
+	if (skyboxes.contains(filename))
+		return (skyboxes.at(filename).get());
+	return nullptr;
+}
 RenderSkybox* Renderer::GetCreateSkybox(const std::string& posXFile_, const std::string& posYFile_,
-                                        const std::string& posZFile_, const std::string& negXFile_,
-                                        const std::string& negYFile_,
-                                        const std::string& negZFile_)
+	const std::string& posZFile_, const std::string& negXFile_,
+	const std::string& negYFile_,
+	const std::string& negZFile_)
 {
 	RenderSkybox* rm = GetSkybox(posXFile_);
 	if (rm == nullptr)
@@ -107,78 +148,15 @@ RenderSkybox* Renderer::GetCreateSkybox(const std::string& posXFile_, const std:
 
 	return rm;
 }
-
-GLuint Renderer::GetMaterial(const std::string& filename) const
+void Renderer::DrawSphere(const glm::vec3& pos)
 {
-
-	text
-	for (const auto& element : materials)
-	{
-		if (element.get()->GetFileName() == filename)
-			return element;
-	}
-	ret
-
-	return nullptr;
-}
-
-GLuint Renderer::CreateMaterial(const std::string& filename)
-{
-	std::unique_ptr<RenderTexture> newMaterial(new RenderTexture(filename));
-	newMaterial->OnCreate();
-	materials.push_back(newMaterial);
-
-	return newMaterial;
+	AddToQueue("default", "src/Meshes/Sphere.obj", "White.png", glm::translate(glm::mat4(1), pos));
 }
 
 
-GLuint Renderer::GetCreateMaterial(const std::string& filename)
+void Renderer::SetCamera( RenderCamera* cam)
 {
-	std::unique_ptr<RenderTexture> rm = GetMaterial(filename);
-	if (rm == nullptr)
-	{
-		return CreateMaterial(filename);
-	}
-
-	return rm;
-}
-
-RenderShader* Renderer::CreateShader(const std::string& filename)
-{
-	const auto newShader = new RenderShader(filename);
-	if (!newShader->OnCreate())
-	{
-		std::cout << "Shader Failed to Create\n";
-	}
-
-	shaders.push_back(newShader);
-	return newShader;
-}
-
-RenderShader* Renderer::GetShader(const std::string& filename) const
-{
-	for (const auto& element : shaders)
-	{
-		if (element->GetFileName() == filename)
-			return element;
-	}
-	return nullptr;
-}
-
-RenderShader* Renderer::GetCreateShader(const std::string& filename)
-{
-	RenderShader* rs = GetShader(filename);
-	if (rs == nullptr)
-	{
-		return CreateShader(filename);
-	}
-
-	return rs;
-}
-
-void Renderer::SetCamera(glm::mat4 viewmat, glm::mat4 projmat)
-{
-	camera = new RenderCamera(viewmat, projmat);
+	camera = cam;
 }
 
 
@@ -217,9 +195,9 @@ bool Renderer::MeshRender(const RenderObject& object)
 
 
 		glUniformMatrix4fv(activeShader->GetUniformID("modelMatrix"), 1, GL_FALSE,
-		                   value_ptr(object.matrix));
+			value_ptr(object.matrix));
 
-		if (mat != nullptr && mat->GetFileName()!="White.png")
+		if (mat != nullptr && mat->GetFileName() != "White.png")
 			glBindTexture(GL_TEXTURE_2D, GetMaterial(object.texture)->GetTextureID());
 		else
 			glBindTexture(GL_TEXTURE_2D, 0);
@@ -241,15 +219,15 @@ bool Renderer::SkyboxRender(const RenderSkybox& skybox)
 
 	LoadShader(activeShader);
 
-	glm::mat4 view = camera->GetViewMatrix();
-	view[3].x = 0;
-	view[3].y = 0;
-	view[3].z = 0;
-	//std::cout << glm::to_string(view) << std::endl;
+	//glm::mat4 view = camera->GetViewMatrix();
+	//view[3].x = 0;
+	//view[3].y = 0;
+	//view[3].z = 0;
+	////std::cout << glm::to_string(view) << std::endl;
 
-	glUniformMatrix4fv(activeShader->GetUniformID("viewMatrix"), 1, GL_FALSE, value_ptr(view));
+	//glUniformMatrix4fv(activeShader->GetUniformID("viewMatrix"), 1, GL_FALSE, value_ptr(view));
 	glUniformMatrix4fv(activeShader->GetUniformID("modelMatrix"), 1, GL_FALSE,
-	                   value_ptr(glm::mat4(1)));
+		value_ptr(glm::mat4(1)));
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
@@ -302,15 +280,15 @@ void Renderer::Render()
 	glUseProgram(0);
 }
 
-void Renderer::AddToQueue( const std::string& shader, const std::string& mesh_,
-                          const std::string& material_, const glm::mat4& modelMatrix)
+void Renderer::AddToQueue(const std::string& shader, const std::string& mesh_,
+	const std::string& material_, const glm::mat4& modelMatrix)
 {
-	renderQueue.emplace(RenderObject{ shader,  mesh_, material_, modelMatrix});
+	renderQueue.emplace(RenderObject{ shader,  mesh_, material_, modelMatrix });
 }
 
 void Renderer::UpdateCamera(const glm::mat4 view) const
 {
-	camera->UpdateViewMatrix(view);
+	camera->UpdateViewMatrix();
 }
 
 void Renderer::AddText(const Text& t)
@@ -328,24 +306,25 @@ void Renderer::RenderText(const Text& text_)
 	//view[3].y = 0;
 	//view[3].z = 0;
 
-	
+
 	LoadShader(letterShader);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	glUseProgram(letterShader->GetProgram());
-	glUniformMatrix4fv(letterShader->GetUniformID("projectionMatrix"), 1, GL_FALSE,
-	                   glm::value_ptr(camera->GetProjectionMatrix()));
-	glUniformMatrix4fv(letterShader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(view));
+	///glUseProgram(letterShader->GetProgram());
+	LoadShader(letterShader);
+	//glUniformMatrix4fv(letterShader->GetUniformID("projectionMatrix"), 1, GL_FALSE,
+	//	glm::value_ptr(camera->GetProjectionMatrix()));
+	//glUniformMatrix4fv(letterShader->GetUniformID("viewMatrix"), 1, GL_FALSE, glm::value_ptr(view));
 
 	glUniformMatrix4fv(letterShader->GetUniformID("modelMatrix"), 1, GL_FALSE,
-	                   glm::value_ptr(modelMatrix ));
+		glm::value_ptr(modelMatrix));
 	//origin->Render(GL_TRIANGLES);
 
 	float lPos = 0;
 	glBindTexture(GL_TEXTURE_2D, GetCreateMaterial((std::string("mario_fire.png")))->GetTextureID());
 
-	
-	
+
+
 
 	for (int x = 0; x < text_.text.size(); ++x) {
 		//std::cout << int(text_.text[x]) << "\n";

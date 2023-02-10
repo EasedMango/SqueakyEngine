@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Gizmos.h" />
     <ClInclude Include="RenderCamera.h" />
+    <ClInclude Include="RenderLight.h" />
     <ClInclude Include="RenderMaterial.h" />
     <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="RenderMesh.h" />
@@ -152,10 +153,12 @@
     <ClInclude Include="RenderSkybox.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="tiny_obj_loader.h" />
+    <ClInclude Include="UBO_PADDING.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gizmos.cpp" />
     <ClCompile Include="RenderCamera.cpp" />
+    <ClCompile Include="RenderLight.cpp" />
     <ClCompile Include="RenderMaterial.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="RenderMesh.cpp" />
@@ -164,6 +167,7 @@
     <ClCompile Include="RenderShader.cpp" />
     <ClCompile Include="RenderSkybox.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="UBO_PADDING.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

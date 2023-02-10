@@ -2,46 +2,42 @@
 #include <glm/matrix.hpp>
 #include "Component.h"
 #include "Actor.h"
+#include "RenderCamera.h"
 
-enum CameraType { Prespective, Orthographic };
-class Camera : public Component
+
+class Camera : public Component, public RenderCamera
 {
 private:
-	CameraType type;
-	float fov;
-	glm::mat4 projectionMatrix;
-	glm::mat4 viewMatrix;
 	class Transform* camTrn;
 
 
 public:
-	inline static Camera* mainCamera=nullptr;
+	inline static Camera* mainCamera = nullptr;
 	Camera(float fov_);
 
 
 
 
-	void UpdateViewMatrix();
+
 
 	static Camera* GetMainCamera();
 
 	bool OnCreate() override;
 
 
-	 void OnDestroy() override;
+	void OnDestroy() override;
 
 
-	 void Update(const float deltaTime) override;
+	void Update(const float deltaTime) override;
 
 
-	 void Render() const override;
+	void Render() const override;
 
 
-	 void RenderGui() override;
 
-	glm::mat4 GetProjectionMatrix() const { return projectionMatrix; }
-	//glm::vec3 Get
-	glm::mat4 GetViewMatrix() const;
+	void RenderGui() override;
 
+
+	void UpdateViewMatrix() override;
 };
 

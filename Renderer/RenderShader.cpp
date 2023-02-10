@@ -102,6 +102,14 @@ std::string RenderShader::ReadTextFile(const char* file_path) const
     return true;
 }
 
+void RenderShader::OnDestroy() const
+{
+    glDetachShader(shaderID, fragShaderID);
+    glDetachShader(shaderID, vertShaderID);
+    glDeleteShader(fragShaderID);
+    glDeleteShader(vertShaderID);
+    glDeleteProgram(shaderID);
+}
 bool RenderShader::CompileAttach()
 {
     GLint status = 0;

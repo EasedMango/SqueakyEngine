@@ -41,7 +41,7 @@ public:
 		actor->OnCreate();
 		if (actor->GetName() == "Camera") {
 			mainCamera = actor;
-			Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
+			//Renderer::GetInstance().SetCamera();
 		}
 		//actor->SetParent(actor);
 		spawnQueue.emplace(actor);
@@ -62,7 +62,7 @@ public:
 		actor->OnCreate();
 		if (actor->GetName() == "Camera") {
 			mainCamera = actor;
-			Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
+			//Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
 		}
 		//actor->SetParent(actor);
 		spawnQueue.emplace(actor);
@@ -82,7 +82,7 @@ public:
 		actor->OnCreate();
 		if (actor->GetName() == "Camera") {
 			mainCamera = actor;
-			Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
+		//	Renderer::GetInstance().SetCamera(actor->GetComponent<Camera>()->GetViewMatrix(), actor->GetComponent<Camera>()->GetProjectionMatrix());
 		}
 		hierarchy.push_back(actor);
 	}

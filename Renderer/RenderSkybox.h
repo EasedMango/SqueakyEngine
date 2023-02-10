@@ -7,7 +7,7 @@ class RenderSkybox
 {
 private:
 	std::string mesh = "src/Meshes/Cube.obj";
-	std::string shader;
+	std::string shader ="skybox";
 	GLuint textureID;
 	std::string posXFile, posYFile, posZFile, negXFile, negYFile, negZFile;
 public:

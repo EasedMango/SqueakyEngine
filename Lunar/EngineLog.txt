@@ -1,4 +1,4 @@
-Mon Feb  6 15:39:12 2023
+Thu Feb  9 19:00:43 2023
 SceneManager.cpp : SceneManager : 78 : INFO: Constructing SceneManager
 Window.cpp : Window : 22 : INFO: Constructing Window
 Window.cpp : Window : 39 : INFO: Compiled against GLFW 3.4.0
