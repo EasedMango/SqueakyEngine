@@ -1,10 +1,10 @@
-Thu Feb  9 19:00:43 2023
+Sat Apr 15 21:46:52 2023
 SceneManager.cpp : SceneManager : 78 : INFO: Constructing SceneManager
 Window.cpp : Window : 22 : INFO: Constructing Window
 Window.cpp : Window : 39 : INFO: Compiled against GLFW 3.4.0
 Window.cpp : Window : 47 : INFO: Created Window, Main with Width: 1280 Height: 720
 Window.cpp : Window : 55 : INFO: Setting Window context
 SceneManager.cpp : Run : 86 : INFO: Starting Run
-Scene1.cpp : OnCreate : 34 : INFO: Creating scene 1
+Scene2.cpp : OnCreate : 31 : INFO: Creating scene 2
 SceneManager.cpp : Run : 110 : INFO: Starting main loop
 SceneManager.cpp : Run : 146 : INFO: Ending Run

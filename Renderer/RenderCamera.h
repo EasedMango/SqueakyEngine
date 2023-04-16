@@ -14,6 +14,7 @@ private:
 	unsigned int bindingPoint;
 public:
 	RenderCamera(const float& fov_);
+	bool OnCreate();
 
 	virtual ~RenderCamera();
 
@@ -29,7 +30,7 @@ public:
 	{
 		projectionMatrix = proj;
 	}
-	void SetViewMatrix(const glm::mat4& view)
+	inline void SetViewMatrix(const glm::mat4& view)
 	{
 		viewMatrix = view;
 	}

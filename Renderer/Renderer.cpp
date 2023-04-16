@@ -193,7 +193,7 @@ bool Renderer::MeshRender(const RenderObject& object)
 
 		const RenderMesh* mesh = GetCreateMesh(object.mesh);
 
-
+		glUniform3fv(activeShader->GetUniformID("lightPos"), 1, glm::value_ptr(glm::vec3(0,0,0) ));
 		glUniformMatrix4fv(activeShader->GetUniformID("modelMatrix"), 1, GL_FALSE,
 			value_ptr(object.matrix));
 
@@ -203,7 +203,7 @@ bool Renderer::MeshRender(const RenderObject& object)
 			glBindTexture(GL_TEXTURE_2D, 0);
 		mesh->Render();
 		glBindTexture(GL_TEXTURE_2D, 0);
-		glUseProgram(0);
+		//glUseProgram(0);
 		return true;
 	}
 

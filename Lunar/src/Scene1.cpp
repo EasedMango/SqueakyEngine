@@ -38,30 +38,30 @@ bool Scene1::OnCreate()
 	am->AddActor(new Actor(nullptr, "Camera", new Camera(45.f),
 		new Transform(glm::vec3(0.0f, -0.f, -24.0f), glm::vec3(0, 0, 0), glm::vec3(1.0f))));
 
-	am->AddActor(new Actor(nullptr, "GameOverMenuCube",
-		new Mesh("src/Meshes/GameOverMenuCube.obj"), new Material("src/Textures/GameOverMenu.png", "phong"),
-		new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
-	//am->AddActor(new Actor(nullptr, "Mouse",
+	//am->AddActor(new Actor(nullptr, "GameOverMenuCube",
+	//	new Mesh("src/Meshes/GameOverMenuCube.obj"), new Material("src/Textures/GameOverMenu.png", "phong"),
+	//	new Transform(glm::vec3(-2.f, -212.f, -380.f), glm::vec3(0), glm::vec3(1.f))));
+	////am->AddActor(new Actor(nullptr, "Mouse",
+	////	new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
+	////	new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),new MouseController()));
+	//am->AddActor(new Actor(nullptr, "SpaceShip",
 	//	new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
-	//	new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),new MouseController()));
-	am->AddActor(new Actor(nullptr, "SpaceShip",
-		new Mesh("src/Meshes/Sphere.obj"), new Material("src/Textures/StartMenu.png", "phong"),
-		new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-		new Collider(new Sphere({ 0.f, 0.f, 0.f }, { 1.f })), new PhysicsBody()));
+	//	new Transform(glm::vec3(4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
+	//	new Collider(new Sphere({ 0.f, 0.f, 0.f }, { 1.f })), new PhysicsBody()));
 
 
-	am->AddActor(new Actor(nullptr, "CubeTestStatic",
-		new Mesh("src/Meshes/Cube.obj"), new Material("src/Textures/StartMenu.png", "phong"),
-		new Transform(glm::vec3(-4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-		new Collider(new OBB(1.f, 1.f, 1.f)), new PhysicsBody()));
+	//am->AddActor(new Actor(nullptr, "CubeTestStatic",
+	//	new Mesh("src/Meshes/Cube.obj"), new Material("src/Textures/StartMenu.png", "phong"),
+	//	new Transform(glm::vec3(-4.f, 8.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
+	//	new Collider(new OBB(1.f, 1.f, 1.f)), new PhysicsBody()));
 
-	am->AddActor(new Actor(nullptr, "Player",
+	/*am->AddActor(new Actor(nullptr, "Player",
 		new Mesh("src/Meshes/Cube.obj"), new Material("src/Textures/StartMenu.png", "phong"),
 		new Transform(glm::vec3(-0.f, 0.f, 0.f), glm::vec3(0), glm::vec3(1.f)),
-		new Collider(new OBB(1.f, 1.f, 1.f)), new PhysicsBody(), new Controller()));
+		new Collider(new OBB(1.f, 1.f, 1.f)), new PhysicsBody(), new Controller()));*/
 
 	//audio->SetListener(am->GetActor("Camera")->GetComponent<Transform>());
-	am->GetActor("Camera")->SetParent(am->GetActor("Player"));
+	//am->GetActor("Camera")->SetParent(am->GetActor("Player"));
 	//audio->PlayAudio("MidstoneJunk.wav", glm::vec3(0));
 	/*Renderer::GetInstance().GetCreateSkybox("src/Textures/StarSkyboxPosx.png", "src/Textures/StarSkyboxPosy.png",
 		"src/Textures/StarSkyboxPosz.png", "src/Textures/StarSkyboxNegx.png",
@@ -79,7 +79,7 @@ void Scene1::Update(const float deltaTime)
 {
 	am->Update(deltaTime);
 	//audio->Update();
-	Renderer::GetInstance().AddText({ "hello",glm::vec3(4,3,5),2 });
+	//Renderer::GetInstance().AddText({ "hello",glm::vec3(4,3,5),2 });
 }
 
 void Scene1::Render() const

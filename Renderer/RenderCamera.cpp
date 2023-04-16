@@ -8,6 +8,10 @@
 
 RenderCamera::RenderCamera(const float& fov_): type(Perspective), fov(fov_), projectionMatrix(1), viewMatrix(1), uboMatriciesID(0), bindingPoint(0)
 {
+
+}
+bool RenderCamera::OnCreate()
+{
     size_t buffer_size = 2 * UBO_PADDING::MAT4;
     glGenBuffers(1, &uboMatriciesID);
     glBindBuffer(GL_UNIFORM_BUFFER, uboMatriciesID);
@@ -15,8 +19,8 @@ RenderCamera::RenderCamera(const float& fov_): type(Perspective), fov(fov_), pro
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, uboMatriciesID);
+    return true;
 }
-
 
 
 RenderCamera::~RenderCamera()

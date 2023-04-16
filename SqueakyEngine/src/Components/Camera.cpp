@@ -18,9 +18,7 @@ void Camera::UpdateViewMatrix()
 		SetViewMatrix (glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	}
 	else {
-		glm::quat quaternion = camTrn->GetRotation();
-		glm::vec3 position = camTrn->GetPosition();
-		SetViewMatrix (glm::mat4(quaternion) * glm::translate(glm::mat4(1), position));
+		SetViewMatrix (camTrn->GetTransformMatrix());
 	}
 	RenderCamera::UpdateViewMatrix();
 	/*viewMatrix =  (glm::lookAt(camTrn->GetPosition(), camTrn->GetPosition() + camTrn->GetForward(), glm::vec3(0, 1, 0)));*/
@@ -35,6 +33,7 @@ Camera* Camera::GetMainCamera()
 
 bool Camera::OnCreate() {
 	if (isCreated) return true;
+	RenderCamera::OnCreate();
 	mainCamera = this;
 	camTrn = dynamic_cast<Actor*>(parent)->GetComponent<Transform>();
 	UpdateProjectionMatrix( (16.0f / 9.0f), 0.5f, 100.0f);

@@ -1,7 +1,10 @@
 #pragma once
 #include "Component.h"
 #include <glm/matrix.hpp>
-#include <glm/ext.hpp>
+//#include <glm/ext.hpp>
+#include <glm/fwd.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 #include "Component.h"
 class Transform : public Component {
 private:
